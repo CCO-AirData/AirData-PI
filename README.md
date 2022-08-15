@@ -1,6 +1,6 @@
-  # TempControl - Segurança no transporte de medicamentos
-Repositório para o desenvolvimento do projeto de Pesquisa e Inovação da SPTECH (1º semestre/2022)
-<img src="Documentos do Projeto/img/TempControl Sem Fundo.png" alt="Logo Empresa" style="height: 250px; "/>
+  # AirData - Monitororamento nos sistemas aéreos
+Repositório para o desenvolvimento do projeto de Pesquisa e Inovação da SPTECH (2º semestre/2022)
+<img src="Documentos/img/Logo Azul.png" alt="LogoEmpresa" style="height: 250px; "/>
 ## Equipe 
 
 
