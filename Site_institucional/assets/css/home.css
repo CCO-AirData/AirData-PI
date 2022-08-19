@@ -1146,3 +1146,13 @@ section {
     padding: 2px 0;
   }
 }
+
+/* EFEITOS */
+::-webkit-scrollbar {
+  width: 2px;
+  background: #FFF;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0253c4;
+}
