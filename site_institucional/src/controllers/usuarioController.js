@@ -1,11 +1,5 @@
 var usuarioModel = require("../models/usuarioModel");
-
-var sessoes = [];
-
-function testar(req, res) {
-    console.log("ENTRAMOS NA usuarioController");
-    res.json("ESTAMOS FUNCIONANDO!");
-}
+var sha512 = require('js-sha512');
 
 function listar(req, res) {
     usuarioModel.listar()
@@ -25,16 +19,16 @@ function listar(req, res) {
 }
 
 function entrar(req, res) {
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
+    var email = req.body.emailPessoalServer;
+    var senha = req.body.passwordServer;
 
     if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
-        
-        usuarioModel.entrar(email, senha)
+
+        usuarioModel.entrar(email, sha512(senha))
             .then(
                 function (resultado) {
                     console.log(`\nResultados encontrados: ${resultado.length}`);
@@ -61,10 +55,15 @@ function entrar(req, res) {
 }
 
 function cadastrar(req, res) {
-    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
-    var nome = req.body.nomeServer;
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
+    var nome = req.body.nomePessoalServer;
+    var email = req.body.emailPessoalServer;
+    var cpf = req.body.cpfPessoalServer;
+    var senha = req.body.passwordServer;
+
+    console.log("nome" + nome)
+    console.log("email" + email)
+    console.log("cpf" + cpf)
+    console.log("senha" + senha)
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -73,24 +72,16 @@ function cadastrar(req, res) {
         res.status(400).send("Seu email está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
+    } else if (cpf == undefined) {
+        res.status(400).send("Seu cpf está undefined!");
     } else {
-        
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+        usuarioModel.cadastrar(nome, email,  sha512(senha), cpf).then(function (resultado) {
+            res.json(resultado);
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
     }
 }
 
@@ -98,5 +89,4 @@ module.exports = {
     entrar,
     cadastrar,
     listar,
-    testar
 }
