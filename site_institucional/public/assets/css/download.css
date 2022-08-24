@@ -431,12 +431,14 @@ h6 {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  margin-bottom: -10vh;
 }
 
   #exa h1 {
     font-size: 38px;
     line-height: 36px;
     color: #106eea;
+    margin-bottom: 7vh;
   }
 
   #exa h2 {
@@ -463,10 +465,11 @@ h6 {
 --------------------------------------------------------------*/
 #info {
   width: 100%;
-  height: 130vh;
+  height: 120vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  margin-bottom: -40vh;
 }
   #info container{
     width: 100%;
@@ -505,8 +508,12 @@ h6 {
 }
 
 .bloco{
-  width: 35vw;
-  height: 65vh;
+  height: fit-content;
+  width: fit-content;
+  padding: 1vh;
+}
+.bloco img{
+  width: 40vw;
 }
 
 @media (max-height: 500px) {
@@ -514,6 +521,58 @@ h6 {
     height: 120vh;
   }
 }
+
+/*--------------------------------------------------------------
+# exa Section
+--------------------------------------------------------------*/
+#conc {
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: -20vh;
+}
+
+  #conc h1 {
+    font-size: 25px;
+    line-height: 36px;
+    color: #222222;
+  }
+
+  #conc h2 {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 30px;
+  }
+
+  #conc .btn-get-started,
+  #main .btn-get-started,
+  #conc .btn-watch-video {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 10px 28px;
+    border-radius: 4px;
+    transition: 0.5s;
+    color: #fff;
+    background: #106eea;
+}
+
+#conc .btn-get-started:hover {
+  background: #247cf0;
+}
+
+@media (max-height: 500px) {
+  #conc {
+    height: 120vh;
+  }
+}
+
 
 /*--------------------------------------------------------------
 # Sections General
