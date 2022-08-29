@@ -324,7 +324,6 @@
     var cepAero = "";
 
     const cep = () => {
-      a();
       cepAero = cepAero.replace("-", "");
       fetch(`https://viacep.com.br/ws/${cepAero}/json/`).then(function (response) {
         console.log(response)
