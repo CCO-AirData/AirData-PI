@@ -1,38 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>AirData</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
 
-  <!-- Favicons -->
-  <link href="assets/img/LogoAzul.svg" rel="icon">
-  <link href="assets/img/LogoAzul.svg" rel="applicone-touch-icon">
 
-  <!-- Google Fonts -->
+  <link href="assets/img/LogoAzulEscuro.svg" rel="icon">
+  <link href="assets/img/LogoAzulEscuro.svg" rel="applicone-touch-icon">
+
+
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+  
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/2eecc47c4e.js"></script>
-  <!-- Template Main CSS File -->
+
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: BizLand - v3.8.1
-  * Template URL: https://bootstrapmade.com/bizland-bootstrap-business-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -40,7 +35,7 @@
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
       <!-- Uncomment below if you prefer to use an image logo -->
-      <a href="index.html" class="logo"><img src="assets/img/LogoAzul.svg" alt=""></a>
+      <a href="index.html" class="logo"><img src="assets/img/LogoAzulEscuro.svg" alt=""></a>
 
       <nav id="navbar" class="navbar">
         <ul>
@@ -49,7 +44,7 @@
           <li><a class="nav-link scrollto" href="#sobre">Sobre</a></li>
           <li><a class="nav-link scrollto" href="#team">Equipe</a></li>
           <li>|</li>
-          <li><a href="sing-up.html">Increva-se</a></li>
+          <li><a href="sing-up.html">Cadastre-se</a></li>
           <li><a href="sing-in.html">Entrar</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -59,13 +54,13 @@
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
+  <section id="hero" class="back d-flex align-items-center">
     <!-- <video src="assets/video/video3.mp4"></video> -->
     <div class="container" data-aos="zoom-out" data-aos-delay="100">
-      <h1>Inovação <span>Aeria</span></h1>
-      <h2>Alcança onde seus olhos não pode ver</h2>
+      <h1>Inovação <span>Aérea</span></h1>
+      <h2>Alcançando onde seus olhos não conseguem</h2>
       <div class="d-flex">
-        <a href="sing-in.html" class="btn-get-started scrollto">Increva-se</a>
+        <a href="sing-in.html" class="btn-get-started scrollto">Cadastre-se</a>
       </div>
       
     </div>
@@ -73,6 +68,8 @@
 
   <main id="main">
     <!-- ======= Baixar Section ======= -->
+    <button onclick="teste()">Vai</button>
+    <button onclick="vai()">Vai</button>
     <section id="produto" class="about section-bg">
       <div class="container" data-aos="fade-up">
 
@@ -99,6 +96,7 @@
           </div>
         </div>
       </div>
+      </section>
 
     <!-- ======= Sobre Section ======= -->
     <section id="sobre" class="services">
@@ -113,21 +111,22 @@
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
             <div class="icon-box">
               <h4><a href="">Missão</a></h4>
-              <p>Nossa misão é garantir a maior segurança para fazer o monitaramento do tráfego aéreo sem tirar a atenção do que é importante</p>
+              <p>Garantir segurança para o controle do tráfego aéreo, trabalhando em conjunto com toda a cadeia de profissionais das torres de controle
+              </p>
             </div>
           </div>
 
           <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
-            <div class="icon-box">
-              <h4><a href="">Visão</a></h4>
-              <p>Ser a empresa de monitaramento de componentes mais agíl e mais eficiente na segurança de monitaramento aéreo</p>
+            <div class="icon-box ">
+              <h4><a  href="">Visão</a></h4>
+              <p>Ser uma referência em monitaramento de hardware mantendo assim um vínculo com as pessoas e suas necessidades</p>
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+          <div class="col-lg-4 col-md-12 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
             <div class="icon-box">
               <h4><a href="">Valores</a></h4>
-              <p>Ser referencia do ambito da segurança de monitaramento de componentes aéreo</p>
+              <p>Agimos com propósito; Entregamos resultados com excelência; Trabalhamos com simplicidade; Somos verdadeiros</p>
             </div>
           </div>
         </div>
@@ -147,9 +146,7 @@
                 <h3>CCR aeroportos</h3>
                 <h4>aeroporto de pampulha</h4>
                 <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                   Melhor serviço de segurança de monitaramento de componentes aéreo
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                 </p>
               </div>
             </div><!-- End testimonial item -->
@@ -160,9 +157,7 @@
                 <h3>Gru airport</h3>
                 <h4>Aeoroporto Guarulhos</h4>
                 <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                   Interface limpa e intuitiva
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                 </p>
               </div>
             </div><!-- End testimonial item -->
@@ -173,9 +168,7 @@
                 <h3>infraero</h3>
                 <h4>Campo de Marte</h4>
                 <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                   Equipe atenciosa e alto profisionalismo
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                 </p>
               </div>
             </div><!-- End testimonial item -->
@@ -201,7 +194,7 @@
               <div class="member-img">
                 <img src="https://avatars.githubusercontent.com/GustavoAntonio12" class="img-fluid" alt="">
                 <div class="social">
-                  <a href="https://twitter.com/explore"><i class="bi bi-twitter"></i></a>
+                  
                   <a href="https://github.com/GustavoAntonio12"><i class="bi bi-github"></i></a>
                   <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
                   <a href="https://www.linkedin.com/in/gustavo-antonio-b54a7b209/"><i class="bi bi-linkedin"></i></a>
@@ -219,7 +212,7 @@
               <div class="member-img">
                 <img src="https://avatars.githubusercontent.com/CauaCiconelli" class="img-fluid" alt="">
                 <div class="social">
-                  <a href="https://twitter.com/explore"><i class="bi bi-twitter"></i></a>
+                  
                   <a href="https://github.com/CauaCiconelli"><i class="bi bi-github"></i></a>
                   <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
                   <a href="https://www.linkedin.com/in/cauaciconelli/"><i class="bi bi-linkedin"></i></a>
@@ -237,7 +230,7 @@
               <div class="member-img">
                 <img src="https://avatars.githubusercontent.com/GabrielVannucchi" class="img-fluid" alt="">
                 <div class="social">
-                  <a href="https://twitter.com/explore"><i class="bi bi-twitter"></i></a>
+                  
                   <a href="https://github.com/GabrielVannucchi"><i class="bi bi-github"></i></a>
                   <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
                   <a href="https://www.linkedin.com/in/gabriel-vannucchi-corr%C3%AAa-5230a421b/"><i class="bi bi-linkedin"></i></a>
@@ -255,7 +248,6 @@
               <div class="member-img">
                 <img src="https://avatars.githubusercontent.com/kelvinsync" class="img-fluid" alt="">
                 <div class="social">
-                  <a href="https://twitter.com/explore"><i class="bi bi-twitter"></i></a>
                   <a href="https://github.com/kelvinsync"><i class="bi bi-github"></i></a>
                   <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
                   <a href="https://www.linkedin.com/in/kelvin-guimar%C3%A3es-8a09b31b2/"><i class="bi bi-linkedin"></i></a>
@@ -272,7 +264,6 @@
               <div class="member-img">
                 <img src="https://avatars.githubusercontent.com/leobianchii" class="img-fluid" alt="">
                 <div class="social">
-                  <a href="https://twitter.com/explore"><i class="bi bi-twitter"></i></a>
                   <a href="https://github.com/leobianchii"><i class="bi bi-github"></i></a>
                   <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
                   <a href=""><i class="bi bi-linkedin"></i></a>
@@ -289,7 +280,6 @@
               <div class="member-img">
                 <img src="https://avatars.githubusercontent.com/GuilhermeHenrique525" class="img-fluid" alt="">
                 <div class="social">
-                  <a href="https://twitter.com/explore"><i class="bi bi-twitter"></i></a>
                   <a href="https://github.com/GuilhermeHenrique525?tab=repositories"><i class="bi bi-github"></i></a>
                   <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
                   <a href="https://www.linkedin.com/in/guilherme-henrique-angelo-dias-116166206/"><i class="bi bi-linkedin"></i></a>
@@ -317,15 +307,15 @@
         <div class="row" data-aos="fade-up" data-aos-delay="100">
           <div class="col-lg-6">
             <div class="info-box mb-4">
-              <i class="bx bx-map"></i>
+              <i class="bi bi-geo-alt" style="font-size: 2rem;"></i>
               <h3>Onde Estamos</h3>
               <p>Rua Haddock Lobo, 595 - Cerqueira César - SP, 01414-00</p>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6">
-            <div class="info-box  mb-4">
-              <i class="bx bx-envelope"></i>
+            <div class="info-box mb-4">
+              <i class="bi bi-envelope" style="font-size: 2rem;"></i>
               <h3>Email</h3>
               <p>airdata-grupo.slack.com</p>
             </div>
@@ -333,7 +323,7 @@
 
           <div class="col-lg-3 col-md-6">
             <div class="info-box  mb-4">
-              <i class="bx bx-phone-call"></i>
+              <i class="bi bi-telephone-x" style="font-size: 2rem;"></i>
               <h3>Ligue para nós</h3>
               <p>(11) 3330-4616</p>
             </div>
@@ -363,12 +353,7 @@
               <div class="form-group">
                 <textarea class="form-control" name="message" rows="5" placeholder="Messagem" required></textarea>
               </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Sua mensagem foi enviada. Obrigado!</div>
-              </div>
-              <div class="text-center"><button type="submit">Mandar Mensagem</button></div>
+              <div class="text-center"><button type="submit">Enviar</button></div>
             </form>
           </div>
         </div>
@@ -376,14 +361,15 @@
     </section><!-- End Contact Section -->
 
   </main><!-- End #main -->
-
+  <hr>
   <!-- ======= Footer ======= -->
   <footer id="footer">
+
     <div class="footer-top">
       <div class="container">
         <div class="row">
 
-          <div class="col-lg-4 col-md-6 footer-contact">
+          <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 footer-contact">
             <h3>AirData</h3>
             <p>
               Rua Haddock Lobo, 595 <br>
@@ -394,23 +380,34 @@
             </p>
           </div>
 
-          <div class="col-lg-4 col-md-6 footer-links">
+          <div class="col-lg-3 col-md-6 col-sm-6 footer-links">
             <h4>Links Uteis</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#hero">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#produto">Baixar</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#sobre">Sobre</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Termos de serviço</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Politica de privacidade</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#hero">Home</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#produto">Baixar</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#sobre">Sobre</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#">Termos de serviço</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#">Politica de privacidade</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 footer-links">
+            <h4>Links Uteis</h4>
+            <ul>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#hero">Home</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#produto">Baixar</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#sobre">Sobre</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#">Termos de serviço</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#">Politica de privacidade</a></li>
             </ul>
           </div>
 
-          <div class="col-lg-4 col-md-6 footer-links">
+          <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 footer-links">
             <h4>Nossas redes sociais</h4>
             <div class="social-links mt-3">
-              <a href="https://twitter.com/explore" class="twitter"><i class="bx bxl-twitter"></i></a>
-              <a href="https://github.com/CCO-AirData" class="facebook"><i class="bx bxl-github"></i></a>
-              <a href="https://www.instagram.com/s" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="https://twitter.com/explore" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="https://github.com/CCO-AirData" class="facebook"><i class="bi bi-github"></i></a>
+              <a href="https://github.com/CCO-AirData" class="facebook"><i class="bi bi-linkedin"></i></a>
+              <a href="https://www.instagram.com/s" class="instagram"><i class="bi bi-instagram"></i></a>
             </div>
           </div>
         </div>
@@ -421,24 +418,149 @@
       <div class="copyright">
         &copy; Copyright <strong><span>AirData</span></strong>. Todos os direitos reservados.
       </div>
-  </footer><!-- End Footer -->
-
+  </footer>
   <div id="preloader"></div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
+
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
 </body>
+<script>
+function teste(){
+  var data = {
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "Hello, Assistant to the Regional Manager Dwight! *Michael Scott* wants to know where you'd like to take the Paper Company investors to dinner tonight.\n\n *Please select a restaurant:*"
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Farmhouse Thai Cuisine*\n:star::star::star::star: 1528 reviews\n They do have some vegan options, like the roti and curry, plus they have a ton of salad stuff and noodles can be ordered without meat!! They have something for everyone here"
+			},
+			"accessory": {
+				"type": "image",
+				"image_url": "https://s3-media3.fl.yelpcdn.com/bphoto/c7ed05m9lC2EmA3Aruue7A/o.jpg",
+				"alt_text": "alt text for image"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Kin Khao*\n:star::star::star::star: 1638 reviews\n The sticky rice also goes wonderfully with the caramelized pork belly, which is absolutely melt-in-your-mouth and so soft."
+			},
+			"accessory": {
+				"type": "image",
+				"image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/korel-1YjNtFtJlMTaC26A/o.jpg",
+				"alt_text": "alt text for image"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Ler Ros*\n:star::star::star::star: 2082 reviews\n I would really recommend the  Yum Koh Moo Yang - Spicy lime dressing and roasted quick marinated pork shoulder, basil leaves, chili & rice powder."
+			},
+			"accessory": {
+				"type": "image",
+				"image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/DawwNigKJ2ckPeDeDM7jAg/o.jpg",
+				"alt_text": "alt text for image"
+			}
+		},
+		{
+			"type": "divider"
+		},
+		{
+			"type": "actions",
+			"elements": [
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"text": "Farmhouse",
+						"emoji": true
+					},
+					"value": "click_me_123"
+				},
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"text": "Kin Khao",
+						"emoji": true
+					},
+					"value": "click_me_123",
+					"url": "https://google.com"
+				},
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"text": "Ler Ros",
+						"emoji": true
+					},
+					"value": "click_me_123",
+					"url": "https://google.com"
+				}
+			]
+		}
+	]
+}
+  fetch("https://hooks.slack.com/services/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",
+  {
+    method: 'POST',
+    body:JSON.stringify(data),
+  }).then(function(response){
+    console.log(response)
+  })
+}
+
+  function vai(){
+    var data = {
+    "fields": {
+       "project":
+       {
+          "id": "10000"
+       },
+       "summary": "Salve bibis",
+       "description": "Exemplo",
+       "issuetype": {
+          "name": "Bug",
+          "id": "10004"
+       }
+   }
+}
+    var   credentials = btoa("gustavo.antonio@sptech.school:zp7S344JkMXahQDK5vRB307E");
+    fetch("https://tempcontrol.atlassian.net/rest/api/2/issue",{ 
+      method: 'POST',
+      body:JSON.stringify(data),
+      headers: new Headers({
+        'Authorization': 'Basic '+btoa('gustavo.antonio@sptech.school:zp7S344JkMXahQDK5vRB307E'),
+        "Access-Control-Allow-Origin": "*",
+        "contentType":'application/json'
+    }), 
+      mode: "no-cors"
+    }).then(function(response){
+      console.log(response);
+    })
+  }
+</script>
 
 </html>

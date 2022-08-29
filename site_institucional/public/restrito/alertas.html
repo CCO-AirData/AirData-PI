@@ -1,0 +1,285 @@
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="../assets/img/Logo.png" rel="icon">
+  <title>Alertas</title>
+  <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../assets/css/dashboard.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center">
+        <div class="sidebar-brand-icon">
+          <img src="../assets/img/Logo.png">
+        </div>
+        <div class="sidebar-brand-text mx-3" style="color: white;">AIR-DATA</div>
+      </a>
+      <hr class="sidebar-divider my-0">
+      <li class="nav-item">
+        <a class="nav-link" href="dashboard.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+        RECURSOS
+      </div>
+      
+      
+      <li class="nav-item active">
+        
+        <div id="collapseTable" class="collapse show" aria-labelledby="headingTable" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            
+            <a class="collapse-item active" href="alertas.html">Alertas</a>
+            <a class="collapse-item" href="maquinas.html">Máquinas</a>
+          </div>
+        </div>
+      </li>
+      
+      <hr class="sidebar-divider">
+      
+      
+      
+      <hr class="sidebar-divider">
+      
+    </ul>
+    <!-- Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <!-- TopBar -->
+        <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+          <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <form class="navbar-search">
+                  <div class="input-group">
+                    <input type="text" class="form-control bg-light border-1 small" placeholder="What do you want to look for?" aria-label="Search" aria-describedby="basic-addon2" style="border-color: #3f51b5;">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>
+            
+            
+            <li class="nav-item dropdown no-arrow mx-1">
+              
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                <h6 class="dropdown-header">
+                  Task
+                </h6>
+                <a class="dropdown-item align-items-center" href="#">
+                  <div class="mb-3">
+                    <div class="small text-gray-500">Design Button
+                      <div class="small float-right"><b>50%</b></div>
+                    </div>
+                    <div class="progress" style="height: 12px;">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </a>
+                <a class="dropdown-item align-items-center" href="#">
+                  <div class="mb-3">
+                    <div class="small text-gray-500">Make Beautiful Transitions
+                      <div class="small float-right"><b>30%</b></div>
+                    </div>
+                    <div class="progress" style="height: 12px;">
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </a>
+                <a class="dropdown-item align-items-center" href="#">
+                  <div class="mb-3">
+                    <div class="small text-gray-500">Create Pie Chart
+                      <div class="small float-right"><b>75%</b></div>
+                    </div>
+                    <div class="progress" style="height: 12px;">
+                      <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">View All Taks</a>
+              </div>
+            </li>
+            <div class="topbar-divider d-none d-sm-block"></div>
+            <li class="nav-item dropdown no-arrow show">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <img class="img-profile rounded-circle" src="..//img/boy.png" style="max-width: 60px">
+                <span class="ml-2 d-none d-lg-inline text-white small"> USUARIO </span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in show" aria-labelledby="userDropdown">
+                
+                
+                
+                
+                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Sair
+                </a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+        <!-- Topbar -->
+        <!-- Container Fluid-->
+        <div class="container-fluid" id="container-wrapper">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Alertas Historico</h1>
+            
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12 mb-4">
+              <!-- Simple Tables -->
+              <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <select class="dropdown-toggle btn btn-primary btn-sm" id="selectMaquina">
+                    <option value="">Selecionar Maquina</option>
+                    <option value="1">39-FD-83-E4-FB-AB</option>
+                    <option value="2">28-C0-B2-20-73-13</option>
+                    <option value="3">FE-36-C8-1E-DD-56</option>
+                  </select>
+                  <select class="dropdown-toggle btn btn-primary btn-sm" id="selectHardware">
+                    <option value="">Selecionar Hardware</option>
+                    <option value="1">CPU</option>
+                    <option value="2">GPU</option>
+                    <option value="3">DISCO</option>
+                    <option value="4">MEMÓRIA RAM</option>
+                  </select>
+                </div>
+                <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Alertas ID</th>
+                        <th>Maquina</th>
+                        <th>Hardware</th>
+                        <th>Motivo</th>
+                        <th>Status</th>
+                        <th>Data</th>                       
+                        <th>Ação</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><a href="#">000001</a></td>
+                        <td>39-FD-83-E4-FB-AB</td>
+                        <td>CPU</td>
+                        <td>Sobrecarregamento</td>
+                        <td><span class="badge badge-success">RESOLVIDO</span></td>
+                        <td>01/01/2022</td>
+                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
+                      </tr>
+                      <tr>
+                        <td><a href="#">000002</a></td>
+                        <td>39-FD-83-E4-FB-AB</td>
+                        <td>GPU</td>
+                        <td>Tendência de Piora</td>
+                        <td><span class="badge badge-warning">INSTÁVEL</span></td>
+                        <td>01/01/2022</td>
+                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
+                      </tr>
+                      <tr>
+                        <td><a href="#">000003</a></td>
+                        <td>28-C0-B2-20-73-13</td>
+                        <td>DISCO</td>
+                        <td>Falha</td>
+                        <td><span class="badge badge-danger">PERIGO</span></td>
+                        <td>01/01/2022</td>
+                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
+                      </tr>
+                      <tr>
+                        <td><a href="#">000004</a></td>
+                        <td>28-C0-B2-20-73-13</td>
+                        <td>CPU</td>
+                        <td>Sobreaquecimento</td>
+                        <td><span class="badge badge-info">EM PROCESSO</span></td>
+                        <td>01/01/2022</td>
+                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
+                      </tr>
+                      <tr>
+                        <td><a href="#">000005</a></td>
+                        <td>FE-36-C8-1E-DD-56</td>
+                        <td>MEMÓRIA RAM</td>
+                        <td>Lentidão no Sistema</td>
+                        <td><span class="badge badge-success">RESOLVIDO</span></td>
+                        <td>01/01/2022</td>
+                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="card-footer"></div>
+              </div>
+            </div>
+          </div>
+          <!--Row-->
+
+          <!-- Modal Logout -->
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Você tem certeza que quer sair?</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancelar</button>
+                  <a href="login.html" class="btn btn-primary">Sair</a>
+              </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!---Container Fluid-->
+      </div>
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>AIR-DATA
+              <script> document.write(new Date().getFullYear()); </script>20222022 - DEVELOPED BY
+              <b><a target="_blank">SPTECH STUDENTS</a></b>
+          </span>
+          </div>
+        </div>
+      </footer>
+      <!-- Footer -->
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <script src="..//vendor/jquery/jquery.min.js"></script>
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="../assets/js/ruang-admin.min.js"></script>
+
+
+
+</body></html>

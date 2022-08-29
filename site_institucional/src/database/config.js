@@ -22,7 +22,7 @@ var mySqlConfig = {
     host: "localhost",
     database: "airData",
     user: "root",
-    password: "O@kami261004",
+    password: "",
 };
 
 function executar(instrucao) {
