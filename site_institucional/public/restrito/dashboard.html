@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="../assets/img/Logo.png" rel="icon">
+    <link href="../assets/img/LogoAzulEscuro.svg" rel="icon">
     <title>Dashboard</title>
     <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="../assets/css/dashboard.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/2eecc47c4e.js" crossorigin="anonymous"></script>
     <script src="../assets/js/funcoes.js"></script>
     <style type="text/css">
         /* Chart.js */
@@ -107,7 +108,7 @@
                 <div class="sidebar-brand-icon">
                     <img src="../assets/img/LogoAzulEscuro.svg" >
                 </div>
-                <div class="sidebar-brand-text mx-3" style="color: white;">AIR-DATA</div>
+                <div class="sidebar-brand-text mx-3">AIR-DATA</div>
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item active">
@@ -146,7 +147,7 @@
                 <!-- TopBar -->
                 <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
                     <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
+                        <i class="fa fa-bars faColor"></i>
                     </button>
                     <ul class="navbar-nav ml-auto">
 
@@ -159,7 +160,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <img class="img-profile rounded-circle" src="../assets/img/boy.jpg"
                                     style="max-width: 60px">
-                                <span id ="login" class="ml-2 d-none d-lg-inline text-white small">USÚARIO</span>
+                                <span  id ="login" class="ml-2 d-none d-lg-inline text-dark"></span>
                             </a>
 
                         </li>
@@ -188,7 +189,8 @@
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-primary"></i>
+                                           
+                                            <i class="fas fa-light fa-microchip fa-2x text-primary"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -260,22 +262,7 @@
                             <div class="card mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">AO-VIVO</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink" x-placement="bottom-end"
-                                            style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(17px, 19px, 0px);">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary"></h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-area">
@@ -483,5 +470,4 @@
 <script>
     var json = obterDadosSession();
     login.innerHTML = json.nomeUsuario;
-    
 </script>

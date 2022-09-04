@@ -48,21 +48,22 @@ CREATE TABLE torre (
 
 CREATE TABLE maquina(
   idMaquina INT PRIMARY KEY AUTO_INCREMENT,
+  fkTorre INT NOT NULL,
+  FOREIGN KEY(fkTorre) REFERENCES torre(idTorre),
+  nomeMaquina VARCHAR(45),
   soMaquina VARCHAR(50) NOT NULL,
   serialNumberMaquina VARCHAR(45) NOT NULL,
-  macAddressMaquina VARCHAR(45) NOT NULL,
-  fkTorre INT NOT NULL,
-  FOREIGN KEY(fkTorre) REFERENCES torre(idTorre)
+  macAddressMaquina VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE monitoramento(
   idMonitoramento INT PRIMARY KEY AUTO_INCREMENT,
-  horarioMonitoramento DATETIME NOT NULL,
-  cpuMaquinaGhz DECIMAL(4,2) NOT NULL,
-  discoMaquinaGb DECIMAL(4,2) NOT NULL,
-  memoriaMaquinaGb DECIMAL(4,2) NOT NULL,
   fkMaquina INT NOT NULL,
-  FOREIGN KEY(fkMaquina) REFERENCES maquina(idMaquina)
+  FOREIGN KEY(fkMaquina) REFERENCES maquina(idMaquina),
+  horarioMonitoramento DATETIME NOT NULL,
+  cpuMaquinaGhz DECIMAL(5,2) NOT NULL,
+  discoMaquinaGb DECIMAL(5,2) NOT NULL,
+  memoriaMaquinaGb DECIMAL(5,2) NOT NULL
 );
 
 CREATE TABLE alerta (
@@ -83,15 +84,20 @@ CREATE TABLE blackList (
 CREATE TABLE logTorre(
   idLogTorre INT PRIMARY KEY AUTO_INCREMENT,
   fkTorre INT,
+  FOREIGN KEY (fkTorre) REFERENCES monitoramento(idMonitoramento),
   tentativaLogin VARCHAR(45) NOT NULL,
   tentaviaSenha VARCHAR(45) NOT NULL,
   momentoTentativa DATETIME NOT NULL,
   macAddressMaquina VARCHAR(45) NOT NULL,
-  serialNumberMaquina VARCHAR(45) NOT NULL,
-  FOREIGN KEY (fkTorre) REFERENCES monitoramento(idMonitoramento)
+  serialNumberMaquina VARCHAR(45) NOT NULL
+
 );
 
 
 SELECT * FROM empresa;
 SELECT * FROM aeroporto;
 SELECT * FROM usuario;
+select * from maquina;
+insert into  torre values(null,1,'ex','G','123','123');
+select * from monitoramento;
+SELECT * FROM alerta WHERE fkMaquina = 1 ORDER BY idMonitoramento LIMIT 1;
