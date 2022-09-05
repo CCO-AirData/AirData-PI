@@ -211,8 +211,8 @@ else:
 
 def jira():
     url = "https://airdatapi.atlassian.net/rest/api/2/issue"
-    token = 'YqLUvNjAICsV51phlYf64211'
-    response = requests.post(url, json={
+    token = '68XD8HFzWiHgHraMfxd3EB87'
+    responseJira = requests.post(url, json={
         "fields": {
         "project":
         {
@@ -225,7 +225,12 @@ def jira():
           "id": "10001" 
           }
    }
-},  auth=('gustavo.antonio@sptech.school',token))   
+},  auth=('gustavo.antonio@sptech.school',token)) 
+    json = responseJira.json()["key"]
+    texto = "https://airdatapi.atlassian.net/jira/servicedesk/projects/AD/queues/custom/16/"+json
+    url = "https://hooks.slack.com/services/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"
+    responseSlack = requests.post(url, json={"text":str(texto)})  
+
 
 while True:
     # # Memória

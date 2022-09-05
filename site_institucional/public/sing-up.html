@@ -13,13 +13,18 @@
   <link href="assets/img/LogoAzulEscuro.svg" rel="applicone-touch-icon">
 
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-  
+
 
 
 
@@ -65,7 +70,7 @@
 
           <div class="section-title">
 
-            <h3><span>Cadastre-se</span></h3> 
+            <h3><span>Cadastre-se</span></h3>
           </div>
 
 
@@ -208,8 +213,10 @@
               <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#hero">Home</a></li>
               <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#produto">Baixar</a></li>
               <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#sobre">Sobre</a></li>
-              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#">Termos de serviço</a></li>
-              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#">Politica de privacidade</a></li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#">Termos de serviço</a>
+              </li>
+              <li><i class="bi bi-arrow-right-short" style="font-size: 1rem;"></i> <a href="#">Politica de
+                  privacidade</a></li>
             </ul>
           </div>
 
@@ -231,7 +238,8 @@
       </div>
   </footer>
   <div id="preloader"></div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
 
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
@@ -243,7 +251,7 @@
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
 
   <script src="assets/js/main.js"></script>
-<script>
+  <script>
 
 
     function cadastrar() {
@@ -264,58 +272,67 @@
       var passwordVar = password.value;
 
 
-    
-      if(passwordVar != passwordConfirm.value){
-        alert("Senhas não iguais");
-      } else{
+
+      if (passwordVar != passwordConfirm.value) {
+        Swal.fire({
+              title: 'Error!',
+              text: 'Senha não estão iguais.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            })
+      } else {
 
 
 
 
-      fetch("/empresa/cadastrar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          nomeEmpresaServer: nomeEmpresaVar,
-          cnpjEmpresaServer: cnpjEmpresaVar,
-          telefoneEmpresaServer: telefoneEmpresaVar,
-          nomeAeroportoServer: nomeAeroportoVar,
-          cepAeroportoServer: cepAeroportoVar,
-          cidadeAeroportoServer: cidadeAeroportoVar,
-          bairroAeroportoServer: bairroAeroportoVar,
-          ufAeroportoServer: ufAeroportoVar,
-          ruaAeroportoServer: ruaAeroportoVar,
-          numeroAeroportoServer:numeroAeroportoVar,
-          nomePessoalServer: nomePessoalVar,
-          emailPessoalServer: emailPessoalVar,
-          cpfPessoalServer: cpfPessoalVar,
-          passwordServer: passwordVar
-        })
-      }).then(function (resposta) {
-        console.log("resposta: ", resposta);
-        if (resposta.ok) {
-          alert("Cadastro realizado com sucesso! Redirecionando para tela de Login...");
+        fetch("/empresa/cadastrar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            nomeEmpresaServer: nomeEmpresaVar,
+            cnpjEmpresaServer: cnpjEmpresaVar,
+            telefoneEmpresaServer: telefoneEmpresaVar,
+            nomeAeroportoServer: nomeAeroportoVar,
+            cepAeroportoServer: cepAeroportoVar,
+            cidadeAeroportoServer: cidadeAeroportoVar,
+            bairroAeroportoServer: bairroAeroportoVar,
+            ufAeroportoServer: ufAeroportoVar,
+            ruaAeroportoServer: ruaAeroportoVar,
+            numeroAeroportoServer: numeroAeroportoVar,
+            nomePessoalServer: nomePessoalVar,
+            emailPessoalServer: emailPessoalVar,
+            cpfPessoalServer: cpfPessoalVar,
+            passwordServer: passwordVar
+          })
+        }).then(function (resposta) {
+          console.log("resposta: ", resposta);
+          if (resposta.ok) {
+            Swal.fire({
+              title: 'Sucesso!',
+              text: 'Cadastro realizado com sucesso! Redirecionando para tela de Login',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            })
 
-          setTimeout(() => {
-            window.location = "sing-in.html";
-          }, "2000")
+            setTimeout(() => {
+              window.location = "sing-in.html";
+            }, "2000")
 
-        } else {
-          throw ("Houve um erro ao tentar realizar o cadastro!");
-        }
-      }).catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
+          } else {
+            throw ("Houve um erro ao tentar realizar o cadastro!");
+          }
+        }).catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
+      }
     }
-  }
 
 
-
-
-
-
+    const inputTelefone = document.getElementById("telefoneEmpresa")
+    const inputCpf = document.getElementById("cpfPessoal");
+    const inputCnpj = document.getElementById("cnpjEmpresa");
     const inputCep = document.getElementById("cepAeroporto");
     const inputLogradouro = document.getElementById("ruaAeroporto");
     const inputUf = document.getElementById("ufAeroporto");
@@ -341,20 +358,57 @@
 
 
 
-    inputCep.addEventListener("keyup", somenteNumeros);
-    function somenteNumeros(e) {
+    inputCep.addEventListener("keyup", cepMask);
+    inputCpf.addEventListener("keyup", cpfMask);
+    inputCnpj.addEventListener("keyup", cnpjMask);
+
+    function cepMask(e) {
       if ((inputCep.value).length == 5) {
         inputCep.value += "-";
       }
       var charCode = (e.which) ? e.which : e.keyCode
       if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCep.value).length > 9) {
         inputCep.value = cepAero
-
       }
       else {
         cepAero = inputCep.value;
       }
     }
+
+    function cpfMask(e) {
+      if ((inputCpf.value).length == 3 || (inputCpf.value).length == 7 || (inputCpf.value).length == 11) {
+        inputCpf.value += ".";
+      }
+      var charCode = (e.which) ? e.which : e.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCpf.value).length > 14) {
+        inputCpf.value = cepAero
+      }
+      else {
+        cepAero = inputCpf.value;
+      }
+    }
+    function cnpjMask(e) {
+      if ((inputCnpj.value).length == 2 || (inputCnpj.value).length == 6) {
+        inputCnpj.value += ".";
+      }
+      if ((inputCnpj.value).length == 10) {
+        inputCnpj.value += "/";
+      }
+      if ((inputCnpj.value).length == 15) {
+        inputCnpj.value += "-";
+      }
+      var charCode = (e.which) ? e.which : e.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCnpj.value).length > 18) {
+        inputCnpj.value = cepAero
+      }
+      else {
+        cepAero = inputCnpj.value;
+      }
+    }
+
+
+
+
   </script>
 
 </body>
