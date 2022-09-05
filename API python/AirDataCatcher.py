@@ -15,7 +15,7 @@ from dashing import HSplit, VSplit, VGauge, HGauge
 #pip install requests
 #Conexão com o banco de dados
 try:
-  conector = mysql.connector.connect(user='root', password='Alfajor12',
+  conector = mysql.connector.connect(user='aluno', password='sptech',
                               host='localhost',
                               database='airdata')
 except mysql.connector.Error as err:
@@ -211,14 +211,14 @@ else:
 
 def jira():
     url = "https://airdatapi.atlassian.net/rest/api/2/issue"
-    token = '68XD8HFzWiHgHraMfxd3EB87'
+    token = 'PPV2MdZKDPL7jtdFuJwL7F63'
     responseJira = requests.post(url, json={
         "fields": {
         "project":
         {
             "id": "10000"
         },
-        "summary": "o avião caiu, ferrou, pior que 11 de setembro",
+        "summary": "Sobrecarga Memória Ram",
        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
        "issuetype": {
           "name": "bug",
@@ -288,7 +288,7 @@ while True:
         if select[0] != 0:
             idMonitoramento = select[0]
 
-    if(percRAM>80):
+    if(percRAM>60):
         jira()
         comandoI = "INSERT INTO alerta VALUES (NULL, 'RAM' ,"+ str(idMonitoramento) +")"           
         bd.execute(comandoI)    

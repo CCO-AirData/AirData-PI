@@ -16,12 +16,12 @@ ui = HSplit (# ui.items
         border_color=3
     ),
     VSplit (# ui.items[1]
-        HGauge (title='CPU %'),
+        VGauge (title='CPU %'),
         title='CPU',
         border_color=5,
     ),
     HSplit (# ui.items[2]
-        HGauge (title='DiSCO_USO'),
+        VGauge (title='DiSCO_USO'),
         title='DISCO',
         border_color=3,
     ),
