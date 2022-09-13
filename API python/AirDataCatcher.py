@@ -1,6 +1,5 @@
 import psutil
 import mysql.connector
-import requests
 import os
 import getmac
 import datetime
@@ -12,20 +11,20 @@ from dashing import HSplit, VSplit, VGauge, HGauge
 #pip install psutil
 #pip install wmi
 #pip install getmac
-#pip install requests
-#Conexão com o banco de dados
+
+#Conexão com o banco de dadosz
 try:
-  conector = mysql.connector.connect(user='aluno', password='sptech',
-                              host='localhost',
-                              database='airdata')
+    conector = mysql.connector.connect(user='root', password='Alfajor12',host='localhost',database='airdata')
+    bd = conector.cursor()
 except mysql.connector.Error as err:
-  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-    print("Há algo de errado com o usuario/senha")
-  elif err.errno == errorcode.ER_BAD_DB_ERROR:
-    print("Banco de Dados não existe")
-  else:
-    print(err)
-bd = conector.cursor()
+    if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR:
+        print("Há algo de errado com o usuario/senha")
+    elif err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
+        print("Banco de Dados não existe")
+    else:
+        print(err)
+
+
 
 #Consulta de MAC Address
 macaddress = getmac.get_mac_address()
@@ -125,16 +124,16 @@ while(torreId == 0):
                 print("Login e/ou senha incorretos!")
                 now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-                comandoI = "INSERT INTO logTorre VALUES (NULL,'"+str(torreId)+"','"+loginTorre+"','"+senhaTorre+"','"+now+"','"+macaddress+"','"+serialN+"');"           
+                comandoI = "INSERT INTO logTorre VALUES (NULL,'1','"+loginTorre+"','"+senhaTorre+"','"+now+"','"+macaddress+"','"+serialN+"');"           
                 bd.execute(comandoI)    
                 conector.commit()
                 # verificar se a maquina será bloqueada (3 tentativas incorretas dentro de 7 dias)
-                bd.execute("SELECT COUNT(macAddress) FROM logTorre WHERE macAddressMaquina = '"+macaddress+"' AND momentoTentativa > (NOW() - INTERVAL 7 DAY)")
+                bd.execute("SELECT COUNT(macAddressMaquina) FROM logTorre WHERE macAddressMaquina = '"+macaddress+"' AND momentoTentativa > (NOW() - INTERVAL 7 DAY)")
                 for select in bd:
                     if select[0] >= 3:
                         #maquina bloqueada, cadastrando ela no sistema de blacklist
                         now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                        comandoI = "INSERT INTO blacklist VALUES (NULL, '"+str(macaddress)+"' , '"+str(serialN)+"','"+str(now)+"')"           
+                        comandoI = "INSERT INTO blacklist VALUES (NULL, '"+str(serialN)+"','"+str(macaddress)+"' ,'1')"           
                         bd.execute(comandoI)   
                         conector.commit()
                         print("Maquina Bloqueada!\nContate seu Gestor")
@@ -146,6 +145,7 @@ while(torreId == 0):
     else:
         os.system('cls' if os.name == 'nt' else 'clear')
         print("Escolha uma opção válida!") 
+        
 
 #Consulta se o MAC Address já consta na base, caso não, pede para fazer a configuração
 bd.execute("SELECT * FROM maquina WHERE macAddressMaquina = '"+str(macaddress)+"'")
@@ -209,28 +209,6 @@ if os.name == 'nt':
 else:
     caminhoDisco = '/'
 
-def jira():
-    url = "https://airdatapi.atlassian.net/rest/api/2/issue"
-    token = 'PPV2MdZKDPL7jtdFuJwL7F63'
-    responseJira = requests.post(url, json={
-        "fields": {
-        "project":
-        {
-            "id": "10000"
-        },
-        "summary": "Sobrecarga Memória Ram",
-       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-       "issuetype": {
-          "name": "bug",
-          "id": "10001" 
-          }
-   }
-},  auth=('gustavo.antonio@sptech.school',token)) 
-    json = responseJira.json()["key"]
-    texto = "https://airdatapi.atlassian.net/jira/servicedesk/projects/AD/queues/custom/16/"+json
-    url = "https://hooks.slack.com/services/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"
-    responseSlack = requests.post(url, json={"text":str(texto)})  
-
 
 while True:
     # # Memória
@@ -289,7 +267,6 @@ while True:
             idMonitoramento = select[0]
 
     if(percRAM>60):
-        jira()
         comandoI = "INSERT INTO alerta VALUES (NULL, 'RAM' ,"+ str(idMonitoramento) +")"           
         bd.execute(comandoI)    
         conector.commit()   

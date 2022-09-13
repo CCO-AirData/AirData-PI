@@ -78,13 +78,13 @@ CREATE TABLE blackList (
   serialNumberMaquina VARCHAR(45) NOT NULL,
   macAddresMaquina VARCHAR(45) NOT NULL,
   fkTorre INT NOT NULL,
-  FOREIGN KEY (fkTorre) REFERENCES monitoramento(idMonitoramento)
+  FOREIGN KEY (fkTorre) REFERENCES torre(idTorre)
 );
 
 CREATE TABLE logTorre(
   idLogTorre INT PRIMARY KEY AUTO_INCREMENT,
   fkTorre INT,
-  FOREIGN KEY (fkTorre) REFERENCES monitoramento(idMonitoramento),
+  FOREIGN KEY (fkTorre) REFERENCES torre(idTorre),
   tentativaLogin VARCHAR(45) NOT NULL,
   tentaviaSenha VARCHAR(45) NOT NULL,
   momentoTentativa DATETIME NOT NULL,
@@ -93,11 +93,12 @@ CREATE TABLE logTorre(
 
 );
 
-
 SELECT * FROM empresa;
 SELECT * FROM aeroporto;
 SELECT * FROM usuario;
 select * from maquina;
 insert into  torre values(null,1,'ex','G','123','123');
+select * from torre;
 select * from monitoramento;
-SELECT * FROM alerta WHERE fkMaquina = 1 ORDER BY idMonitoramento LIMIT 1;
+SELECT * FROM monitoramento WHERE fkMaquina = 1 ORDER BY idMonitoramento DESC LIMIT 1;
+select * from alerta;
