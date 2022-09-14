@@ -1,5 +1,5 @@
 {
-  "name": "projeto-aquatech",
+  "name": "projeto-airdata",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -7,11 +7,11 @@
     "start": "node app.js",
     "dev": "nodemon --exec node app.js"
   },
-  "author": "Feito pelos desenvolvedores @ São Paulo Tech School / Bandtec Digital School",
+  "author": "Grupo 8 | CCO",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "express": "^4.17.1",
     "js-sha512": "^0.8.0",
     "mssql": "^7.1.3",

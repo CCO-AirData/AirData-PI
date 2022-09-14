@@ -3,15 +3,16 @@ USE airData;
 
 CREATE TABLE empresa (
   idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
-  cnpjEmpresa CHAR(14) NOT NULL,
+  cnpjEmpresa CHAR(18) NOT NULL,
   nomeEmpresa VARCHAR(45) NOT NULL,
-  telefoneEmpresa CHAR(12)
+  telefoneEmpresa CHAR(14)
 );
 
 CREATE TABLE aeroporto (
   idAeroporto INT PRIMARY KEY AUTO_INCREMENT,
   fkEmpresa INT NOT NULL,
-  nomeAeroporto CHAR(9) NOT NULL,
+  nomeAeroporto VARCHAR(45) NOT NULL,
+  cepAeroporto CHAR(9) NOT NULL,
   numeroAeroporto INT NOT NULL,
   ufAeroporto CHAR(2) NULL,
   cidadeAeroporto VARCHAR(45) NOT NULL,
@@ -26,7 +27,7 @@ CREATE TABLE usuario (
 	nomeUsuario VARCHAR(45) NOT NULL,
 	emailUsuario VARCHAR(45) NOT NULL,
 	senhaUsuario CHAR(128) NOT NULL,
-	cpfUsuario CHAR(11) NOT NULL,
+	cpfUsuario CHAR(14) NOT NULL,
 	tipoUsuario CHAR(1) NOT NULL CHECK (tipoUsuario IN('F', 'G', 'S')),
 	fkSupervisor INT NULL,
 	fkAeroporto INT NOT NULL,
@@ -90,15 +91,12 @@ CREATE TABLE logTorre(
   momentoTentativa DATETIME NOT NULL,
   macAddressMaquina VARCHAR(45) NOT NULL,
   serialNumberMaquina VARCHAR(45) NOT NULL
-
 );
 
 SELECT * FROM empresa;
 SELECT * FROM aeroporto;
 SELECT * FROM usuario;
 select * from maquina;
-insert into  torre values(null,1,'ex','G','123','123');
 select * from torre;
 select * from monitoramento;
-SELECT * FROM monitoramento WHERE fkMaquina = 1 ORDER BY idMonitoramento DESC LIMIT 1;
 select * from alerta;
