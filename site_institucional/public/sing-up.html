@@ -60,134 +60,149 @@
   </header><!-- End Header -->
 
   <main id="main">
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about section-bg">
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+
+          <h3><span>Cadastre-se</span></h3>
+        </div>
 
 
-      <!-- ======= Contact Section ======= -->
-      <section id="contact" class="contact">
-        <div class="container" data-aos="fade-up">
-
-          <div class="section-title">
-
-            <h3><span>Cadastre-se</span></h3>
-          </div>
-
-
-          <div class="row" data-aos="fade-up" data-aos-delay="100">
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
 
 
 
-            <div class="col-lg-12">
-              <form role="form" class="email-form">
+          <div class="col-lg-12">
+            <form role="form" class="email-form">
+              <div class="row">
+                <h6>Empresa</h6>
                 <div class="row">
-                  <h6>Empresa</h6>
                   <div class="col-lg-4 col-md-12 form-group">
+                    Nome da Empresa
                     <input type="text" class="form-control" name="nomeEmpresa" id="nomeEmpresa"
-                      placeholder="Nome da Empresa">
+                      placeholder="Ex: AirData">
                   </div>
                   <div class="col-lg-4 col-md-6 form-group">
-                    <input type="text" name="cnpjEmpresa" class="form-control" id="cnpjEmpresa" placeholder="CNPJ">
+                    CNPJ
+                    <input type="text" name="cnpjEmpresa" class="form-control" id="cnpjEmpresa"
+                      placeholder="00.000.000/0000-00">
                   </div>
                   <div class="col-lg-4 col-md-6  form-group">
+                    Telefone
                     <input type="tel" name="telefoneEmpresa" class="form-control" id="telefoneEmpresa"
-                      placeholder="Telefone">
-                  </div>
-                </div>
-                <div class="row">
-                  <h6>Aeroporto</h6>
-                  <div class="col-lg-4 col-md-4 form-group">
-                    <input type="text" class="form-control" name="nomeAeroporto" id="nomeAeroporto"
-                      placeholder="Nome Aeroporto">
-                  </div>
-                  <div class="col-lg-4 col-md-4 form-group">
-                    <input onfocusout="cep()" type="text" class="form-control" name="cepAeroporto" id="cepAeroporto"
-                      placeholder="CEP Aeroporto">
-                  </div>
-
-                  <div class="col-lg-4 col-md-4 form-group">
-
-                    <select id="ufAeroporto" class="form-control js-example-basic-single">
-                      <option value="AC">AC - Acre</option>
-                      <option value="AL">AL - Alagoas</option>
-                      <option value="AP">AP - Amapá</option>
-                      <option value="AM">AM - Amazonas</option>
-                      <option value="BA">BA - Bahia</option>
-                      <option value="CE">CE - Ceará</option>
-                      <option value="DF">DF - Distrito Federal</option>
-                      <option value="ES">ES - Espírito Santo</option>
-                      <option value="GO">GO - Goiás</option>
-                      <option value="MA">MA - Maranhão</option>
-                      <option value="MT">MT - Mato Grosso</option>
-                      <option value="MS">MS - Mato Grosso do Sul</option>
-                      <option value="MG">MG - Minas Gerais</option>
-                      <option value="PA">PA - Pará</option>
-                      <option value="PB">PB - Paraíba</option>
-                      <option value="PR">PR - Paraná</option>
-                      <option value="PE">PE - Pernambuco</option>
-                      <option value="PI">PI - Piauí</option>
-                      <option value="RJ">RJ - Rio de Janeiro</option>
-                      <option value="RN">RN - Rio Grande do Norte</option>
-                      <option value="RS">RS - Rio Grande do Sul</option>
-                      <option value="RO">RO - Rondônia</option>
-                      <option value="RR">RR - Roraima</option>
-                      <option value="SC">SC - Santa Catarina</option>
-                      <option value="SP">SP - São Paulo</option>
-                      <option value="SE">SE - Sergipe</option>
-                      <option value="TO">TO - Tocantins</option>
-                    </select>
-
-
-                  </div>
-                  <div class="col-lg-3 col-md-4 form-group">
-                    <input type="text" class="form-control" name="cidadeAeroporto" id="cidadeAeroporto"
-                      placeholder="Cidade Aeoroporto">
-                  </div>
-                  <div class="col-lg-3 col-md-4 form-group">
-                    <input type="text" class="form-control" name="bairroAeroporto" id="bairroAeroporto"
-                      placeholder="Bairro Aeoroporto">
-                  </div>
-                  <div class="col-lg-3 col-md-4 form-group">
-                    <input type="text" class="form-control" name="ruaAeroporto" id="ruaAeroporto"
-                      placeholder="Rua Aeoroporto">
-                  </div>
-                  <div class="col-lg-3 col-md-4 form-group">
-                    <input type="number" class="form-control" name="numeroAeroporto" id="numeroAeroporto"
-                      placeholder="Número do Aeroporto">
+                      placeholder="(00) 0000-0000">
                   </div>
 
                 </div>
-
-                <div class="row">
-                  <h6>Informações Pessoais</h6>
-                  <div class="col-lg-4 col-md-12 form-group">
-                    <input type="text" class="form-control" name="nomePessoal" id="nomePessoal" placeholder="Nome">
-                  </div>
-
-                  <div class="col-lg-4 col-md-4 form-group">
-                    <input type="email" class="form-control" name="emailPessoal" id="emailPessoal"
-                      placeholder="Email Pessoal">
-                  </div>
-
-                  <div class="col-lg-4 col-md-12 form-group">
-                    <input type="text" class="form-control" name="cpfPessoal" id="cpfPessoal" placeholder="CPF">
-                  </div>
-
-                  <div class="col-lg-4 col-md-6 form-group">
-                    <input type="password" name="password" class="form-control" id="password" placeholder="Senha">
-                  </div>
-                  <div class="col-lg-4 col-md-6 form-group">
-                    <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm"
-                      placeholder="Confirme sua Senha">
-                  </div>
+              </div>
+              <div class="row">
+                <h6>Aeroporto</h6>
+                <div class="col-lg-4 col-md-4 form-group">
+                  Nome do Aeroporto
+                  <input type="text" class="form-control" name="nomeAeroporto" id="nomeAeroporto"
+                    placeholder="Ex: AirData">
+                </div>
+                <div class="col-lg-4 col-md-4 form-group">
+                  CEP
+                  <input onfocusout="cep()" type="text" class="form-control" name="cepAeroporto" id="cepAeroporto"
+                    placeholder="00000-000">
                 </div>
 
-                <div class="text-center"><button type="button" onclick="cadastrar()">Cadastrar</button></div>
-              </form>
-            </div>
+                <div class="col-lg-4 col-md-4 form-group">
+                  Estado
+                  <select id="ufAeroporto" class="form-control js-example-basic-single">
+                    <option value="AC">AC - Acre</option>
+                    <option value="AL">AL - Alagoas</option>
+                    <option value="AP">AP - Amapá</option>
+                    <option value="AM">AM - Amazonas</option>
+                    <option value="BA">BA - Bahia</option>
+                    <option value="CE">CE - Ceará</option>
+                    <option value="DF">DF - Distrito Federal</option>
+                    <option value="ES">ES - Espírito Santo</option>
+                    <option value="GO">GO - Goiás</option>
+                    <option value="MA">MA - Maranhão</option>
+                    <option value="MT">MT - Mato Grosso</option>
+                    <option value="MS">MS - Mato Grosso do Sul</option>
+                    <option value="MG">MG - Minas Gerais</option>
+                    <option value="PA">PA - Pará</option>
+                    <option value="PB">PB - Paraíba</option>
+                    <option value="PR">PR - Paraná</option>
+                    <option value="PE">PE - Pernambuco</option>
+                    <option value="PI">PI - Piauí</option>
+                    <option value="RJ">RJ - Rio de Janeiro</option>
+                    <option value="RN">RN - Rio Grande do Norte</option>
+                    <option value="RS">RS - Rio Grande do Sul</option>
+                    <option value="RO">RO - Rondônia</option>
+                    <option value="RR">RR - Roraima</option>
+                    <option value="SC">SC - Santa Catarina</option>
+                    <option value="SP">SP - São Paulo</option>
+                    <option value="SE">SE - Sergipe</option>
+                    <option value="TO">TO - Tocantins</option>
+                  </select>
+
+
+                </div>
+                <div class="col-lg-3 col-md-4 form-group">
+                  Cidade
+                  <input type="text" class="form-control" name="cidadeAeroporto" id="cidadeAeroporto"
+                    placeholder="Ex: São Paulo">
+                </div>
+                <div class="col-lg-3 col-md-4 form-group">
+                  Bairro
+                  <input type="text" class="form-control" name="bairroAeroporto" id="bairroAeroporto"
+                    placeholder="Ex: Jardins">
+                </div>
+                <div class="col-lg-3 col-md-4 form-group">
+                  Rua
+                  <input type="text" class="form-control" name="ruaAeroporto" id="ruaAeroporto"
+                    placeholder="Ex: Rua Brasil">
+                </div>
+                <div class="col-lg-3 col-md-4 form-group">
+                  Número
+                  <input type="number" class="form-control" name="numeroAeroporto" id="numeroAeroporto"
+                    placeholder="EX: 123">
+                </div>
+
+              </div>
+
+              <div class="row">
+                <h6>Informações Pessoais</h6>
+                <div class="col-lg-4 col-md-12 form-group">
+                  Nome 
+                  <input type="text" class="form-control" name="nomePessoal" id="nomePessoal" placeholder="Pedro Jesuino">
+                </div>
+
+                <div class="col-lg-4 col-md-4 form-group">
+                  Email Pessoal
+                  <input type="email" class="form-control" name="emailPessoal" id="emailPessoal"
+                    placeholder="pedrojesuino@airdata.com">
+                </div>
+
+                <div class="col-lg-4 col-md-12 form-group">
+                  CPF
+                  <input type="text" class="form-control" name="cpfPessoal" id="cpfPessoal" placeholder="000.000.000-00">
+                </div>
+
+                <div class="col-lg-4 col-md-6 form-group">
+                  Senha
+                  <input type="password" name="password" class="form-control" id="password" placeholder="••••••••">
+                </div>
+                <div class="col-lg-4 col-md-6 form-group">
+                  Confirmação de Senha
+                  <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm"
+                    placeholder="••••••••">
+                </div>
+              </div>
+
+              <div class="text-center"><button type="button" onclick="cadastrar()">Cadastrar</button></div>
+            </form>
           </div>
         </div>
-      </section><!-- End Contact Section -->
+      </div>
+    </section><!-- End Contact Section -->
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -270,39 +285,40 @@
       var emailPessoalVar = emailPessoal.value;
       var cpfPessoalVar = cpfPessoal.value;
       var passwordVar = password.value;
+      var passwordConfirmVar = passwordConfirm.value;
 
 
-      if (nomeEmpresaVar == "" || cnpjEmpresaVar == "" || telefoneEmpresaVar == "" || nomeAeroportoVar == "" || cepAeroportoVar == "" || cidadeAeroportoVar == "" || bairroAeroportoVar == "" || ruaAeroportoVar == "" || ufAeroportoVar == "" || numeroAeroportoVar == "" || nomePessoalVar == "" || emailPessoalVar == "" || cpfPessoalVar == "" || passwordVar == ""){
+      if (nomeEmpresaVar == "" || cnpjEmpresaVar == "" || telefoneEmpresaVar == "" || nomeAeroportoVar == "" || cepAeroportoVar == "" || cidadeAeroportoVar == "" || bairroAeroportoVar == "" || ruaAeroportoVar == "" || ufAeroportoVar == "" || numeroAeroportoVar == "" || nomePessoalVar == "" || emailPessoalVar == "" || cpfPessoalVar == "" || passwordVar == "") {
         Swal.fire({
-              title: 'Error!',
-              text: 'Preencha todos os campos para continuar',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            })
+          title: 'Error!',
+          text: 'Preencha todos os campos para continuar',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       }
-      else if (!emailPessoalVar.indexOf("@") || emailPessoalVar.startsWith("@") || emailPessoalVar.endsWith("@") || !emailPessoalVar.endsWith(".com")){
+      else if (!emailPessoalVar.indexOf("@") || emailPessoalVar.startsWith("@") || emailPessoalVar.endsWith("@") || !emailPessoalVar.endsWith(".com")) {
         Swal.fire({
-              title: 'Error!',
-              text: 'Insira um e-mail válido',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            })
+          title: 'Error!',
+          text: 'Insira um e-mail válido',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       }
-      else if (passwordVar.length < 8){
+      else if (passwordVar.length < 8) {
         Swal.fire({
-              title: 'Error!',
-              text: 'A senha deve ter no mínimo 8 dígitos',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            })
+          title: 'Error!',
+          text: 'A senha deve ter no mínimo 8 dígitos',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       }
-      else if (passwordVar != passwordConfirm.value) {
+      else if (passwordVar != passwordConfirmVar) {
         Swal.fire({
-              title: 'Error!',
-              text: 'Senha não estão iguais.',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            })
+          title: 'Error!',
+          text: 'Senha não estão iguais.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       } else {
 
 
@@ -380,10 +396,31 @@
     }
 
 
-
+    inputTelefone.addEventListener("keyup", telefoneMask)
     inputCep.addEventListener("keyup", cepMask);
     inputCpf.addEventListener("keyup", cpfMask);
     inputCnpj.addEventListener("keyup", cnpjMask);
+
+    function telefoneMask(e) {
+      if ((inputTelefone.value).length == 2) {
+        inputAtual = inputTelefone.value;
+        if (inputAtual.indexOf("(") < 0 && inputAtual.indexOf(")") < 0) {
+          inputTelefone.value = `(${inputAtual}) `;
+        } else {
+          inputTelefone.value = inputAtual
+        }
+      }
+      if ((inputTelefone.value).length == 9) {
+        inputTelefone.value += "-";
+      }
+      var charCode = (e.which) ? e.which : e.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputTelefone.value).length > 14) {
+        inputTelefone.value = telefoneAero;
+      }
+      else {
+        telefoneAero = inputTelefone.value;
+      }
+    }
 
     function cepMask(e) {
       if ((inputCep.value).length == 5) {
@@ -391,7 +428,7 @@
       }
       var charCode = (e.which) ? e.which : e.keyCode
       if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCep.value).length > 9) {
-        inputCep.value = cepAero
+        inputCep.value = cepAero;
       }
       else {
         cepAero = inputCep.value;
@@ -399,12 +436,15 @@
     }
 
     function cpfMask(e) {
-      if ((inputCpf.value).length == 3 || (inputCpf.value).length == 7 || (inputCpf.value).length == 11) {
+      if ((inputCpf.value).length == 3 || (inputCpf.value).length == 7) {
         inputCpf.value += ".";
+      }
+      if((inputCpf.value).length == 11){
+        inputCpf.value += "-";
       }
       var charCode = (e.which) ? e.which : e.keyCode
       if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCpf.value).length > 14) {
-        inputCpf.value = cepAero
+        inputCpf.value = cepAero;
       }
       else {
         cepAero = inputCpf.value;
@@ -422,7 +462,7 @@
       }
       var charCode = (e.which) ? e.which : e.keyCode
       if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCnpj.value).length > 18) {
-        inputCnpj.value = cepAero
+        inputCnpj.value = cepAero;
       }
       else {
         cepAero = inputCnpj.value;

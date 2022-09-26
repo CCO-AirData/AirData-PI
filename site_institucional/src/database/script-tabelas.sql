@@ -1,5 +1,5 @@
 CREATE USER 'airdata_client'@'localhost' IDENTIFIED BY 'sptech';
-GRANT SELECT, UPDATE, INSERT, DELETE, EXECUTE, SHOW VIEW ON TechBerry.* TO 'airdata_client'@'localhost';
+GRANT SELECT, UPDATE, INSERT, DELETE, EXECUTE, SHOW VIEW ON airData.* TO 'airdata_client'@'localhost';
 
 CREATE DATABASE airData;
 USE airData;
