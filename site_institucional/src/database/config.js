@@ -20,10 +20,10 @@ var sqlServerConfig = {
 
 // CONEXÃO DO MYSQL WORKBENCH (LOCAL)
 var mySqlConfig = {
-    host: `${process.env.MYSQL_HOST}`,
-    database: `${process.env.MYSQL_DB}`,
-    user: `${process.env.MYSQL_USER}`,
-    password: `${process.env.MYSQL_PASSWD}`,
+host: "localhost",
+    user: "airdata_client",
+    database: "airdata",
+    password: "sptech",
 };
 
 function executar(instrucao) {
