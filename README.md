@@ -5,7 +5,7 @@ Repositório para o desenvolvimento do projeto de Pesquisa e Inovação da SPTEC
 
 
 
-| [<img src="https://avatars.githubusercontent.com/GustavoAntonio12" width="100"><br><small>@GustavoAntonio12</small>](https://github.com/GustavoAntonio12)| [<img src="https://avatars.githubusercontent.com/CauaCiconelli" width="115"><br><small>@CauaCiconelli</small>](https://github.com/CauaCiconelli)  | [<img src="https://avatars.githubusercontent.com/GuilhermeHenrique525" width="115"><br><small>@GuilhermeHenrique525</small>](https://github.com/GuilhermeHenrique525) | 
+| [<img src="https://avatars.githubusercontent.com/u/102234866?v=4" width="100"><br><small>@Guilherme Coimbra</small>](https://github.com/Coimbra1999)| [<img src="https://avatars.githubusercontent.com/u/99811791?v=4" width="115"><br><small>@Hugo Hanashiro</small>](https://github.com/HugoHanashiro)  | [<img src="https://avatars.githubusercontent.com/u/99101505?v=4" width="115"><br><small>@Kauan Cavazani</small>](https://github.com/KauanCavazani) | 
 | :---: | :---: | :---: | 
-| [<img src="https://avatars.githubusercontent.com/GabrielVannucchi" width="115"><br><small>@GabrielVannucchi</small>](https://github.com/GabrielVannucchi) | [<img src="https://avatars.githubusercontent.com/kelvinsync" width="115"><br><small>@kelvinsync</small>](https://github.com/kelvinsync) | [<img src="https://avatars.githubusercontent.com/leobianchii" width="115"><br><small>@leobianchii</small>](https://github.com/leobianchii) 
+| [<img src="https://avatars.githubusercontent.com/u/99812007?v=4" width="115"><br><small>@Pedro Jesuino</small>](https://github.com/Pedro-Jsn) | [<img src="https://avatars.githubusercontent.com/u/99812877?v=4" width="115"><br><small>@Ryan Miyazato</small>](https://github.com/ryan-miyazato) | [<img src="https://avatars.githubusercontent.com/u/99813230?v=4" width="115"><br><small>@Victor Hugo</small>](https://github.com/ViHugo03) 
 
