@@ -134,7 +134,7 @@
                                     <div class="row align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">CPU</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">30%</div>
+                                            <div id="card_cpu_percent" class="h5 mb-0 font-weight-bold text-gray-800">30%</div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
 
                                                 <span>ESTÁVEL</span>
@@ -155,7 +155,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">GPU</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">56%</div>
+                                            <div id="card_gpu_percent" class="h5 mb-0 font-weight-bold text-gray-800">56%</div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
 
                                                 <span>ESTÁVEL</span>
@@ -175,7 +175,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">MEMÓRIA RAM</div>
-                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">75%</div>
+                                            <div id="card_ram_percent" class="h5 mb-0 mr-3 font-weight-bold text-gray-800">75%</div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
 
                                                 <span>INSTÁVEL</span>
@@ -195,7 +195,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">DISCO</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">33%</div>
+                                            <div id="card_disk_percent" class="h5 mb-0 font-weight-bold text-gray-800">33%</div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
 
                                                 <span>ESTÁVEL</span>
@@ -214,7 +214,7 @@
                             <div class="card mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary"></h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">MÉDIA DO ANO (POR MÊS)</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-area">
@@ -401,7 +401,53 @@
 
 <script>
     document.querySelector("#dash-link").classList.add("active")
+    
 
     var json = obterDadosSession();
-    login.innerHTML = json.nomeUsuario;
+    username.innerHTML = json.nomeUsuario;
+
+    // idMaquina estático 
+    var idMaquina = 1;
+
+    setTimeout(()=>{
+        console.log("Cheguei")
+        obterDadosPercent(idMaquina);
+    },1000)
+
+    function obterDadosPercent(idMaquina) {
+        fetch(`/medidas/tempo-real/${idMaquina}`)
+            .then(resposta => {
+
+                if (resposta.ok) {
+                    resposta.json().then(resposta => {
+
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                        plotarDadosPercent(resposta);
+                    });
+                } else {
+
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados do aquario p/ gráfico: ${error.message}`);
+            });
+
+    }
+
+    function plotarDadosPercent(dadosMaquina){
+        var cpuPercent = dadosMaquina[0].cpuMaquinaGhz;
+        var diskPercent = dadosMaquina[0].discoMaquinaGb;
+        var ramPercent = dadosMaquina[0].memoriaMaquinaGb;
+
+        card_cpu_percent.innerHTML = `${Math.round(cpuPercent,0)}%`;
+        card_disk_percent.innerHTML = `${Math.round(diskPercent,0)}%`;
+        card_ram_percent.innerHTML = `${Math.round(ramPercent,0)}%`;
+
+        setTimeout(() => {
+            obterDadosPercent(idMaquina)
+        }, 500);
+    }
+
 </script>
