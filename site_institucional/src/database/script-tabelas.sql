@@ -51,18 +51,19 @@ CREATE TABLE torre (
 );
 
 CREATE TABLE servidor (
-	idServidor INT PRIMARY KEY AUTO_INCREMENT,
+	idServidor VARCHAR(17) PRIMARY KEY,
     fkTorre INT NOT NULL,
     FOREIGN KEY(fkTorre) REFERENCES torre(idTorre)
 );
 
 CREATE TABLE componente (
-	idComponente INT PRIMARY KEY AUTO_INCREMENT,
+	idComponente INT AUTO_INCREMENT,
     fkServidor INT NOT NULL,
     tipoComponente VARCHAR(45) NOT NULL,
     nomeComponente VARCHAR(50) NOT NULL,
     memoria DECIMAL(5,2),
-    tipoMemoria VARCHAR(30)
+    tipoMemoria VARCHAR(30),
+    PRIMARY KEY(idComponente, fkServidor)
 );
 
 CREATE TABLE metrica (
@@ -74,16 +75,24 @@ CREATE TABLE metrica (
 );
 
 CREATE TABLE leitura (
-	fkComponente INT NOT NULL,
     fkMetrica INT NOT NULL,
     horario DATETIME NOT NULL,
     valorLido DECIMAL(5,2) NOT NULL,
+	fkComponente_idComponente INT NOT NULL,
+    fkComponente_fkServidor INT NOT NULL,
     FOREIGN KEY(fkComponente) REFERENCES componente(idComponente)
 );
 
 CREATE TABLE parametro (
-	fkComponente INT NOT NULL,
-    fkMetrica INT NOT NULL,
-    FOREIGN KEY(fkComponente) REFERENCES componente(idComponente),
-    FOREIGN KEY(fkMetrica) REFERENCES metrica(idMetrica)
+	fkMetrica INT NOT NULL,
+	fkComponente_idComponente INT NOT NULL,
+    fkComponente_fkServidor INT NOT NULL,
+    FOREIGN KEY(fkMetrica) REFERENCES metrica(idMetrica),
+    FOREIGN KEY(fkComponente_idComponente) REFERENCES componente(idComponente),
+    FOREIGN KEY(fkComponente_fkServidor) REFERENCES componente(fkServidor)
 );
+
+INSERT INTO empresa (nomeEmpresa,cnpjEmpresa,telefoneEmpresa) VALUES 
+('Guaraná', '12.321.232/1232-12', '(17) 8278-9387');
+INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES 
+('Hugo Hanashiro', 'hugo@hanashiro.com', '1853b8feb6917afbc3ca2b99157583ec7e5698932bd50e9f389a2378a3f6999cf97c4c6c82917ea4955580b9df3c540bcfec50d50b67d4bb0418a09712246e72','486.502.048-99','G','1');
