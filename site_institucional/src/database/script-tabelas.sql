@@ -80,7 +80,8 @@ CREATE TABLE leitura (
     valorLido DECIMAL(5,2) NOT NULL,
 	fkComponente_idComponente INT NOT NULL,
     fkComponente_fkServidor INT NOT NULL,
-    FOREIGN KEY(fkComponente) REFERENCES componente(idComponente)
+    FOREIGN KEY(fkComponente_idComponente) REFERENCES componente(idComponente),
+    FOREIGN KEY(fkComponente_fkServidor) REFERENCES componente(fkServidor)
 );
 
 CREATE TABLE parametro (
