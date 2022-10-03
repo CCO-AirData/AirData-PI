@@ -1,6 +1,7 @@
 CREATE USER 'airdata_client'@'localhost' IDENTIFIED BY 'sptech';
 GRANT SELECT, UPDATE, INSERT, DELETE, EXECUTE, SHOW VIEW ON airData.* TO 'airdata_client'@'localhost';
 
+DROP DATABASE IF EXISTS airData;
 CREATE DATABASE airData;
 USE airData;
 
@@ -22,7 +23,6 @@ CREATE TABLE aeroporto (
   bairroAeroporto VARCHAR(45) NOT NULL,
   ruaAeroporto VARCHAR(45) NOT NULL,
   FOREIGN KEY(fkEmpresa) REFERENCES empresa(idEmpresa)
-  
 );
 
 CREATE TABLE usuario (
@@ -50,56 +50,40 @@ CREATE TABLE torre (
   FOREIGN KEY(fkAeroporto) REFERENCES aeroporto(idAeroporto)
 );
 
-CREATE TABLE maquina(
-  idMaquina INT PRIMARY KEY AUTO_INCREMENT,
-  fkTorre INT NOT NULL,
-  FOREIGN KEY(fkTorre) REFERENCES torre(idTorre),
-  nomeMaquina VARCHAR(45),
-  soMaquina VARCHAR(50) NOT NULL,
-  serialNumberMaquina VARCHAR(45) NOT NULL,
-  macAddressMaquina VARCHAR(45) NOT NULL
+CREATE TABLE servidor (
+	idServidor INT PRIMARY KEY AUTO_INCREMENT,
+    fkTorre INT NOT NULL,
+    FOREIGN KEY(fkTorre) REFERENCES torre(idTorre)
 );
 
-CREATE TABLE monitoramento(
-  idMonitoramento INT PRIMARY KEY AUTO_INCREMENT,
-  fkMaquina INT NOT NULL,
-  FOREIGN KEY(fkMaquina) REFERENCES maquina(idMaquina),
-  horarioMonitoramento DATETIME NOT NULL,
-  cpuMaquinaGhz DECIMAL(5,2) NOT NULL,
-  discoMaquinaGb DECIMAL(5,2) NOT NULL,
-  memoriaMaquinaGb DECIMAL(5,2) NOT NULL
+CREATE TABLE componente (
+	idComponente INT PRIMARY KEY AUTO_INCREMENT,
+    fkServidor INT NOT NULL,
+    tipoComponente VARCHAR(45) NOT NULL,
+    nomeComponente VARCHAR(50) NOT NULL,
+    memoria DECIMAL(5,2),
+    tipoMemoria VARCHAR(30)
 );
 
-CREATE TABLE alerta (
-  idAlerta INT PRIMARY KEY AUTO_INCREMENT,
-  tipoAlerta VARCHAR(5) NOT NULL CHECK (tipoAlerta IN('DISCO', 'RAM', 'CPU')),
-  fkMonitoramento INT NOT NULL,
-  FOREIGN KEY (fkMonitoramento) REFERENCES monitoramento(idMonitoramento)
+CREATE TABLE metrica (
+	idMetrica INT PRIMARY KEY AUTO_INCREMENT,
+    nomeMetrica VARCHAR(40) NOT NULL,
+    comando VARCHAR(50) NOT NULL,
+    unidadeMedida VARCHAR(10) NOT NULL,
+    isTupla TINYINT NOT NULL
 );
 
-CREATE TABLE blackList (
-  idBlackList INT PRIMARY KEY AUTO_INCREMENT,
-  serialNumberMaquina VARCHAR(45) NOT NULL,
-  macAddresMaquina VARCHAR(45) NOT NULL,
-  fkTorre INT NOT NULL,
-  FOREIGN KEY (fkTorre) REFERENCES torre(idTorre)
+CREATE TABLE leitura (
+	fkComponente INT NOT NULL,
+    fkMetrica INT NOT NULL,
+    horario DATETIME NOT NULL,
+    valorLido DECIMAL(5,2) NOT NULL,
+    FOREIGN KEY(fkComponente) REFERENCES componente(idComponente)
 );
 
-CREATE TABLE logTorre(
-  idLogTorre INT PRIMARY KEY AUTO_INCREMENT,
-  fkTorre INT,
-  FOREIGN KEY (fkTorre) REFERENCES torre(idTorre),
-  tentativaLogin VARCHAR(45) NOT NULL,
-  tentaviaSenha VARCHAR(45) NOT NULL,
-  momentoTentativa DATETIME NOT NULL,
-  macAddressMaquina VARCHAR(45) NOT NULL,
-  serialNumberMaquina VARCHAR(45) NOT NULL
+CREATE TABLE parametro (
+	fkComponente INT NOT NULL,
+    fkMetrica INT NOT NULL,
+    FOREIGN KEY(fkComponente) REFERENCES componente(idComponente),
+    FOREIGN KEY(fkMetrica) REFERENCES metrica(idMetrica)
 );
-
-SELECT * FROM empresa;
-SELECT * FROM aeroporto;
-SELECT * FROM usuario;
-select * from maquina;
-select * from torre;
-select * from monitoramento;
-select * from alerta;
