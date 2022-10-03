@@ -1,5 +1,5 @@
-CREATE USER 'airdata_client'@'localhost' IDENTIFIED BY 'sptech';
-GRANT SELECT, UPDATE, INSERT, DELETE, EXECUTE, SHOW VIEW ON airData.* TO 'airdata_client'@'localhost';
+#CREATE USER 'airdata_client'@'localhost' IDENTIFIED BY 'sptech';
+#GRANT SELECT, UPDATE, INSERT, DELETE, EXECUTE, SHOW VIEW ON airData.* TO 'airdata_client'@'localhost';
 
 DROP DATABASE IF EXISTS airData;
 CREATE DATABASE airData;
@@ -80,8 +80,7 @@ CREATE TABLE leitura (
     valorLido DECIMAL(5,2) NOT NULL,
 	fkComponente_idComponente INT NOT NULL,
     fkComponente_fkServidor INT NOT NULL,
-    FOREIGN KEY(fkComponente_idComponente) REFERENCES componente(idComponente),
-    FOREIGN KEY(fkComponente_fkServidor) REFERENCES componente(fkServidor)
+    FOREIGN KEY(fkComponente_idComponente, fkComponente_fkServidor) REFERENCES componente(idComponente, fkServidor)
 );
 
 CREATE TABLE parametro (
@@ -89,8 +88,7 @@ CREATE TABLE parametro (
 	fkComponente_idComponente INT NOT NULL,
     fkComponente_fkServidor INT NOT NULL,
     FOREIGN KEY(fkMetrica) REFERENCES metrica(idMetrica),
-    FOREIGN KEY(fkComponente_idComponente) REFERENCES componente(idComponente),
-    FOREIGN KEY(fkComponente_fkServidor) REFERENCES componente(fkServidor)
+    FOREIGN KEY(fkComponente_idComponente, fkComponente_fkServidor) REFERENCES componente(idComponente, fkServidor)
 );
 
 INSERT INTO empresa (nomeEmpresa,cnpjEmpresa,telefoneEmpresa) VALUES 
