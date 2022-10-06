@@ -164,65 +164,70 @@
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
 
   <script src="assets/js/main.js"></script>
-  <script>
+</body>
+</html>
+<script>
+  var a;
 
-    function entrar() {
-      var emailPessoalVar = emailPessoal.value;
-      var passwordVar = password.value;
+  function entrar() {
+    var emailPessoalVar = emailPessoal.value;
+    var passwordVar = password.value;
 
-      if (!emailPessoalVar.indexOf("@") || emailPessoalVar.startsWith("@") || emailPessoalVar.endsWith("@") || !emailPessoalVar.endsWith(".com")) {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Insira um e-mail válido',
-          icon: 'error',
-          confirmButtonText: 'OK'
+    if (!emailPessoalVar.indexOf("@") || emailPessoalVar.startsWith("@") || emailPessoalVar.endsWith("@") || !emailPessoalVar.endsWith(".com")) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Insira um e-mail válido',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+    } else {
+
+
+      fetch("/usuarios/autenticar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          emailPessoalServer: emailPessoalVar,
+          passwordServer: passwordVar
+
         })
-      } else {
+      }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+          resposta.json().then(json => {
 
+            console.log(json.idUsuario)
+            console.log(JSON.stringify(json))
 
-        fetch("/usuarios/autenticar", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            emailPessoalServer: emailPessoalVar,
-            passwordServer: passwordVar
-
-          })
-        }).then(function (resposta) {
-          console.log("resposta: ", resposta);
-          if (resposta.ok) {
-            resposta.json().then(json => {
-
-              sessionStorage.setItem("dadosUsuario", JSON.stringify(json));
-              Swal.fire({
-                title: 'Sucesso!',
-                text: 'Login realizado com sucesso! Redirecionando para dashboard',
-                icon: 'success',
-                confirmButtonText: 'OK'
-              })
-
-              setTimeout(() => {
-                window.location = "restrito/dashboard.html";
-              }, "2000")
-            });
-
-          } else {
+            sessionStorage.ID_USUARIO = json.idUsuario;
+            sessionStorage.NOME_USUARIO = json.nomeUsuario;
+            sessionStorage.ID_TORRE = json.idTorre;
+          
             Swal.fire({
-              title: 'Erro!"',
-              text: 'Houve um erro ao tentar realizar o login',
-              icon: 'error',
+              title: 'Sucesso!',
+              text: 'Login realizado com sucesso! Redirecionando para dashboard',
+              icon: 'success',
               confirmButtonText: 'OK'
             })
-          }
-        }).catch(function (resposta) {
-          console.log(`#ERRO: ${resposta}`);
-        });
-      }
+
+            setTimeout(() => {
+              window.location = "restrito/dashboard.html";
+            }, "2000")
+          });
+
+        } else {
+          Swal.fire({
+            title: 'Erro!"',
+            text: 'Houve um erro ao tentar realizar o login',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          })
+        }
+      }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
     }
-  </script>
-
-</body>
-
-</html>
+  }
+</script>

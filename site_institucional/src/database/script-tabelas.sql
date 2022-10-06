@@ -1,5 +1,5 @@
-#CREATE USER 'airdata_client'@'localhost' IDENTIFIED BY 'sptech';
-#GRANT SELECT, UPDATE, INSERT, DELETE, EXECUTE, SHOW VIEW ON airData.* TO 'airdata_client'@'localhost';
+CREATE USER 'airdata_client'@'localhost' IDENTIFIED BY 'sptech';
+GRANT SELECT, UPDATE, INSERT, DELETE, EXECUTE, SHOW VIEW ON airData.* TO 'airdata_client'@'localhost';
 
 DROP DATABASE IF EXISTS airData;
 CREATE DATABASE airData;
@@ -31,7 +31,6 @@ CREATE TABLE usuario (
 	emailUsuario VARCHAR(45) NOT NULL,
 	senhaUsuario CHAR(128) NOT NULL,
 	cpfUsuario CHAR(14) NOT NULL,
-	tipoUsuario CHAR(1) NOT NULL CHECK (tipoUsuario IN('F', 'G', 'S')),
 	fkSupervisor INT NULL,
 	fkAeroporto INT NOT NULL,
 	fkGestor INT NULL,
@@ -43,10 +42,6 @@ CREATE TABLE usuario (
 CREATE TABLE torre (
   idTorre INT PRIMARY KEY AUTO_INCREMENT,
   fkAeroporto INT NOT NULL,
-  nomeTorre VARCHAR(45) NOT NULL,
-  tipoTorre CHAR(1) NOT NULL,
-  senhaTorre VARCHAR(45) NOT NULL,
-  loginTorre VARCHAR(45) NOT NULL,
   FOREIGN KEY(fkAeroporto) REFERENCES aeroporto(idAeroporto)
 );
 

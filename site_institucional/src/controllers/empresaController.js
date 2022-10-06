@@ -49,10 +49,12 @@ function cadastrar(req, res) {
     } else {
         empresaModel.cadastrar(nomeEmpresa, cnpjEmpresa, telefoneEmpresa).then(function (resultado) {
             var fkEmpresa = resultado.insertId;
-            aeroportoModel.cadastrar(fkEmpresa, nomeAeroporto, cepAeroporto, numeroAeroporto, ufAeroporto, cidadeAeroporto, bairroAeroporto, ruaAeroporto).then(function (resultado) {
+            aeroportoModel.cadastrarAeroporto(fkEmpresa, nomeAeroporto, cepAeroporto, numeroAeroporto, ufAeroporto, cidadeAeroporto, bairroAeroporto, ruaAeroporto).then(function (resultado) {
                 var fkAeropoto = resultado.insertId;
-                usuarioModel.cadastrar(nomePessoal, emailPessoal, sha512(password), cpfPessoal, 'G', fkAeropoto).then(function (resultado) {
-                    res.json(resultado);
+                aeroportoModel.cadastrarTorre(fkAeropoto).then(function (resultado) {
+                    usuarioModel.cadastrar(nomePessoal, emailPessoal, sha512(password), cpfPessoal, 'G', fkAeropoto).then(function (resultado) {
+                        res.json(resultado);
+                    })
                 })
             })
 

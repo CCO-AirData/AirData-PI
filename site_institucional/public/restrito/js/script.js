@@ -1,3 +1,7 @@
+function iniciarSessao(){
+    
+}
+
 var dropdownUser = document.getElementById("dropdownUser");
 var areaUser = document.getElementById("area_user");
 
