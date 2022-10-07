@@ -286,6 +286,7 @@
       var cpfPessoalVar = cpfPessoal.value;
       var passwordVar = password.value;
       var passwordConfirmVar = passwordConfirm.value;
+      var tipoUsuarioVar = 'G';
 
 
       if (nomeEmpresaVar == "" || cnpjEmpresaVar == "" || telefoneEmpresaVar == "" || nomeAeroportoVar == "" || cepAeroportoVar == "" || cidadeAeroportoVar == "" || bairroAeroportoVar == "" || ruaAeroportoVar == "" || ufAeroportoVar == "" || numeroAeroportoVar == "" || nomePessoalVar == "" || emailPessoalVar == "" || cpfPessoalVar == "" || passwordVar == "") {
@@ -343,7 +344,8 @@
             nomePessoalServer: nomePessoalVar,
             emailPessoalServer: emailPessoalVar,
             cpfPessoalServer: cpfPessoalVar,
-            passwordServer: passwordVar
+            passwordServer: passwordVar,
+            tipoUsuarioServer: tipoUsuarioVar
           })
         }).then(function (resposta) {
           console.log("resposta: ", resposta);
