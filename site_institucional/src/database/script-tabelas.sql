@@ -53,7 +53,7 @@ CREATE TABLE servidor (
 
 CREATE TABLE componente (
 	idComponente INT AUTO_INCREMENT,
-    fkServidor INT NOT NULL,
+    fkServidor VARCHAR(17) NOT NULL,
     tipoComponente VARCHAR(45) NOT NULL,
     nomeComponente VARCHAR(50) NOT NULL,
     memoria DECIMAL(5,2),
@@ -93,6 +93,55 @@ FROM usuario, aeroporto, torre
 WHERE usuario.fkAeroporto = idAeroporto 
 AND torre.fkAeroporto = idAeroporto;
 
-INSERT INTO empresa (nomeEmpresa,cnpjEmpresa,telefoneEmpresa) VALUES ('AirData', '00.000.000/0000-00', '(00) 0000-0000');
-INSERT INTO aeroporto (fkEmpresa,nomeAeroporto,cepAeroporto,numeroAeroporto,ufAeroporto,cidadeAeroporto,bairroAeroporto,ruaAeroporto) VALUES ('1', 'AirDataAirport', '01414-000', '123', 'SP', 'São Paulo', 'Cerqueira César', 'Rua Haddock Lobo');
-INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES ('Pedro Jesuino', 'pedrojesuino@airdata.com', '1853b8feb6917afbc3ca2b99157583ec7e5698932bd50e9f389a2378a3f6999cf97c4c6c82917ea4955580b9df3c540bcfec50d50b67d4bb0418a09712246e72','000.000.000-00','G','1');
+CREATE VIEW vw_cpuPercent AS
+SELECT leitura.horario, valorLido, unidadeMedida 
+FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente
+AND fkComponente_fkServidor = fkServidor
+JOIN metrica ON fkMetrica = idMetrica
+WHERE nomeMetrica = 'cpuPercent'
+ORDER BY horario DESC;
+
+CREATE VIEW vw_ramPercent AS
+SELECT leitura.horario, valorLido, unidadeMedida 
+FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente
+AND fkComponente_fkServidor = fkServidor
+JOIN metrica ON fkMetrica = idMetrica
+WHERE nomeMetrica = 'ramPercent'
+ORDER BY horario DESC;
+
+CREATE VIEW vw_diskPercent AS
+SELECT leitura.horario, valorLido, unidadeMedida 
+FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente
+AND fkComponente_fkServidor = fkServidor
+JOIN metrica ON fkMetrica = idMetrica
+WHERE nomeMetrica = 'diskPercent'
+ORDER BY horario DESC;
+
+INSERT INTO empresa (nomeEmpresa,cnpjEmpresa,telefoneEmpresa) VALUES 
+('AirData', '00.000.000/0000-00', '(00) 0000-0000');
+INSERT INTO aeroporto (fkEmpresa,nomeAeroporto,cepAeroporto,numeroAeroporto,ufAeroporto,cidadeAeroporto,bairroAeroporto,ruaAeroporto) VALUES 
+('1', 'AirData', '01414-000', '123', 'SP', 'São Paulo', 'Cerqueira César', 'Rua Haddock Lobo');
+INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES 
+('Pedro Jesuino', 'pedrojesuino@airdata.com', '1853b8feb6917afbc3ca2b99157583ec7e5698932bd50e9f389a2378a3f6999cf97c4c6c82917ea4955580b9df3c540bcfec50d50b67d4bb0418a09712246e72','000.000.000-00','G','1');
+INSERT INTO torre VALUES (null,1);
+INSERT INTO servidor VALUES (,1);
+INSERT INTO componente VALUES (null, 1, 'CPU', 'CPU1', 4.00, 'Registrador');
+INSERT INTO metrica VALUES (null, 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', FALSE);
+INSERT INTO metrica VALUES (null, 'ramPercent', 'psutil.virtual_memory().percent', '%', FALSE);
+INSERT INTO metrica VALUES (null, 'diskPercent', 'psutil.disk_usage("/").percent', '%', FALSE);
+
+SELECT * FROM usuario;
+SELECT * FROM empresa;
+SELECT * FROM aeroporto;
+SELECT * FROM torre;
+SELECT * FROM servidor;
+SELECT * FROM componente;
+SELECT * FROM metrica;
+SELECT * FROM leitura;
+SELECT * FROM parametro;
+SELECT * FROM vw_cpuPercent;
+SELECT * FROM vw_ramPercent;
+SELECT * FROM vw_diskPercent;
