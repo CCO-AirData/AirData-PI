@@ -75,14 +75,14 @@ CREATE TABLE leitura (
     horario DATETIME NOT NULL,
     valorLido DECIMAL(5,2) NOT NULL,
 	fkComponente_idComponente INT NOT NULL,
-    fkComponente_fkServidor INT NOT NULL,
+    fkComponente_fkServidor VARCHAR(17) NOT NULL,
     FOREIGN KEY(fkComponente_idComponente, fkComponente_fkServidor) REFERENCES componente(idComponente, fkServidor)
 );
 
 CREATE TABLE parametro (
 	fkMetrica INT NOT NULL,
 	fkComponente_idComponente INT NOT NULL,
-    fkComponente_fkServidor INT NOT NULL,
+    fkComponente_fkServidor VARCHAR(17) NOT NULL,
     FOREIGN KEY(fkMetrica) REFERENCES metrica(idMetrica),
     FOREIGN KEY(fkComponente_idComponente, fkComponente_fkServidor) REFERENCES componente(idComponente, fkServidor)
 );
@@ -128,8 +128,8 @@ INSERT INTO aeroporto (fkEmpresa,nomeAeroporto,cepAeroporto,numeroAeroporto,ufAe
 INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES 
 ('Pedro Jesuino', 'pedrojesuino@airdata.com', '1853b8feb6917afbc3ca2b99157583ec7e5698932bd50e9f389a2378a3f6999cf97c4c6c82917ea4955580b9df3c540bcfec50d50b67d4bb0418a09712246e72','000.000.000-00','G','1');
 INSERT INTO torre VALUES (null,1);
-INSERT INTO servidor VALUES (,1);
-INSERT INTO componente VALUES (null, 1, 'CPU', 'CPU1', 4.00, 'Registrador');
+INSERT INTO servidor VALUES ('39-FD-83-E4-FB-AB',1);
+INSERT INTO componente VALUES (null, '39-FD-83-E4-FB-AB', 'CPU', 'CPU1', 4.00, 'Registrador');
 INSERT INTO metrica VALUES (null, 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'ramPercent', 'psutil.virtual_memory().percent', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'diskPercent', 'psutil.disk_usage("/").percent', '%', FALSE);
