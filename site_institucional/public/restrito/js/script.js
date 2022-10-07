@@ -1,5 +1,7 @@
 function iniciarSessao(){
-    
+    var span_userName = document.getElementById("username");
+
+    span_userName.innerText = sessionStorage.NOME_USUARIO;
 }
 
 var dropdownUser = document.getElementById("dropdownUser");
