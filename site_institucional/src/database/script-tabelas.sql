@@ -31,6 +31,7 @@ CREATE TABLE usuario (
 	emailUsuario VARCHAR(45) NOT NULL,
 	senhaUsuario CHAR(128) NOT NULL,
 	cpfUsuario CHAR(14) NOT NULL,
+    tipoUsuario CHAR(1) NOT NULL CHECK (tipoUsuario IN('F', 'G', 'S')),
 	fkSupervisor INT NULL,
 	fkAeroporto INT NOT NULL,
 	fkGestor INT NULL,
@@ -88,7 +89,7 @@ CREATE TABLE parametro (
 
 -- Views
 CREATE VIEW vw_iniciarSessao AS
-SELECT idUsuario, nomeUsuario, emailUsuario, senhaUsuario, idTorre
+SELECT idUsuario, nomeUsuario, emailUsuario, senhaUsuario, tipoUsuario, idTorre
 FROM usuario, aeroporto, torre
 WHERE usuario.fkAeroporto = idAeroporto 
 AND torre.fkAeroporto = idAeroporto;

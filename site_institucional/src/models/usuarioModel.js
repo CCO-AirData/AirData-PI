@@ -17,7 +17,7 @@ function entrar(emailUsuario, senhaUsuario) {
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucao
 function cadastrar(nomeUsuario,emailUsuario,password,cpfUsuario,tipoUsuario,fkAeroporto){
-    var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,fkAeroporto) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${fkAeroporto}');`;
+    var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${tipoUsuario}','${fkAeroporto}');`;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }

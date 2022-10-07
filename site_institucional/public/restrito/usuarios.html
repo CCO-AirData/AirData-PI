@@ -1,4 +1,5 @@
-<html lang="en"><head>
+<html lang="en">
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -103,7 +104,11 @@
     var nome, senha, email, cpf;
 
     function exibirTelaCadastro() {
-      Swal.fire({
+
+      var tipoUsuario = sessionStorage.TIPO_USUARIO;
+
+      if(tipoUsuario == "G") {
+        Swal.fire({
         title: 'Cadastrar usuário',
         html:
             'Nome<br>' +
@@ -116,45 +121,90 @@
             '<input id="cpf" class="swal2-input"><br><br>' +
             'Cargo<br><br>' +
             '<select id="cargo">' +
-              '<option value="supervisor">Supervisor</option>' +
-              '<option value="comum">Funcionário Comum</option>' +
+              '<option id="optSupervisor" value="">Escolha um cargo...</option>' +
+              '<option id="optSupervisor" value="S">Supervisor</option>' +
+              '<option id="optComum" value="F">Funcionário Comum</option>' +
             '</select>',
         confirmButtonText: 'Cadastrar',
         showLoaderOnConfirm: true,
-      }).then((resultado) => {
-        if(resultado.isConfirmed) {
-          nome = document.getElementById('nome').value
-          email = document.getElementById('email').value
-          senha = document.getElementById('senha').value
-          cpf = document.getElementById('cpf').value
-          cargo = document.getElementById('cargo').value
-          
-          if(validarCadastro(nome, email, senha, cpf)) {
-            Swal.fire({
-              title: 'Sucesso!',
-              text: 'Cadastro realizado com sucesso!',
-              icon: 'success',
-              confirmButtonText: 'OK'
-            })
+        }).then((resultado) => {
+          if(resultado.isConfirmed) {
+            nome = document.getElementById('nome').value
+            email = document.getElementById('email').value
+            senha = document.getElementById('senha').value
+            cpf = document.getElementById('cpf').value
+            cargo = document.getElementById('cargo').value
+            
+            if(validarCadastro(nome, email, senha, cpf, cargo)) {
+              Swal.fire({
+                title: 'Sucesso!',
+                text: 'Cadastro realizado com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              })
 
-            cadastrarUsuario(nome, email, senha, cpf, cargo)
-          } else {
-            Swal.fire({
-              title: 'Erro!"',
-              text: 'Houve um erro ao tentar realizar o cadastro',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            })
+              cadastrarUsuario(nome, email, senha, cpf, cargo)
+            } else {
+              Swal.fire({
+                title: 'Erro!"',
+                text: 'Houve um erro ao tentar realizar o cadastro',
+                icon: 'error',
+                confirmButtonText: 'OK'
+              })
+            }
           }
+        })
+      } 
+
+      if(tipoUsuario == "G") {
+        var optComum = document.getElementById('optComum')
+        optComum.style.display = 'none';
+      } else {
+        var optSupervisor = document.getElementById('optSupervisor')
+        optSupervisor.style.display = 'none';
+      }
+
+      const inputCpf = document.getElementById('cpf');
+      cepAero = "";
+
+      inputCpf.addEventListener("keyup", cpfMask);
+
+      function cpfMask(e) {
+        if ((inputCpf.value).length == 3 || (inputCpf.value).length == 7) {
+          inputCpf.value += ".";
         }
-      })
+        if((inputCpf.value).length == 11){
+          inputCpf.value += "-";
+        }
+        var charCode = (e.which) ? e.which : e.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCpf.value).length > 14) {
+          inputCpf.value = cepAero;
+        }
+        else {
+          cepAero = inputCpf.value;
+        }
+      }
     }
 
-    function validarCadastro(nome, email, senha, cpf) {
-
+    function validarCadastro(nome, email, senha, cpf, cargo) {
+      if (nome == "" || email == "" || senha == "" || cpf == "" || cargo == "") {
+        return false;
+      } else if (!email.indexOf("@") || email.startsWith("@") || email.endsWith("@") || !email.endsWith(".com")) {
+        return false;
+      } else if (senha.length < 8) {
+        return false;
+      } else if (cpf != 14) {
+        return false;
+      } else {
+        return true;
+      }
     }
 
     function cadastrarUsuario(nome, email, senha, cpf, cargo) {
       
     }
+
+    
+
+
 </script>

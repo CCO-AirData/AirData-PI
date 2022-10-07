@@ -18,6 +18,7 @@ function cadastrar(req, res) {
     var emailPessoal = req.body.emailPessoalServer;
     var cpfPessoal = req.body.cpfPessoalServer;
     var password = req.body.passwordServer;
+    var tipoUsuario = req.body.tipoUsuarioServer;
 
     // Faça as validações dos valores
     if (telefoneEmpresa == undefined) {
@@ -46,13 +47,15 @@ function cadastrar(req, res) {
         res.status(400).send("Algo está undefined!");
     } else if (password == undefined) {
         res.status(400).send("Algo está undefined!");
+    } else if (tipoUsuario == undefined) {
+        res.status(400).send("Algo está undefined!");
     } else {
         empresaModel.cadastrar(nomeEmpresa, cnpjEmpresa, telefoneEmpresa).then(function (resultado) {
             var fkEmpresa = resultado.insertId;
             aeroportoModel.cadastrarAeroporto(fkEmpresa, nomeAeroporto, cepAeroporto, numeroAeroporto, ufAeroporto, cidadeAeroporto, bairroAeroporto, ruaAeroporto).then(function (resultado) {
                 var fkAeropoto = resultado.insertId;
                 aeroportoModel.cadastrarTorre(fkAeropoto).then(function (resultado) {
-                    usuarioModel.cadastrar(nomePessoal, emailPessoal, sha512(password), cpfPessoal, 'G', fkAeropoto).then(function (resultado) {
+                    usuarioModel.cadastrar(nomePessoal, emailPessoal, sha512(password), cpfPessoal, tipoUsuario, fkAeropoto).then(function (resultado) {
                         res.json(resultado);
                     })
                 })
