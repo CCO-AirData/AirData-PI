@@ -12,8 +12,11 @@ router.post("/cadastrar", function (req, res) {
 });
 
 router.post("/listar", function (req, res) {
-    usuarioController.listarUsuarios(req, res);
+    usuarioController.listar(req, res);
 });
 
+router.post("/deletar", function (req, res) {
+    usuarioController.deletar(req, res);
+});
 
 module.exports = router;

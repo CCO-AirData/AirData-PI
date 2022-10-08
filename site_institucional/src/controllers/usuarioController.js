@@ -66,6 +66,7 @@ function cadastrar(req, res) {
             .then(
                 function (resultado) {
                     console.log(`\nCadastro: ${resultado}`);
+                    res.json(resultado)
                 }
             ).catch(
                 function (erro) {
@@ -77,7 +78,7 @@ function cadastrar(req, res) {
     }
 }
 
-function listarUsuarios(req, res) {
+function listar(req, res) {
     var fkAeroporto = req.body.fkAeroportoServer;
 
     if (fkAeroporto == undefined) {
@@ -99,8 +100,30 @@ function listarUsuarios(req, res) {
     }
 }
 
+function deletar (req, res) {
+    var idUsuario = req.body.idUsuarioServer;
+
+    if (idUsuario == undefined) {
+        res.status(400).send("O id do usuário está undefined!");
+    } else {
+        usuarioModel.deletar(idUsuario)
+            .then(
+                function (resultado) {
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao deletar o usuário! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);                   
+                }
+            )
+    }
+}
+
 module.exports = {
     entrar,
     cadastrar,
-    listarUsuarios
+    listar,
+    deletar
 }

@@ -89,7 +89,7 @@ CREATE TABLE parametro (
 
 -- Views
 CREATE VIEW vw_iniciarSessao AS
-SELECT idUsuario, nomeUsuario, emailUsuario, senhaUsuario, tipoUsuario, idTorre
+SELECT idUsuario, nomeUsuario, emailUsuario, senhaUsuario, tipoUsuario, idTorre, torre.fkAeroporto, fkGestor, fkSupervisor
 FROM usuario, aeroporto, torre
 WHERE usuario.fkAeroporto = idAeroporto 
 AND torre.fkAeroporto = idAeroporto;

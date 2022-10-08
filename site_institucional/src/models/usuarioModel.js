@@ -28,8 +28,15 @@ function cadastrar(nomeUsuario,emailUsuario,password,cpfUsuario,tipoUsuario,fkAe
     return database.executar(instrucao);
 }
 
+function deletar(idUsuario) {
+    var instrucao = `DELETE FROM usuario WHERE idUsuario = ${idUsuario};`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 module.exports = {
     entrar,
     cadastrar,
     listar,
+    deletar
 };
