@@ -77,7 +77,30 @@ function cadastrar(req, res) {
     }
 }
 
+function listarUsuarios(req, res) {
+    var fkAeroporto = req.body.fkAeroportoServer;
+
+    if (fkAeroporto == undefined) {
+        res.status(400).send("O id do aeroporto está undefined!");
+    } else {
+        usuarioModel.listar(fkAeroporto)
+            .then(
+                function (resultado) {
+                    console.log(`\nUsuários: ${resultado}`);
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+    }
+}
+
 module.exports = {
     entrar,
-    cadastrar
+    cadastrar,
+    listarUsuarios
 }
