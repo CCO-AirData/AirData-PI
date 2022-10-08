@@ -34,9 +34,50 @@ function entrar(req, res) {
                 }
             );
     }
+}
 
+function cadastrar(req, res) {
+    var nome = req.body.nomeServer;
+    var email = req.body.emailServer;
+    var senha = req.body.senhaServer;
+    var cpf = req.body.cpfServer;
+    var cargo = req.body.cargoServer;
+    var tipoUsuarioCadastrante = req.body.tipoUsuarioServer;
+    var idUsuarioCadastrante = req.body.idUsuarioServer;
+    var fkAeroporto = req.body.fkAeroportoServer;
+    var fkGestor = req.body.fkGestorServer;
+
+    if (nome == undefined) {
+        res.status(400).send("Seu nome está undefined!");
+    } else if (email == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else if (senha == undefined) {
+        res.status(400).send("Sua senha está undefined!");
+    } else if (cpf == undefined) {
+        res.status(400).send("Seu CPF está undefined!");
+    } else if (tipoUsuarioCadastrante == undefined) {
+        res.status(400).send("O tipo do usuário está undefined!");
+    } else if (idUsuarioCadastrante == undefined) {
+        res.status(400).send("O id do usuário está undefined!");
+    } else if (cargo == undefined) {
+        res.status(400).send("O cargo do usuário está undefined!");
+    } else {
+        usuarioModel.cadastrar(nome, email, sha512(senha), cpf, 'G', fkAeroporto, tipoUsuarioCadastrante, idUsuarioCadastrante, fkGestor, cargo)
+            .then(
+                function (resultado) {
+                    console.log(`\nCadastro: ${resultado}`);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
 }
 
 module.exports = {
-    entrar
+    entrar,
+    cadastrar
 }

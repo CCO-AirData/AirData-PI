@@ -16,9 +16,18 @@ function entrar(emailUsuario, senhaUsuario) {
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucao
-function cadastrar(nomeUsuario,emailUsuario,password,cpfUsuario,tipoUsuario,fkAeroporto){
-    var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${tipoUsuario}','${fkAeroporto}');`;
-    console.log("Executando a instrução SQL: \n" + instrucao);
+function cadastrar(nomeUsuario,emailUsuario,password,cpfUsuario,tipoUsuario,fkAeroporto, tipoUsuarioCadastrante, idUsuarioCadastrante, fkGestor, cargo){
+    if(tipoUsuarioCadastrante == "G") {
+        var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto,fkGestor) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${cargo}','${fkAeroporto}','${idUsuarioCadastrante}');`;
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    } else if (tipoUsuarioCadastrante == "S") {
+        var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto,fkGestor,fkSupervisor) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${cargo}','${fkAeroporto}','${fkGestor}','${idUsuarioCadastrante}');`;
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    } else {
+        var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${tipoUsuario}','${fkAeroporto}');`;
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    }
+
     return database.executar(instrucao);
 }
 

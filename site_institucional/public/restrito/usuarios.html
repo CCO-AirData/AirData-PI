@@ -107,7 +107,6 @@
 
       var tipoUsuario = sessionStorage.TIPO_USUARIO;
 
-      if(tipoUsuario == "G") {
         Swal.fire({
         title: 'Cadastrar usuário',
         html:
@@ -121,7 +120,7 @@
             '<input id="cpf" class="swal2-input"><br><br>' +
             'Cargo<br><br>' +
             '<select id="cargo">' +
-              '<option id="optSupervisor" value="">Escolha um cargo...</option>' +
+              '<option value="">Escolha um cargo...</option>' +
               '<option id="optSupervisor" value="S">Supervisor</option>' +
               '<option id="optComum" value="F">Funcionário Comum</option>' +
             '</select>',
@@ -134,7 +133,6 @@
             senha = document.getElementById('senha').value
             cpf = document.getElementById('cpf').value
             cargo = document.getElementById('cargo').value
-            
             if(validarCadastro(nome, email, senha, cpf, cargo)) {
               Swal.fire({
                 title: 'Sucesso!',
@@ -154,13 +152,14 @@
             }
           }
         })
-      } 
-
+      var optComum = document.getElementById('optComum')
+      var optSupervisor = document.getElementById('optSupervisor')
+      console.log(optComum, optSupervisor)
       if(tipoUsuario == "G") {
-        var optComum = document.getElementById('optComum')
         optComum.style.display = 'none';
+        optSupervisor.style.display = 'block'
       } else {
-        var optSupervisor = document.getElementById('optSupervisor')
+        optComum.style.display = 'block';
         optSupervisor.style.display = 'none';
       }
 
@@ -193,7 +192,7 @@
         return false;
       } else if (senha.length < 8) {
         return false;
-      } else if (cpf != 14) {
+      } else if (cpf.length != 14) {
         return false;
       } else {
         return true;
@@ -201,10 +200,43 @@
     }
 
     function cadastrarUsuario(nome, email, senha, cpf, cargo) {
-      
-    }
-
-    
+      var nomeVar = nome;
+      var emailVar = email;
+      var senhaVar = senha;
+      var cpfVar = cpf;
+      var cargoVar = cargo;
+      var fkGestorVar = sessionStorage.ID_GESTOR;
+      var fkAeroportoVar = sessionStorage.ID_AEROPORTO;
+      var tipoUsuarioVar = sessionStorage.TIPO_USUARIO;
+      var idUsuarioVar = sessionStorage.ID_USUARIO;
+      console.log('entrou')
+      fetch("/usuarios/cadastrar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            nomeServer: nomeVar,
+            emailServer: emailVar,
+            senhaServer: senhaVar,
+            cpfServer: cpfVar,
+            cargoServer: cargoVar,
+            fkGestorServer: fkGestorVar,
+            fkAeroportoServer: fkAeroportoVar,
+            tipoUsuarioServer: tipoUsuarioVar,
+            idUsuarioServer: idUsuarioVar,
+          })
+        }).then(function (resposta) {
+          console.log("resposta: ", resposta);
+          if (resposta.ok) {
+            console.log("Cadastro realizado")
+          } else {
+            throw ("Houve um erro ao tentar realizar o cadastro!");
+          }
+        }).catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
+      }   
 
 
 </script>
