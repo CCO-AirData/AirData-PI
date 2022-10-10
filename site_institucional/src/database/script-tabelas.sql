@@ -130,6 +130,8 @@ INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuari
 INSERT INTO torre VALUES (null,1);
 INSERT INTO servidor VALUES ('39-FD-83-E4-FB-AB',1);
 INSERT INTO componente VALUES (null, '39-FD-83-E4-FB-AB', 'CPU', 'CPU1', 4.00, 'Registrador');
+INSERT INTO componente VALUES (null, '39-FD-83-E4-FB-AB', 'RAM', 'RAM1', 16.00, 'RAM');
+INSERT INTO componente VALUES (null, '39-FD-83-E4-FB-AB', 'DISK', 'DISK1', 500.00, 'HD');
 INSERT INTO metrica VALUES (null, 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'ramPercent', 'psutil.virtual_memory().percent', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'diskPercent', 'psutil.disk_usage("/").percent', '%', FALSE);
