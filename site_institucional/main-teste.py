@@ -12,17 +12,17 @@ while True:
     ramPercent = ps.virtual_memory().percent
     diskPercent = ps.disk_usage("/").percent
     
-    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (1, now(), {cpuPercent}, 1, 1);'
+    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (1, now(), {cpuPercent}, 1, "39-FD-83-E4-FB-AB");'
 
     cursor.execute(comando)
     bdsql.commit()
 
-    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (2, now(), {ramPercent}, 1, 1);'
+    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (2, now(), {ramPercent}, 1, "39-FD-83-E4-FB-AB");'
 
     cursor.execute(comando)
     bdsql.commit()
 
-    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (3, now(), {diskPercent}, 1, 1);'
+    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (3, now(), {diskPercent}, 1, "39-FD-83-E4-FB-AB");'
 
     cursor.execute(comando)
     bdsql.commit()

@@ -8,7 +8,8 @@
     <meta name="author" content="">
     <link href="../assets/img/LogoAzulEscuro.svg" rel="icon">
     <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
     <link href="../assets/css/dashboard.min.css" rel="stylesheet">
@@ -42,7 +43,8 @@
                                     <div class="row align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">CPU</div>
-                                            <div id="card_cpu_percent" class="h5 mb-0 font-weight-bold text-gray-800">30%</div>
+                                            <div id="card_cpu_percent" class="h5 mb-0 font-weight-bold text-gray-800">0%
+                                            </div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
 
                                                 <span>ESTÁVEL</span>
@@ -56,26 +58,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Earnings (Annual) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">GPU</div>
-                                            <div id="card_gpu_percent" class="h5 mb-0 font-weight-bold text-gray-800">56%</div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
-
-                                                <span>ESTÁVEL</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-light fa-microchip fa-2x text-success"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <!-- New User Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card h-100">
@@ -83,7 +65,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">MEMÓRIA RAM</div>
-                                            <div id="card_ram_percent" class="h5 mb-0 mr-3 font-weight-bold text-gray-800">75%</div>
+                                            <div id="card_ram_percent"
+                                                class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0%</div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
 
                                                 <span>INSTÁVEL</span>
@@ -103,7 +86,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-uppercase mb-1">DISCO</div>
-                                            <div id="card_disk_percent" class="h5 mb-0 font-weight-bold text-gray-800">33%</div>
+                                            <div id="card_disk_percent" class="h5 mb-0 font-weight-bold text-gray-800">
+                                                0%</div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
 
                                                 <span>ESTÁVEL</span>
@@ -122,7 +106,7 @@
                             <div class="card mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">MÉDIA DO ANO (POR MÊS)</h6>
+                                    <h6 id="titulo_grafico_linha" class="m-0 font-weight-bold text-primary">MÉDIA DO ANO (POR MÊS)</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-area">
@@ -301,6 +285,7 @@
     <script src="../assets/vendor/chart.js/Chart.min.js"></script>
     <script src="../assets/js/demo/chart-area-demo.js"></script>
     <script src="./js/script.js"></script>
+    <script src="./js/dados.js"></script>
 
 </body>
 
@@ -308,50 +293,114 @@
 
 <script>
     document.querySelector("#dash-link").classList.add("active")
-    
+
     console.log(sessionStorage.ID_USUARIO)
-    // idMaquina estático 
-    var idMaquina = 1;
+    // idMaquina estático: "39-FD-83-E4-FB-AB"
+    var idMaquina = "39-FD-83-E4-FB-AB";
 
-    // setTimeout(()=>{
-    //     console.log("Cheguei")
-    //     obterDadosPercent(idMaquina);
-    // },1000)
+    setTimeout(() => {
+        console.log("Cheguei")
+        iniciar();
+    }, 100)
 
-    // function obterDadosPercent(idMaquina) {
-    //     fetch(`/medidas/tempo-real/${idMaquina}`)
-    //         .then(resposta => {
+    function iniciar(){
+        // obterDadosCards(idMaquina);
+        obterDadosGrafico(idMaquina, 'cpuPercent', 12);
+    }
 
-    //             if (resposta.ok) {
-    //                 resposta.json().then(resposta => {
+    // Pegando dados de porcentagem para os cards no topo da tela
 
-    //                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+    function obterDadosCards(idMaquina) {
+        obterDadosLeitura('cards', idMaquina, "cpuPercent", 1);
+        setTimeout(() => {
+            obterDadosLeitura('cards', idMaquina, "ramPercent", 1);
+            setTimeout(() => {
+                obterDadosLeitura('cards', idMaquina, "diskPercent", 1);
+            }, 100)
+        }, 100)
+    }
 
-    //                     plotarDadosPercent(resposta);
-    //                 });
-    //             } else {
+    function plotarCards(metrica, dadosMaquina) {
+        var percent = dadosMaquina[0].valorLido;
 
-    //                 console.error('Nenhum dado encontrado ou erro na API');
-    //             }
-    //         })
-    //         .catch(function (error) {
-    //             console.error(`Erro na obtenção dos dados do aquario p/ gráfico: ${error.message}`);
-    //         });
-
-    // }
-
-    function plotarDadosPercent(dadosMaquina){
-        var cpuPercent = dadosMaquina[0].cpuMaquinaGhz;
-        var diskPercent = dadosMaquina[0].discoMaquinaGb;
-        var ramPercent = dadosMaquina[0].memoriaMaquinaGb;
-
-        card_cpu_percent.innerHTML = `${Math.round(cpuPercent,0)}%`;
-        card_disk_percent.innerHTML = `${Math.round(diskPercent,0)}%`;
-        card_ram_percent.innerHTML = `${Math.round(ramPercent,0)}%`;
+        if (metrica == 'cpuPercent') {
+            card_cpu_percent.innerHTML = `${Math.round(percent, 0)}%`;
+        } else if (metrica == 'diskPercent') {
+            card_disk_percent.innerHTML = `${Math.round(percent, 0)}%`;
+        } else if (metrica == 'ramPercent') {
+            card_ram_percent.innerHTML = `${Math.round(percent, 0)}%`;
+        }
 
         setTimeout(() => {
-            obterDadosPercent(idMaquina)
-        }, 500);
+            obterDadosCards(idMaquina)
+        }, 1000);
     }
+
+    // Pegando dados para plotar no gráfico de linha
+
+    function obterDadosGrafico(idMaquina, nomeView, limite) {
+        obterDadosLeitura('grafico',idMaquina, nomeView, limite);
+    }
+
+    function plotarGrafico(metrica, resposta, limite) {
+        var dadosGrafico = [];
+        var labelsGrafico = [];
+
+        for (var i = 0; i < limite; i++) {
+            var dados = resposta[i]
+            var valorLido = dados.valorLido;
+            var unidadeMedida = dados.unidadeMedida;
+            var dataHorario = dados.horario.split("T");
+            dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+
+            dadosGrafico.push(valorLido)
+            labelsGrafico.push(dataHorario)
+        }
+
+        console.log('Dados grafico: ', dadosGrafico);
+        console.log('Labels grafico: ', labelsGrafico);
+
+        myLineChart.data.datasets[0].data = dadosGrafico;
+        myLineChart.data.labels = labelsGrafico;
+        myLineChart.update();
+
+        if (metrica == 'cpuPercent') {
+            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA CPU (TEMPO REAL)'
+        } else if (metrica == 'ramPercent') {
+            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA RAM (TEMPO REAL)'
+        } else if (metrica == 'diskPercent') {
+            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DO DISCO (TEMPO REAL)'
+        }
+
+        
+    }
+
+
+    function receberNovosDados(metrica, limite) {
+        obterDadosLeitura('atualizarGrafico', idMaquina, metrica, limite)
+    }
+
+    function atualizarGrafico(metrica, resposta) {
+        var dados = resposta[0]
+        var valorLido = dados.valorLido;
+        var unidadeMedida = dados.unidadeMedida;
+        var dataHorario = dados.horario.split("T");
+        dataHorario = [dataHorario[0].replace(/-/g, "/"),dataHorario[1].slice(0, 8)];
+
+        myLineChart.data.labels.shift();
+        myLineChart.data.datasets[0].data.shift();
+        myLineChart.data.labels.push(dataHorario);
+        myLineChart.data.datasets[0].data.push(valorLido);
+        myLineChart.update();
+
+        setTimeout(() => {
+            receberNovosDados(metrica, 1);
+        }, 1000)
+    }
+
+
+
+
+
 
 </script>

@@ -95,7 +95,7 @@ WHERE usuario.fkAeroporto = idAeroporto
 AND torre.fkAeroporto = idAeroporto;
 
 CREATE VIEW vw_cpuPercent AS
-SELECT leitura.horario, valorLido, unidadeMedida 
+SELECT idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
 FROM leitura
 JOIN componente ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
@@ -104,7 +104,7 @@ WHERE nomeMetrica = 'cpuPercent'
 ORDER BY horario DESC;
 
 CREATE VIEW vw_ramPercent AS
-SELECT leitura.horario, valorLido, unidadeMedida 
+SELECT idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
 FROM leitura
 JOIN componente ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
@@ -113,7 +113,7 @@ WHERE nomeMetrica = 'ramPercent'
 ORDER BY horario DESC;
 
 CREATE VIEW vw_diskPercent AS
-SELECT leitura.horario, valorLido, unidadeMedida 
+SELECT idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
 FROM leitura
 JOIN componente ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
@@ -143,6 +143,7 @@ SELECT * FROM componente;
 SELECT * FROM metrica;
 SELECT * FROM leitura;
 SELECT * FROM parametro;
+SELECT * FROM vw_iniciarSessao;
 SELECT * FROM vw_cpuPercent;
 SELECT * FROM vw_ramPercent;
 SELECT * FROM vw_diskPercent;
