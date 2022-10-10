@@ -65,21 +65,23 @@ var myLineChart = new Chart(ctx, {
           unit: 'date'
         },
         gridLines: {
-          display: false,
+          display: true,
           drawBorder: false
         },
         ticks: {
-          maxTicksLimit: 7
+          maxTicksLimit: 12
         }
       }],
       yAxes: [{
         ticks: {
-          maxTicksLimit: 5,
+          maxTicksLimit: 100,
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
             return '%' + number_format(value);
-          }
+          },
+        suggestedMin: 0,
+        suggestedMax: 100
         },
         gridLines: {
           color: "rgb(234, 236, 244)",

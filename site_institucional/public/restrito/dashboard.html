@@ -295,8 +295,11 @@
     document.querySelector("#dash-link").classList.add("active")
 
     console.log(sessionStorage.ID_USUARIO)
+
     // idMaquina estático: "39-FD-83-E4-FB-AB"
     var idMaquina = "39-FD-83-E4-FB-AB";
+    const tempoCapturaCards = 1000;
+    const tempoCapturaGrafico = 1000;
 
     setTimeout(() => {
         console.log("Cheguei")
@@ -304,43 +307,31 @@
     }, 100)
 
     function iniciar(){
-        // obterDadosCards(idMaquina);
-        obterDadosGrafico(idMaquina, 'cpuPercent', 12);
+        // Funções em ./js/dados.js
+        obterDadosCards(idMaquina, 'cpuPercent');
+        obterDadosCards(idMaquina, 'ramPercent');
+        obterDadosCards(idMaquina, 'diskPercent');
+        obterDadosGrafico(idMaquina, 'cpuPercent', true);
     }
 
     // Pegando dados de porcentagem para os cards no topo da tela
 
-    function obterDadosCards(idMaquina) {
-        obterDadosLeitura('cards', idMaquina, "cpuPercent", 1);
-        setTimeout(() => {
-            obterDadosLeitura('cards', idMaquina, "ramPercent", 1);
-            setTimeout(() => {
-                obterDadosLeitura('cards', idMaquina, "diskPercent", 1);
-            }, 100)
-        }, 100)
-    }
-
     function plotarCards(metrica, dadosMaquina) {
-        var percent = dadosMaquina[0].valorLido;
 
-        if (metrica == 'cpuPercent') {
-            card_cpu_percent.innerHTML = `${Math.round(percent, 0)}%`;
-        } else if (metrica == 'diskPercent') {
-            card_disk_percent.innerHTML = `${Math.round(percent, 0)}%`;
-        } else if (metrica == 'ramPercent') {
-            card_ram_percent.innerHTML = `${Math.round(percent, 0)}%`;
-        }
+            var idToSnakeCase = "card_" + metrica.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`); 
+            var idCard = document.getElementById(idToSnakeCase)
+            console.log(idToSnakeCase)
 
+            var percent = dadosMaquina[0].valorLido;
+            
+            idCard.innerHTML = `${Math.round(percent, 0)}%`;        
+        
         setTimeout(() => {
-            obterDadosCards(idMaquina)
-        }, 1000);
+            obterDadosCards(idMaquina, metrica);
+        }, tempoCapturaCards);
     }
 
     // Pegando dados para plotar no gráfico de linha
-
-    function obterDadosGrafico(idMaquina, nomeView, limite) {
-        obterDadosLeitura('grafico',idMaquina, nomeView, limite);
-    }
 
     function plotarGrafico(metrica, resposta, limite) {
         var dadosGrafico = [];
@@ -372,13 +363,12 @@
             titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DO DISCO (TEMPO REAL)'
         }
 
-        
+        setTimeout(() => {
+            obterDadosGrafico(idMaquina, metrica, false);
+        }, tempoCapturaGrafico);
     }
 
 
-    function receberNovosDados(metrica, limite) {
-        obterDadosLeitura('atualizarGrafico', idMaquina, metrica, limite)
-    }
 
     function atualizarGrafico(metrica, resposta) {
         var dados = resposta[0]
@@ -394,8 +384,8 @@
         myLineChart.update();
 
         setTimeout(() => {
-            receberNovosDados(metrica, 1);
-        }, 1000)
+            obterDadosGrafico(idMaquina, metrica, false);
+        }, tempoCapturaGrafico);
     }
 
 

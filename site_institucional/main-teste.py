@@ -17,12 +17,12 @@ while True:
     cursor.execute(comando)
     bdsql.commit()
 
-    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (2, now(), {ramPercent}, 1, "39-FD-83-E4-FB-AB");'
+    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (2, now(), {ramPercent}, 2, "39-FD-83-E4-FB-AB");'
 
     cursor.execute(comando)
     bdsql.commit()
 
-    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (3, now(), {diskPercent}, 1, "39-FD-83-E4-FB-AB");'
+    comando = f'INSERT INTO leitura (fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES (3, now(), {diskPercent}, 3, "39-FD-83-E4-FB-AB");'
 
     cursor.execute(comando)
     bdsql.commit()
