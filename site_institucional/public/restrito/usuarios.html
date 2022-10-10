@@ -15,7 +15,7 @@
     <script src="./js/main.js"></script>
   </head>
   
-  <body id="page-top" onload="iniciarSessao()">
+  <body id="page-top" onload="iniciarSessao(pagina)">
     <div id="wrapper">
       <!-- Sidebar -->
       <my-sidebar></my-sidebar>
@@ -46,21 +46,12 @@
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Email</th>
-                            <th>Aeroporto</th>
                             <th>Cargo</th>
                             <th>Ação</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td><a href="#">#1</a></td>
-                            <td>Nome usuário</td>
-                            <td>nome@email.com</td>
-                            <td>Nome Aeroporto</td>
-                            <td>Cargo</td>
-                            <td><a href="#" class="btn btn-sm btn-primary">Deletar</a></td>
-                        </tr>
-                      </tbody>
+                        <tbody id="body-table">
+                        </tbody>
                     </table>
                   </div>
                   <div class="card-footer"></div>
@@ -90,10 +81,6 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <script src="..//vendor/jquery/jquery.min.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="../assets/js/ruang-admin.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/script.js"></script>
 </body>
@@ -101,13 +88,14 @@
 <script>
     document.querySelector("#usuario-link").classList.add("active")
 
+    const pagina = 'usuarios'
+
     var nome, senha, email, cpf;
 
     function exibirTelaCadastro() {
 
       var tipoUsuario = sessionStorage.TIPO_USUARIO;
 
-      if(tipoUsuario == "G") {
         Swal.fire({
         title: 'Cadastrar usuário',
         html:
@@ -121,7 +109,7 @@
             '<input id="cpf" class="swal2-input"><br><br>' +
             'Cargo<br><br>' +
             '<select id="cargo">' +
-              '<option id="optSupervisor" value="">Escolha um cargo...</option>' +
+              '<option value="">Escolha um cargo...</option>' +
               '<option id="optSupervisor" value="S">Supervisor</option>' +
               '<option id="optComum" value="F">Funcionário Comum</option>' +
             '</select>',
@@ -134,33 +122,29 @@
             senha = document.getElementById('senha').value
             cpf = document.getElementById('cpf').value
             cargo = document.getElementById('cargo').value
-            
             if(validarCadastro(nome, email, senha, cpf, cargo)) {
-              Swal.fire({
-                title: 'Sucesso!',
-                text: 'Cadastro realizado com sucesso!',
-                icon: 'success',
-                confirmButtonText: 'OK'
-              })
-
               cadastrarUsuario(nome, email, senha, cpf, cargo)
             } else {
               Swal.fire({
                 title: 'Erro!"',
-                text: 'Houve um erro ao tentar realizar o cadastro',
+                text: 'Informações incorretas, verifique se você digitou corretamente.',
                 icon: 'error',
                 confirmButtonText: 'OK'
               })
+              setTimeout(() => {
+                exibirTelaCadastro();
+              }, "2000")
             }
           }
         })
-      } 
-
+      var optComum = document.getElementById('optComum')
+      var optSupervisor = document.getElementById('optSupervisor')
+      console.log(optComum, optSupervisor)
       if(tipoUsuario == "G") {
-        var optComum = document.getElementById('optComum')
         optComum.style.display = 'none';
+        optSupervisor.style.display = 'block'
       } else {
-        var optSupervisor = document.getElementById('optSupervisor')
+        optComum.style.display = 'block';
         optSupervisor.style.display = 'none';
       }
 
@@ -193,7 +177,7 @@
         return false;
       } else if (senha.length < 8) {
         return false;
-      } else if (cpf != 14) {
+      } else if (cpf.length != 14) {
         return false;
       } else {
         return true;
@@ -201,10 +185,138 @@
     }
 
     function cadastrarUsuario(nome, email, senha, cpf, cargo) {
-      
-    }
+      var nomeVar = nome;
+      var emailVar = email;
+      var senhaVar = senha;
+      var cpfVar = cpf;
+      var cargoVar = cargo;
+      var fkGestorVar = sessionStorage.ID_GESTOR;
+      var fkAeroportoVar = sessionStorage.ID_AEROPORTO;
+      var tipoUsuarioVar = sessionStorage.TIPO_USUARIO;
+      var idUsuarioVar = sessionStorage.ID_USUARIO;
+      console.log('entrou')
+      fetch("/usuarios/cadastrar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            nomeServer: nomeVar,
+            emailServer: emailVar,
+            senhaServer: senhaVar,
+            cpfServer: cpfVar,
+            cargoServer: cargoVar,
+            fkGestorServer: fkGestorVar,
+            fkAeroportoServer: fkAeroportoVar,
+            tipoUsuarioServer: tipoUsuarioVar,
+            idUsuarioServer: idUsuarioVar,
+          })
+        }).then(function (resposta) {
+          console.log("resposta: ", resposta);
+          if (resposta.ok) {
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Cadastro realizado com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+            setTimeout(() => {
+              location.reload();
+            }, "2000")
+          } else {
+            throw ("Houve um erro ao tentar realizar o cadastro!");
+          }
+        }).catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
+      }   
 
-    
+      function listarTabelaUsuarios(listaUsuarios) {
+        var bodyTable = document.getElementById('body-table');
+        var cargo = "";
+
+        for(i = 0; i < listaUsuarios.length; i++) {
+          if(listaUsuarios[i].tipoUsuario == "G") {
+            cargo = "Gestor";
+          } else if(listaUsuarios[i].tipoUsuario == "S") {
+            cargo = "Supervisor";
+          } else {
+            cargo = "Funcionário Comum";
+          }
+          bodyTable.innerHTML += `
+          <tr>
+            <td><a href="#">#${listaUsuarios[i].idUsuario}</a></td>
+            <td>${listaUsuarios[i].nomeUsuario}</td>
+            <td>${listaUsuarios[i].emailUsuario}</td>
+            <td>${cargo}</td>
+            <td><a href="#" onclick="exibirTelaConfirmacao(${listaUsuarios[i].idUsuario}, ${listaUsuarios[i].fkSupervisor}, ${listaUsuarios[i].fkGestor})" class="btn btn-sm btn-primary">Deletar</a></td>
+          </tr>
+          `
+        }
+      }
+
+      function exibirTelaConfirmacao(idUsuario, fkSupervisor, fkGestor) {
+        var idUsuarioSessao = sessionStorage.ID_USUARIO;
+
+        if(idUsuarioSessao == fkSupervisor || idUsuarioSessao == fkGestor) {
+          Swal.fire({
+            title: 'Você tem certeza?',
+            text: "Essa ação não pode ser revertida!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, tenho certeza!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              deletarUsuario(idUsuario);
+            }
+          })
+        } else {
+          Swal.fire(
+                'Erro!',
+                'Você não tem permissão para deletar esse usuário.',
+                'error'
+          )
+        }
+      }
+
+      function deletarUsuario(idUsuario) {
+        fetch("/usuarios/deletar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            idUsuarioServer: idUsuario
+          })
+        }).then(function (resposta) {
+          console.log("resposta: ", resposta);
+          if (resposta.ok) {
+            console.log("Usuário deletado")
+            Swal.fire(
+                'Deletado!',
+                'O usuário foi deletado.',
+                'success'
+            )
+            setTimeout(() => {
+              location.reload();
+            }, "2000")
+          } else {
+            throw (
+              Swal.fire(
+                'Erro!',
+                'Não é possível deletar esse supervisor pois ele possui um funcionário.',
+                'error'
+              )
+            );
+          }
+        }).catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
+
+      }
 
 
 </script>

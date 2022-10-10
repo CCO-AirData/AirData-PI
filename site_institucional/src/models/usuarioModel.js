@@ -1,10 +1,7 @@
 var database = require("../database/config")
 
-function listar() {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
-    var instrucao = `
-        SELECT * FROM usuario;
-    `;
+function listar(fkAeroporto) {
+    var instrucao = `SELECT * FROM vw_iniciarSessao WHERE fkAeroporto = ${fkAeroporto};`;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -16,8 +13,23 @@ function entrar(emailUsuario, senhaUsuario) {
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucao
-function cadastrar(nomeUsuario,emailUsuario,password,cpfUsuario,tipoUsuario,fkAeroporto){
-    var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${tipoUsuario}','${fkAeroporto}');`;
+function cadastrar(nomeUsuario,emailUsuario,password,cpfUsuario,tipoUsuario,fkAeroporto, tipoUsuarioCadastrante, idUsuarioCadastrante, fkGestor, cargo){
+    if(tipoUsuarioCadastrante == "G") {
+        var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto,fkGestor) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${cargo}','${fkAeroporto}','${idUsuarioCadastrante}');`;
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    } else if (tipoUsuarioCadastrante == "S") {
+        var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto,fkGestor,fkSupervisor) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${cargo}','${fkAeroporto}','${fkGestor}','${idUsuarioCadastrante}');`;
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    } else {
+        var instrucao = `INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES ('${nomeUsuario}', '${emailUsuario}', '${password}','${cpfUsuario}','${tipoUsuario}','${fkAeroporto}');`;
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    }
+
+    return database.executar(instrucao);
+}
+
+function deletar(idUsuario) {
+    var instrucao = `DELETE FROM usuario WHERE idUsuario = ${idUsuario};`;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -26,4 +38,5 @@ module.exports = {
     entrar,
     cadastrar,
     listar,
+    deletar
 };
