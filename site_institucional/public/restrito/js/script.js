@@ -1,7 +1,11 @@
 function iniciarSessao(pagina){
     var span_userName = document.getElementById("username");
-    var usuarioLink = document.getElementById('usuario-link');
+    var usuarioLink = document.getElementById("usuario-link");
     var tipoUsuario = sessionStorage.TIPO_USUARIO;
+
+    var tituloPagina = document.getElementById("titulo-pagina");
+    var tituloDash = document.getElementById("titulo-macAdress");
+    var macAdress = sessionStorage.MAC_SERVIDOR;
 
     span_userName.innerText = sessionStorage.NOME_USUARIO;
 
@@ -13,6 +17,12 @@ function iniciarSessao(pagina){
 
     if(pagina == 'usuarios') {
         receberDadosUsuários(sessionStorage.ID_AEROPORTO);
+    } else if(pagina == 'maquinas') {
+        receberDadosMaquinas(sessionStorage.ID_TORRE);
+    } else if(pagina == 'dashboard') {
+        var mac = macAdress.replace(/:/g, "-").toUpperCase();
+        tituloPagina.innerText = `Dashboard | ${mac}`
+        tituloDash.innerText = mac;
     }
 }
 
@@ -54,4 +64,30 @@ function receberDadosUsuários(fkAeroporto) {
     }).catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
     });
+}
+
+function receberDadosMaquinas(fkTorre){
+    fetch("/maquinas/listar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkTorreServer: fkTorre,
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+            resposta.json().then(json => {
+                console.log(json)
+
+                listarTabelaMaquinas(json)
+            });
+        } else {
+            console.log('ERRO - não foi possível receber os dados das máquinas')
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+
 }

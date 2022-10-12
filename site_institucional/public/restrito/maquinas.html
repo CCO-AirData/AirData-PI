@@ -13,12 +13,12 @@
   <script src="https://kit.fontawesome.com/2eecc47c4e.js" crossorigin="anonymous"></script>
 
   <link href="../assets/css/dashboard.min.css" rel="stylesheet">
-  <link href="../assets/css/dashboard.min.css" rel="stylesheet" type="text/css">
+
   <link rel="stylesheet" href="./css/style.css">
   <script src="./js/main.js"></script>
 </head>
 
-<body id="page-top" class="" onload="iniciarSessao()">
+<body id="page-top" class="" onload="iniciarSessao(pagina)">
   <div id="wrapper">
     <!-- Sidebar -->
     <my-sidebar></my-sidebar>
@@ -40,23 +40,7 @@
               <!-- Simple Tables -->
               <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <input onclick="adicionar()" id="adicionar" class="dropdown-toggle btn btn-primary btn-sm"
-                    type="button" value="Adicionar Máquina">
-                </div>
-                <div id="cadastrarMaquina" class="cadastrarMaquina" style="display: none;">
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    Torre de Controle: <input type="text" class="dropdown-toggle btn btn-primary btn-sm">
-                    MAC Andress: <input type="text" class="dropdown-toggle btn btn-primary btn-sm">
-                    Serial: <input type="text" class="dropdown-toggle btn btn-primary btn-sm">
-                  </div>
-                  <div
-                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between" "=""><input onclick="
-                    cadastrar()" id="cadastrar" class="dropdown-toggle btn btn-primary btn-sm" type="button"
-                    value="Cadastrar Máquina"></div>
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"><input
-                      onclick="cancelar()" id="cancelar" type="button" class="dropdown-toggle btn btn-primary btn-sm"
-                      value="Cancelar"></div>
-
+  
                 </div>
                 <div class="table-responsive">
                   <table class="table align-items-center table-flush">
@@ -64,30 +48,10 @@
                       <tr>
                         <th>MAC Andress</th>
                         <th>Torre de Controle</th>
-                        <th>Serial</th>
                         <th>Ação</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td><a href="#">39-FD-83-E4-FB-AB</a></td>
-                        <td>1</td>
-                        <td>96YC6-Z9G44-VM5KT</td>
-                        <td><a href="#" onclick="deletar()">Deletar</a></td>
-
-                      </tr>
-                      <tr>
-                        <td><a href="#">28-C0-B2-20-73-13</a></td>
-                        <td>2</td>
-                        <td>3Q2SV-D53ZB-9P4LP</td>
-                        <td><a href="#" onclick="deletar()">Deletar</a></td>
-                      </tr>
-                      <tr>
-                        <td><a href="#">FE-36-C8-1E-DD-56</a></td>
-                        <td>3</td>
-                        <td>NVX7M-NT0XH-S5JWS</td>
-                        <td><a href="#" onclick="deletar()">Deletar</a></td>
-                      </tr>
+                    <tbody id="body-table">
                     </tbody>
                   </table>
                 </div>
@@ -118,46 +82,53 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
   <script src="../assets/vendor/jquery/jquery.min.js"></script>
-  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="../assets/js/ruang-admin.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="./js/script.js"></script>
   <script>
 
-    function adicionar() {
-      let cadastrar = document.querySelector('.cadastrarMaquina');
-      let adicionar = document.querySelector('#adicionar');
-      cadastrar.style.display = "block";
-      adicionar.style.display = "none";
-    }
+      var pagina = "maquinas";
 
-    function cadastrar() {
-      let cadastrar = document.querySelector('.cadastrarMaquina');
-      let adicionar = document.querySelector('#adicionar');
-      cadastrar.style.display = "none";
-      adicionar.style.display = "block";
-      alert('Cadastro realizado com Sucesso')
-    }
+      function listarTabelaMaquinas(listaMaquinas) {
+        var bodyTable = document.getElementById('body-table');
+        
+        for(i = 0; i < listaMaquinas.length; i++) {
+          var mac = listaMaquinas[i].idServidor;
+          mac = mac.replace(/:/g, "-").toUpperCase();
+          bodyTable.innerHTML += `
+          <tr>
+            <td><a href="#">${mac}</a></td>
+            <td>${listaMaquinas[i].fkTorre}</td>
+            <td><a href="#" onclick="entrarMonitoramento('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-primary">Monitorar</a></td>
+          </tr>
+          `
+        }
+      }
 
-    function cancelar() {
-      let cadastrar = document.querySelector('.cadastrarMaquina');
-      let adicionar = document.querySelector('#adicionar');
-      cadastrar.style.display = "none";
-      adicionar.style.display = "block";
-    }
+      function entrarMonitoramento(mac) {
+        sessionStorage.MAC_SERVIDOR = mac;
+
+        Swal.fire({
+          title: 'Carregando...',
+          html: 'Por favor, aguarde...',
+          allowEscapeKey: false,
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading()
+          }
+        });
+
+        setTimeout(() => {
+            window.location = "./dashboard.html";
+            Swal.close();
+        }, "2000")
+
+        
+      }
+
+      document.querySelector("#maquina-link").classList.add("active")
+
   </script>
-
-  function
-
-
 </body>
-
 </html>
-<script>
-
-document.querySelector("#maquina-link").classList.add("active")
-
-
-</script>

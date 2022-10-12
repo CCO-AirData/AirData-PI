@@ -10,9 +10,9 @@ class mySidebar extends HTMLElement {
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
-                <a id="dash-link" class="nav-link" href="./dashboard.html">
+                <a id="painel-link" class="nav-link" href="./painel.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Painel Geral</span></a>
                     <hr class="sidebar-divider">
             </li>
             <li class="nav-item">
@@ -88,20 +88,20 @@ class myTopbar extends HTMLElement {
                         <div id="dropdownUser" class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                             <a class="dropdown-item" href="#">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
+                                Perfil
                             </a>
                             <a class="dropdown-item" href="#">
                                 <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Settings
+                                Configurações
                             </a>
                             <a class="dropdown-item" href="#">
                                 <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
+                                Atividades
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="../sing-in.html" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
+                                Sair
                             </a>
                         </div>
                     </li>
