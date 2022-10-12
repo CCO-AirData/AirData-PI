@@ -59,6 +59,7 @@ CREATE TABLE componente (
     nomeComponente VARCHAR(50) NOT NULL,
     memoria DECIMAL(5,2),
     tipoMemoria VARCHAR(30),
+    FOREIGN KEY (fkServidor) REFERENCES servidor(idServidor),
     PRIMARY KEY(idComponente, fkServidor)
 );
 
@@ -121,6 +122,7 @@ JOIN metrica ON fkMetrica = idMetrica
 WHERE nomeMetrica = 'diskPercent'
 ORDER BY horario DESC;
 
+-- Inserts 
 INSERT INTO empresa (nomeEmpresa,cnpjEmpresa,telefoneEmpresa) VALUES 
 ('AirData', '00.000.000/0000-00', '(00) 0000-0000');
 INSERT INTO aeroporto (fkEmpresa,nomeAeroporto,cepAeroporto,numeroAeroporto,ufAeroporto,cidadeAeroporto,bairroAeroporto,ruaAeroporto) VALUES 
@@ -128,14 +130,22 @@ INSERT INTO aeroporto (fkEmpresa,nomeAeroporto,cepAeroporto,numeroAeroporto,ufAe
 INSERT INTO usuario (nomeUsuario,emailUsuario,senhaUsuario,cpfUsuario,tipoUsuario,fkAeroporto) VALUES 
 ('Pedro Jesuino', 'pedrojesuino@airdata.com', '1853b8feb6917afbc3ca2b99157583ec7e5698932bd50e9f389a2378a3f6999cf97c4c6c82917ea4955580b9df3c540bcfec50d50b67d4bb0418a09712246e72','000.000.000-00','G','1');
 INSERT INTO torre VALUES (null,1);
-INSERT INTO servidor VALUES ('39-FD-83-E4-FB-AB',1);
-INSERT INTO componente VALUES (null, '39-FD-83-E4-FB-AB', 'CPU', 'CPU1', 4.00, 'Registrador');
-INSERT INTO componente VALUES (null, '39-FD-83-E4-FB-AB', 'RAM', 'RAM1', 16.00, 'RAM');
-INSERT INTO componente VALUES (null, '39-FD-83-E4-FB-AB', 'DISK', 'DISK1', 500.00, 'HD');
+
+# antes de inserir esses dados abaixo, 
+# cadastre o servidor na API python e 
+# mude o endereço mac abaixo para o da sua máquina!!!!
+
+INSERT INTO componente VALUES (null, 'endereço mac aqui', 'CPU', 'CPU1', 4.00, 'Registrador');
+INSERT INTO componente VALUES (null, 'endereço mac aqui', 'RAM', 'RAM1', 16.00, 'RAM');
+INSERT INTO componente VALUES (null, 'endereço mac aqui', 'DISK', 'DISK1', 500.00, 'HD');
 INSERT INTO metrica VALUES (null, 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'ramPercent', 'psutil.virtual_memory().percent', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'diskPercent', 'psutil.disk_usage("/").percent', '%', FALSE);
+INSERT INTO parametro VALUES (1, 2, "endereço mac aqui");
+INSERT INTO parametro VALUES (2, 3, "endereço mac aqui");
+INSERT INTO parametro VALUES (3, 4, "endereço mac aqui");
 
+-- Selects
 SELECT * FROM usuario;
 SELECT * FROM empresa;
 SELECT * FROM aeroporto;
@@ -145,6 +155,7 @@ SELECT * FROM componente;
 SELECT * FROM metrica;
 SELECT * FROM leitura;
 SELECT * FROM parametro;
+
 SELECT * FROM vw_iniciarSessao;
 SELECT * FROM vw_cpuPercent;
 SELECT * FROM vw_ramPercent;
