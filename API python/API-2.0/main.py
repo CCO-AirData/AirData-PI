@@ -111,14 +111,14 @@ threading.Thread(target=executar_{i}, args=('{row[2]}', {row[1]}, {row[0]},)).st
         if script != None:
             exec(script)
 
-        sleep(10)
+        sleep(2)
         print("Executando...")
 
 
 def conectar():
     import mysql.connector
 
-    bdsql = mysql.connector.connect(host="localhost", user="root", password="TheKingBox751", database="airData")
+    bdsql = mysql.connector.connect(host="localhost", user="airdata_client", password="sptech", database="airData")
     mycursor = bdsql.cursor()
 
     return (bdsql, mycursor)
