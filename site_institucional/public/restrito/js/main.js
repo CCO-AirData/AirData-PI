@@ -18,7 +18,7 @@ class mySidebar extends HTMLElement {
             <li class="nav-item">
                 
                 <a id="alerta-link" class="nav-link" href="./alertas.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="bi bi-bell-fill"></i>
                     <span style="font-size:1rem">Alertas</span></a>
                     
             </li>
@@ -28,7 +28,7 @@ class mySidebar extends HTMLElement {
             <li class="nav-item">
                 
                 <a id="maquina-link" class="nav-link" href="./maquinas.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="bi bi-hdd-rack-fill"></i>
                     <span style="font-size:1rem">Máquinas</span></a>
                     
             </li>
@@ -38,7 +38,7 @@ class mySidebar extends HTMLElement {
             <li class="nav-item">
                 
                 <a id="usuario-link" class="nav-link" href="./usuarios.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="bi bi-people-fill"></i>
                     <span style="font-size:1rem">Usuários</span></a>
                     
             </li>
