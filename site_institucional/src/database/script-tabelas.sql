@@ -6,23 +6,23 @@ CREATE DATABASE airData;
 USE airData;
 
 CREATE TABLE empresa (
-  idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
-  cnpjEmpresa CHAR(18) NOT NULL,
-  nomeEmpresa VARCHAR(45) NOT NULL,
-  telefoneEmpresa CHAR(14)
+    idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
+    cnpjEmpresa CHAR(18) NOT NULL,
+    nomeEmpresa VARCHAR(45) NOT NULL,
+    telefoneEmpresa CHAR(14)
 );
 
 CREATE TABLE aeroporto (
-  idAeroporto INT PRIMARY KEY AUTO_INCREMENT,
-  fkEmpresa INT NOT NULL,
-  nomeAeroporto VARCHAR(45) NOT NULL,
-  cepAeroporto CHAR(9) NOT NULL,
-  numeroAeroporto INT NOT NULL,
-  ufAeroporto CHAR(2) NULL,
-  cidadeAeroporto VARCHAR(45) NOT NULL,
-  bairroAeroporto VARCHAR(45) NOT NULL,
-  ruaAeroporto VARCHAR(45) NOT NULL,
-  FOREIGN KEY(fkEmpresa) REFERENCES empresa(idEmpresa)
+    idAeroporto INT PRIMARY KEY AUTO_INCREMENT,
+    fkEmpresa INT NOT NULL,
+    nomeAeroporto VARCHAR(45) NOT NULL,
+    cepAeroporto CHAR(9) NOT NULL,
+    numeroAeroporto INT NOT NULL,
+    ufAeroporto CHAR(2) NULL,
+    cidadeAeroporto VARCHAR(45) NOT NULL,
+    bairroAeroporto VARCHAR(45) NOT NULL,
+    ruaAeroporto VARCHAR(45) NOT NULL,
+    FOREIGN KEY(fkEmpresa) REFERENCES empresa(idEmpresa)
 );
 
 CREATE TABLE usuario (
@@ -41,9 +41,9 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE torre (
-  idTorre INT PRIMARY KEY AUTO_INCREMENT,
-  fkAeroporto INT NOT NULL,
-  FOREIGN KEY(fkAeroporto) REFERENCES aeroporto(idAeroporto)
+    idTorre INT PRIMARY KEY AUTO_INCREMENT,
+    fkAeroporto INT NOT NULL,
+    FOREIGN KEY(fkAeroporto) REFERENCES aeroporto(idAeroporto)
 );
 
 CREATE TABLE servidor (
@@ -160,3 +160,128 @@ SELECT * FROM vw_iniciarSessao;
 SELECT * FROM vw_cpuPercent;
 SELECT * FROM vw_ramPercent;
 SELECT * FROM vw_diskPercent;
+
+-- ************************* SCRIPT SQL SERVER *****************************
+
+CREATE TABLE empresa (
+    idEmpresa INT PRIMARY KEY IDENTITY(1,1),
+    cnpjEmpresa CHAR(18) NOT NULL,
+    nomeEmpresa VARCHAR(45) NOT NULL,
+    telefoneEmpresa CHAR(14)
+);
+
+CREATE TABLE aeroporto (
+    idAeroporto INT PRIMARY KEY IDENTITY(1,1),
+    fkEmpresa INT NOT NULL,
+    nomeAeroporto VARCHAR(45) NOT NULL,
+    cepAeroporto CHAR(9) NOT NULL,
+    numeroAeroporto INT NOT NULL,
+    ufAeroporto CHAR(2) NULL,
+    cidadeAeroporto VARCHAR(45) NOT NULL,
+    bairroAeroporto VARCHAR(45) NOT NULL,
+    ruaAeroporto VARCHAR(45) NOT NULL,
+    FOREIGN KEY(fkEmpresa) REFERENCES empresa(idEmpresa)
+);
+
+CREATE TABLE usuario (
+	idUsuario INT PRIMARY KEY IDENTITY(1,1),
+	nomeUsuario VARCHAR(45) NOT NULL,
+	emailUsuario VARCHAR(45) NOT NULL,
+	senhaUsuario CHAR(128) NOT NULL,
+	cpfUsuario CHAR(14) NOT NULL,
+    tipoUsuario CHAR(1) NOT NULL CHECK (tipoUsuario IN('F', 'G', 'S')),
+	fkSupervisor INT NULL,
+	fkAeroporto INT NOT NULL,
+	fkGestor INT NULL,
+	FOREIGN KEY(fkAeroporto) REFERENCES aeroporto(idAeroporto),
+    FOREIGN KEY(fkSupervisor) REFERENCES usuario(idUsuario),
+    FOREIGN KEY(fkGestor) REFERENCES usuario(idUsuario)
+);
+
+CREATE TABLE torre (
+    idTorre INT PRIMARY KEY IDENTITY(1,1),
+    fkAeroporto INT NOT NULL,
+    FOREIGN KEY(fkAeroporto) REFERENCES aeroporto(idAeroporto)
+);
+
+CREATE TABLE servidor (
+	idServidor VARCHAR(17) PRIMARY KEY,
+    fkTorre INT NOT NULL,
+    FOREIGN KEY(fkTorre) REFERENCES torre(idTorre)
+);
+
+CREATE TABLE componente (
+	idComponente INT IDENTITY(1,1),
+    fkServidor VARCHAR(17) NOT NULL,
+    tipoComponente VARCHAR(45) NOT NULL,
+    nomeComponente VARCHAR(50) NOT NULL,
+    memoria DECIMAL(5,2),
+    tipoMemoria VARCHAR(30),
+    FOREIGN KEY (fkServidor) REFERENCES servidor(idServidor),
+    PRIMARY KEY(idComponente, fkServidor)
+);
+
+CREATE TABLE metrica (
+	idMetrica INT PRIMARY KEY IDENTITY(1,1),
+    nomeMetrica VARCHAR(40) NOT NULL,
+    comando VARCHAR(50) NOT NULL,
+    unidadeMedida VARCHAR(10) NOT NULL,
+    isTupla TINYINT NOT NULL
+);
+
+CREATE TABLE leitura (
+    fkMetrica INT NOT NULL,
+    horario DATETIME NOT NULL,
+    valorLido DECIMAL(5,2) NOT NULL,
+	fkComponente_idComponente INT NOT NULL,
+    fkComponente_fkServidor VARCHAR(17) NOT NULL,
+    FOREIGN KEY(fkComponente_idComponente, fkComponente_fkServidor) REFERENCES componente(idComponente, fkServidor)
+);
+
+CREATE TABLE parametro (
+	fkMetrica INT NOT NULL,
+	fkComponente_idComponente INT NOT NULL,
+    fkComponente_fkServidor VARCHAR(17) NOT NULL,
+    FOREIGN KEY(fkMetrica) REFERENCES metrica(idMetrica),
+    FOREIGN KEY(fkComponente_idComponente, fkComponente_fkServidor) REFERENCES componente(idComponente, fkServidor)
+);
+
+CREATE VIEW vw_iniciarSessao AS
+SELECT idUsuario, nomeUsuario, emailUsuario, senhaUsuario, tipoUsuario, idTorre, torre.fkAeroporto, fkGestor, fkSupervisor
+FROM usuario, aeroporto, torre
+WHERE usuario.fkAeroporto = idAeroporto 
+AND torre.fkAeroporto = idAeroporto;
+
+CREATE VIEW vw_cpuPercent AS
+SELECT TOP 12 idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
+FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente
+AND fkComponente_fkServidor = fkServidor
+JOIN metrica ON fkMetrica = idMetrica
+WHERE nomeMetrica = 'cpuPercent'
+ORDER BY horario DESC;
+
+CREATE VIEW vw_ramPercent AS
+SELECT TOP 12 idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
+FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente
+AND fkComponente_fkServidor = fkServidor
+JOIN metrica ON fkMetrica = idMetrica
+WHERE nomeMetrica = 'ramPercent'
+ORDER BY horario DESC;
+
+CREATE VIEW vw_diskPercent AS
+SELECT TOP 12 idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
+FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente
+AND fkComponente_fkServidor = fkServidor
+JOIN metrica ON fkMetrica = idMetrica
+WHERE nomeMetrica = 'diskPercent'
+ORDER BY horario DESC;
+
+SELECT TOP ${limite} * FROM vw_${metrica} WHERE idServidor = "${idMaquina}";
+
+
+
+
+
