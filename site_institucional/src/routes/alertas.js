@@ -7,4 +7,15 @@ router.post("/receberDadosAlertas", function (req, res) {
     alertasController.receberDadosAlertas(req, res);
 });
 
+router.post("/receberOpcoesFiltros", function (req, res) {
+    alertasController.receberOpcoesFiltros(req, res);
+});
+
+router.post("/receberDadosFiltro", function (req, res) {
+    alertasController.receberDadosFiltro(req, res);
+});
+
+
+
+
 module.exports = router;

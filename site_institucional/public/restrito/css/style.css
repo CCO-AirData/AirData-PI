@@ -27,6 +27,11 @@
     display: none;
 }
 
+.btn-select {
+    background-color: #fff;
+    border: 1px solid #106EEA !important;
+}
+
 /* CHART.JS*/
 
 .chartjs-render-monitor {

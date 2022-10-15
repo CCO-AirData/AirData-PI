@@ -37,19 +37,13 @@
               <!-- Simple Tables -->
               <div class="card">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <select class="dropdown-toggle btn btn-primary btn-sm" id="selectMaquina">
-                    <option value="">Selecionar Maquina</option>
-                    <option value="1">39-FD-83-E4-FB-AB</option>
-                    <option value="2">28-C0-B2-20-73-13</option>
-                    <option value="3">FE-36-C8-1E-DD-56</option>
+                  <select class="dropdown-toggle btn btn-sm btn-select" id="selecionar-maquina">
+                    <option value="null">Selecionar Maquina</option>
                   </select>
-                  <select class="dropdown-toggle btn btn-primary btn-sm" id="selectHardware">
-                    <option value="">Selecionar Hardware</option>
-                    <option value="1">CPU</option>
-                    <option value="2">GPU</option>
-                    <option value="3">DISCO</option>
-                    <option value="4">MEMÓRIA RAM</option>
+                  <select class="dropdown-toggle btn btn-sm btn-select" id="selecionar-hardware">
+                    <option value="null">Selecionar Hardware</option>
                   </select>
+                  <input onclick="filtrar()" id="filtrar" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Filtrar">
                 </div>
                 <div class="table-responsive">
                   <table class="table align-items-center table-flush">
@@ -132,6 +126,68 @@
 
   var btnVerMais = document.getElementById('btn-verMais');
   var btnVerMenos = document.getElementById('btn-verMenos');
+
+  const selectHardware = document.getElementById('selecionar-hardware');
+  const selectMaquina = document.getElementById('selecionar-maquina');
+
+  function listarFiltros(listaFiltros) {
+
+    var macAtual = '';
+    var componenteAtual = '';
+
+    for(i = 0; i < listaFiltros.length; i++) {
+      var mac = listaFiltros[i].idServidor;
+      mac = mac.replace(/:/g, "-").toUpperCase();
+
+      if(mac != macAtual) {
+        macAtual = mac;
+        selectMaquina.innerHTML += `
+          <option value="${listaFiltros[i].idServidor}">${mac}</option>
+        `
+      }
+
+      if(listaFiltros[i].tipoComponente != componenteAtual) {
+        componenteAtual = listaFiltros[i].tipoComponente;
+        selectHardware.innerHTML += `
+          <option value="${listaFiltros[i].tipoComponente}">${listaFiltros[i].tipoComponente}</option>
+        `
+      }
+    }
+  }
+
+  function filtrar() {
+    var optHardware = selectHardware.value;
+    var optMaquina = selectMaquina.value;
+    const limite = 200;
+
+    fetch("/alertas/receberDadosFiltro", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            hardwareServer: optHardware,
+            maquinaServer: optMaquina,
+            limiteServer: limite,
+            fkTorreServer: sessionStorage.ID_TORRE,
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+            resposta.json().then(json => {
+                console.log(json)
+
+                listarTabelaAlertas(json)
+                btnVerMais.style.display = 'none';
+                btnVerMenos.style.display = 'none';
+            });
+        } else {
+            console.log('ERRO - não foi possível receber os dados dos alertas filtrados')
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+  }
 
   btnVerMais.addEventListener('click', () => {
     receberDadosAlertas(sessionStorage.ID_TORRE, 200);
