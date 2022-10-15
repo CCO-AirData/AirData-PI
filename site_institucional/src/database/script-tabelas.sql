@@ -63,6 +63,14 @@ CREATE TABLE componente (
     PRIMARY KEY(idComponente, fkServidor)
 );
 
+CREATE TABLE alerta(
+	idAlerta INT PRIMARY KEY,
+	motivo VARCHAR(45),
+	momentoAlerta DATETIME,
+	fkComponente INT,
+	FOREIGN KEY (fkComponente) references componente(idComponente)
+);
+
 CREATE TABLE metrica (
 	idMetrica INT PRIMARY KEY AUTO_INCREMENT,
     nomeMetrica VARCHAR(40) NOT NULL,
@@ -135,15 +143,15 @@ INSERT INTO torre VALUES (null,1);
 # cadastre o servidor na API python e 
 # mude o endereço mac abaixo para o da sua máquina!!!!
 
-INSERT INTO componente VALUES (null, 'endereço mac aqui', 'CPU', 'CPU1', 4.00, 'Registrador');
-INSERT INTO componente VALUES (null, 'endereço mac aqui', 'RAM', 'RAM1', 16.00, 'RAM');
-INSERT INTO componente VALUES (null, 'endereço mac aqui', 'DISK', 'DISK1', 500.00, 'HD');
+INSERT INTO componente VALUES (null, '00:e0:4c:36:39:83', 'CPU', 'CPU1', 4.00, 'Registrador');
+INSERT INTO componente VALUES (null, '00:e0:4c:36:39:83', 'RAM', 'RAM1', 16.00, 'RAM');
+INSERT INTO componente VALUES (null, '00:e0:4c:36:39:83', 'DISK', 'DISK1', 500.00, 'HD');
 INSERT INTO metrica VALUES (null, 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'ramPercent', 'psutil.virtual_memory().percent', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'diskPercent', 'psutil.disk_usage("/").percent', '%', FALSE);
-INSERT INTO parametro VALUES (1, 2, "endereço mac aqui");
-INSERT INTO parametro VALUES (2, 3, "endereço mac aqui");
-INSERT INTO parametro VALUES (3, 4, "endereço mac aqui");
+INSERT INTO parametro VALUES (1, 1, "00:e0:4c:36:39:83");
+INSERT INTO parametro VALUES (2, 2, "00:e0:4c:36:39:83");
+INSERT INTO parametro VALUES (3, 3, "00:e0:4c:36:39:83");
 
 -- Selects
 SELECT * FROM usuario;
