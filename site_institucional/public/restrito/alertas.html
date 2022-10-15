@@ -59,57 +59,10 @@
                         <th>Maquina</th>
                         <th>Hardware</th>
                         <th>Motivo</th>
-                        <th>Status</th>
                         <th>Data</th>                       
-                        <th>Ação</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td><a href="#">000001</a></td>
-                        <td>39-FD-83-E4-FB-AB</td>
-                        <td>CPU</td>
-                        <td>Sobrecarregamento</td>
-                        <td><span class="badge badge-success">RESOLVIDO</span></td>
-                        <td>01/01/2022</td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
-                      </tr>
-                      <tr>
-                        <td><a href="#">000002</a></td>
-                        <td>39-FD-83-E4-FB-AB</td>
-                        <td>GPU</td>
-                        <td>Tendência de Piora</td>
-                        <td><span class="badge badge-warning">INSTÁVEL</span></td>
-                        <td>01/01/2022</td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
-                      </tr>
-                      <tr>
-                        <td><a href="#">000003</a></td>
-                        <td>28-C0-B2-20-73-13</td>
-                        <td>DISCO</td>
-                        <td>Falha</td>
-                        <td><span class="badge badge-danger">PERIGO</span></td>
-                        <td>01/01/2022</td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
-                      </tr>
-                      <tr>
-                        <td><a href="#">000004</a></td>
-                        <td>28-C0-B2-20-73-13</td>
-                        <td>CPU</td>
-                        <td>Sobreaquecimento</td>
-                        <td><span class="badge badge-info">EM PROCESSO</span></td>
-                        <td>01/01/2022</td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
-                      </tr>
-                      <tr>
-                        <td><a href="#">000005</a></td>
-                        <td>FE-36-C8-1E-DD-56</td>
-                        <td>MEMÓRIA RAM</td>
-                        <td>Lentidão no Sistema</td>
-                        <td><span class="badge badge-success">RESOLVIDO</span></td>
-                        <td>01/01/2022</td>
-                        <td><a href="#" class="btn btn-sm btn-primary">Mudar</a></td>
-                      </tr>
+                    <tbody id="body-table">
                     </tbody>
                   </table>
                 </div>
@@ -150,6 +103,27 @@
 <script>
 
   var pagina = "alertas";
+
+  function listarTabelaAlertas(listaAlertas) {
+    var bodyTable = document.getElementById('body-table');
+    
+    for(i = 0; i < listaAlertas.length; i++) {
+      var mac = listaAlertas[i].idServidor;
+      mac = mac.replace(/:/g, "-").toUpperCase();
+      var dataHorario = listaAlertas[i].momentoAlerta.split("T");
+          dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+
+      bodyTable.innerHTML += `
+        <tr>
+          <td><a href="#">${listaAlertas[i].idAlerta}</a></td>
+          <td>${mac}</td>
+          <td>${listaAlertas[i].tipoComponente}</td>
+          <td>${listaAlertas[i].statusAlerta}</td>
+          <td>${dataHorario}</td>
+        </tr>
+      `
+    }
+  }
 
 document.querySelector("#alerta-link").classList.add("active")
 

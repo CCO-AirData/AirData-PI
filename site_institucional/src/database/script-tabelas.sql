@@ -135,7 +135,8 @@ SELECT idAlerta, statusAlerta, momentoAlerta, fkTorre, tipoComponente, idServido
 FROM alerta
 JOIN componente ON fkComponente = idComponente
 JOIN servidor ON fkServidor = idServidor
-JOIN torre ON fkTorre = idTorre;
+JOIN torre ON fkTorre = idTorre
+ORDER BY momentoAlerta DESC;
 
 -- Inserts 
 INSERT INTO empresa (nomeEmpresa,cnpjEmpresa,telefoneEmpresa) VALUES 
