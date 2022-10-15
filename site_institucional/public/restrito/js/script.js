@@ -23,6 +23,8 @@ function iniciarSessao(pagina){
         var mac = macAdress.replace(/:/g, "-").toUpperCase();
         tituloPagina.innerText = `Dashboard | ${mac}`
         tituloDash.innerText = mac;
+    } else if(pagina == 'alertas'){
+        receberDadosAlertas(sessionStorage.ID_TORRE);
     }
 }
 
@@ -85,6 +87,32 @@ function receberDadosMaquinas(fkTorre){
             });
         } else {
             console.log('ERRO - não foi possível receber os dados das máquinas')
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+
+}
+
+function receberDadosAlertas(fkTorre){
+    fetch("/alertas/receberDadosAlertas", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkTorreServer: fkTorre,
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+            resposta.json().then(json => {
+                console.log(json)
+
+                listarTabelaAlertas(json)
+            });
+        } else {
+            console.log('ERRO - não foi possível receber os dados dos alertas')
         }
     }).catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);

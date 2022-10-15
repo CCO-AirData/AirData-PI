@@ -13,6 +13,7 @@ var usuarioRouter = require("./src/routes/usuarios");
 var empresaRouter = require("./src/routes/empresa");
 var medidasRouter = require("./src/routes/medidas");
 var maquinasRouter = require("./src/routes/maquinas");
+var alertasRouter = require("./src/routes/alertas");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -25,6 +26,7 @@ app.use("/usuarios", usuarioRouter);
 app.use("/empresa", empresaRouter);
 app.use("/medidas", medidasRouter);
 app.use("/maquinas", maquinasRouter);
+app.use("/alertas", alertasRouter);
 
 app.listen(PORTA, function () {
     console.log(`Você está rodando sua aplicação em Ambiente de ${process.env.AMBIENTE_PROCESSO} \n

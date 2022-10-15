@@ -15,7 +15,7 @@
   <script src="./js/main.js"></script>
 </head>
 
-<body id="page-top" onload="iniciarSessao()">
+<body id="page-top" onload="iniciarSessao(pagina)">
   <div id="wrapper">
     <!-- Sidebar -->
     <my-sidebar></my-sidebar>
@@ -148,6 +148,8 @@
 </body>
 </html>
 <script>
+
+  var pagina = "alertas";
 
 document.querySelector("#alerta-link").classList.add("active")
 

@@ -109,9 +109,9 @@ def executar_{i}(servidor, componente, metrica):
             
     if metrica == 1:
         
-        if leitura >= 70.0 and leiura <= 75.0:
+        if leitura >= 70.0 and leitura <= 75.0:
             
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Perigo", componente)
             
             cursores.execute(query, val)
@@ -119,7 +119,7 @@ def executar_{i}(servidor, componente, metrica):
         
         elif leitura > 75.0 and leitura <= 85.0:
 
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Crítico", componente)
             
             cursores.execute(query, val)
@@ -127,7 +127,7 @@ def executar_{i}(servidor, componente, metrica):
             
         elif leitura > 85.0 and leitura <= 95.0:
 
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Risco de falha", componente)
             
             cursores.execute(query, val)
@@ -135,7 +135,7 @@ def executar_{i}(servidor, componente, metrica):
             
         elif leitura > 95.0:
 
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Falha", componente)
             
             cursores.execute(query, val)
@@ -143,9 +143,9 @@ def executar_{i}(servidor, componente, metrica):
             
     elif metrica == 2:
         
-        if leitura >= 70.0 and leiura <= 75.0:
+        if leitura >= 70.0 and leitura <= 75.0:
             
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Perigo", componente)
             
             cursores.execute(query, val)
@@ -153,7 +153,7 @@ def executar_{i}(servidor, componente, metrica):
         
         elif leitura > 75.0 and leitura <= 85.0:
 
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Crítico", componente)
             
             cursores.execute(query, val)
@@ -161,7 +161,7 @@ def executar_{i}(servidor, componente, metrica):
             
         elif leitura > 85.0 and leitura <= 95.0:
 
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Risco de falha", componente)
             
             cursores.execute(query, val)
@@ -169,7 +169,7 @@ def executar_{i}(servidor, componente, metrica):
             
         elif leitura > 95.0:
 
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Falha", componente)
             
             cursores.execute(query, val)
@@ -177,9 +177,9 @@ def executar_{i}(servidor, componente, metrica):
             
     elif metrica == 3:
         
-        if leitura >= 70.0 and leiura <= 75.0:
+        if leitura >= 70.0 and leitura <= 75.0:
             
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Perigo", componente)
             
             cursores.execute(query, val)
@@ -187,7 +187,7 @@ def executar_{i}(servidor, componente, metrica):
         
         elif leitura > 75.0 and leitura <= 85.0:
 
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Crítico", componente)
             
             cursores.execute(query, val)
@@ -195,7 +195,7 @@ def executar_{i}(servidor, componente, metrica):
             
         elif leitura > 85.0 and leitura <= 95.0:
 
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Risco de sobrecarga", componente)
             
             cursores.execute(query, val)
@@ -203,7 +203,7 @@ def executar_{i}(servidor, componente, metrica):
             
         elif leitura > 95.0:
 
-            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
             val = ("Sobrecarregado", componente)
             
             cursores.execute(query, val)
