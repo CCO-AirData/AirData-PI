@@ -130,6 +130,13 @@ JOIN metrica ON fkMetrica = idMetrica
 WHERE nomeMetrica = 'diskPercent'
 ORDER BY horario DESC;
 
+CREATE VIEW vw_alertas as
+SELECT idAlerta, statusAlerta, momentoAlerta, fkTorre, tipoComponente, idServidor
+FROM alerta
+JOIN componente ON fkComponente = idComponente
+JOIN servidor ON fkServidor = idServidor
+JOIN torre ON fkTorre = idTorre;
+
 -- Inserts 
 INSERT INTO empresa (nomeEmpresa,cnpjEmpresa,telefoneEmpresa) VALUES 
 ('AirData', '00.000.000/0000-00', '(00) 0000-0000');
@@ -169,6 +176,7 @@ SELECT * FROM vw_iniciarSessao;
 SELECT * FROM vw_cpuPercent;
 SELECT * FROM vw_ramPercent;
 SELECT * FROM vw_diskPercent;
+SELECT * FROM vw_alertas;
 
 SELECT * from parametro WHERE fkComponente_fkServidor = '00:e0:4c:36:39:83';
 SELECT comando, isTupla FROM metrica WHERE idMetrica = 1;
