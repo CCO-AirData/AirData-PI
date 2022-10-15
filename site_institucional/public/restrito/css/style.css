@@ -2,6 +2,10 @@
     justify-content: space-between !important;
 }
 
+.sidebar {
+    height: 100%;
+}
+
 .sidebar li a nav-link:hover {
     border-left: 5px solid #106EEA;
 }
@@ -12,6 +16,15 @@
 
 .span_userName {
     margin-left: 8px;
+}
+
+#btn-verMais {
+    cursor: pointer;
+}
+
+#btn-verMenos {
+    cursor: pointer;
+    display: none;
 }
 
 /* CHART.JS*/

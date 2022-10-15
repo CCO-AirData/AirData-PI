@@ -2,11 +2,12 @@ var alertasModel = require("../models/alertasModel");
 
 function receberDadosAlertas(req, res) {
     var fkTorre = req.body.fkTorreServer;
+    var limite = req.body.limiteServer;
 
     if (fkTorre == undefined) {
         res.status(400).send("A fkTorre do aeroporto está undefined!");
     } else {
-        alertasModel.listar(fkTorre)
+        alertasModel.listar(fkTorre, limite)
             .then(
                 function (resultado) {
                     console.log(`\nAlertas: ${resultado}`);

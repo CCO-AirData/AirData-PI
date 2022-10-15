@@ -24,7 +24,7 @@ function iniciarSessao(pagina){
         tituloPagina.innerText = `Dashboard | ${mac}`
         tituloDash.innerText = mac;
     } else if(pagina == 'alertas'){
-        receberDadosAlertas(sessionStorage.ID_TORRE);
+        receberDadosAlertas(sessionStorage.ID_TORRE, 10);
     }
 }
 
@@ -94,7 +94,7 @@ function receberDadosMaquinas(fkTorre){
 
 }
 
-function receberDadosAlertas(fkTorre){
+function receberDadosAlertas(fkTorre, limite){
     fetch("/alertas/receberDadosAlertas", {
         method: "POST",
         headers: {
@@ -102,6 +102,7 @@ function receberDadosAlertas(fkTorre){
         },
         body: JSON.stringify({
             fkTorreServer: fkTorre,
+            limiteServer: limite,
         })
     }).then(function (resposta) {
         console.log("resposta: ", resposta);

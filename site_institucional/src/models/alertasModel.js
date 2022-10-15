@@ -1,7 +1,7 @@
 var database = require("../database/config")
 
-function listar(fkTorre) {
-    var instrucao = `SELECT * FROM vw_alertas where fkTorre = ${fkTorre};`;
+function listar(fkTorre, limite) {
+    var instrucao = `SELECT * FROM vw_alertas where fkTorre = ${fkTorre} LIMIT ${limite};`;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
