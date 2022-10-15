@@ -63,7 +63,6 @@ CREATE TABLE componente (
     PRIMARY KEY(idComponente, fkServidor)
 );
 
-drop table alerta;
 CREATE TABLE alerta(
 	idAlerta INT PRIMARY KEY auto_increment,
 	statusAlerta VARCHAR(45),
@@ -71,8 +70,6 @@ CREATE TABLE alerta(
 	fkComponente INT,
 	FOREIGN KEY (fkComponente) references componente(idComponente)
 );
-
-select * from alerta;
 
 CREATE TABLE metrica (
 	idMetrica INT PRIMARY KEY AUTO_INCREMENT,
