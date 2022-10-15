@@ -63,13 +63,16 @@ CREATE TABLE componente (
     PRIMARY KEY(idComponente, fkServidor)
 );
 
+drop table alerta;
 CREATE TABLE alerta(
-	idAlerta INT PRIMARY KEY,
-	motivo VARCHAR(45),
+	idAlerta INT PRIMARY KEY auto_increment,
+	statusAlerta VARCHAR(45),
 	momentoAlerta DATETIME,
 	fkComponente INT,
 	FOREIGN KEY (fkComponente) references componente(idComponente)
 );
+
+select * from alerta;
 
 CREATE TABLE metrica (
 	idMetrica INT PRIMARY KEY AUTO_INCREMENT,
@@ -162,12 +165,18 @@ SELECT * FROM servidor;
 SELECT * FROM componente;
 SELECT * FROM metrica;
 SELECT * FROM leitura;
+SELECT * FROM alerta;
 SELECT * FROM parametro;
 
 SELECT * FROM vw_iniciarSessao;
 SELECT * FROM vw_cpuPercent;
 SELECT * FROM vw_ramPercent;
 SELECT * FROM vw_diskPercent;
+
+SELECT * from parametro WHERE fkComponente_fkServidor = '00:e0:4c:36:39:83';
+SELECT comando, isTupla FROM metrica WHERE idMetrica = 1;
+SELECT comando, isTupla FROM metrica WHERE idMetrica = 2;
+SELECT comando, isTupla FROM metrica WHERE idMetrica = 3;
 
 -- ************************* SCRIPT SQL SERVER *****************************
 

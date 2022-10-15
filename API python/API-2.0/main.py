@@ -97,11 +97,115 @@ def executar_{i}(servidor, componente, metrica):
             
         cursores.execute(query, val)
         bdsql.commit()
+        
+        print(leitura)
     else: 
         for row in leitura:
             query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, now(), %s, %s, %s)")    
             val = (metrica, row, componente, servidor, ) 
 
+            cursores.execute(query, val)
+            bdsql.commit()
+            
+    if metrica == 1:
+        
+        if leitura >= 70.0 and leiura <= 75.0:
+            
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Perigo", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+        
+        elif leitura > 75.0 and leitura <= 85.0:
+
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Crítico", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+            
+        elif leitura > 85.0 and leitura <= 95.0:
+
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Risco de falha", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+            
+        elif leitura > 95.0:
+
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Falha", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+            
+    elif metrica == 2:
+        
+        if leitura >= 70.0 and leiura <= 75.0:
+            
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Perigo", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+        
+        elif leitura > 75.0 and leitura <= 85.0:
+
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Crítico", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+            
+        elif leitura > 85.0 and leitura <= 95.0:
+
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Risco de falha", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+            
+        elif leitura > 95.0:
+
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Falha", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+            
+    elif metrica == 3:
+        
+        if leitura >= 70.0 and leiura <= 75.0:
+            
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Perigo", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+        
+        elif leitura > 75.0 and leitura <= 85.0:
+
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Crítico", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+            
+        elif leitura > 85.0 and leitura <= 95.0:
+
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Risco de sobrecarga", componente)
+            
+            cursores.execute(query, val)
+            bdsql.commit()
+            
+        elif leitura > 95.0:
+
+            query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES ('%s', now(), %d)")
+            val = ("Sobrecarregado", componente)
+            
             cursores.execute(query, val)
             bdsql.commit()
 
