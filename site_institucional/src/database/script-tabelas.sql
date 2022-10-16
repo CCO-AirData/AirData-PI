@@ -64,10 +64,10 @@ CREATE TABLE componente (
 );
 
 CREATE TABLE alerta(
-	idAlerta INT PRIMARY KEY auto_increment,
-	statusAlerta VARCHAR(45),
-	momentoAlerta DATETIME,
-	fkComponente INT,
+	idAlerta INT PRIMARY KEY AUTO_INCREMENT,
+	statusAlerta VARCHAR(45) NOT NULL,
+	momentoAlerta DATETIME NOT NULL,
+	fkComponente INT NOT NULL,
 	FOREIGN KEY (fkComponente) references componente(idComponente)
 );
 
@@ -245,12 +245,21 @@ CREATE TABLE componente (
     PRIMARY KEY(idComponente, fkServidor)
 );
 
+CREATE TABLE alerta(
+	idAlerta INT PRIMARY KEY IDENTITY(1,1),
+	statusAlerta VARCHAR(45) NOT NULL,
+	momentoAlerta DATETIME NOT NULL,
+	fkComponente INT NOT NULL,
+	fkServidor VARCHAR(17) NOT NULL,
+	FOREIGN KEY (fkComponente, fkServidor) references componente(idComponente, fkServidor)
+);
+
 CREATE TABLE metrica (
 	idMetrica INT PRIMARY KEY IDENTITY(1,1),
     nomeMetrica VARCHAR(40) NOT NULL,
     comando VARCHAR(50) NOT NULL,
     unidadeMedida VARCHAR(10) NOT NULL,
-    isTupla TINYINT NOT NULL
+    isTupla BIT NOT NULL
 );
 
 CREATE TABLE leitura (
@@ -302,6 +311,22 @@ AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
 WHERE nomeMetrica = 'diskPercent'
 ORDER BY horario DESC;
+
+CREATE VIEW vw_alertas as
+SELECT TOP 150 idAlerta, statusAlerta, momentoAlerta, fkTorre, tipoComponente, idServidor
+FROM alerta
+JOIN componente ON fkComponente = idComponente
+JOIN servidor ON alerta.fkServidor = idServidor
+JOIN torre ON fkTorre = idTorre
+ORDER BY momentoAlerta DESC;
+
+-- 0 = false
+-- 1 = true
+
+INSERT INTO metrica VALUES ('cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', 0);
+INSERT INTO metrica VALUES ('ramPercent', 'psutil.virtual_memory().percent', '%', 0);
+INSERT INTO metrica VALUES ('diskPercent', 'psutil.disk_usage("/").percent', '%', 0);
+
 
 SELECT TOP ${limite} * FROM vw_${metrica} WHERE idServidor = "${idMaquina}";
 

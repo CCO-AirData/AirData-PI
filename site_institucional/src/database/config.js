@@ -4,10 +4,10 @@ require('dotenv').config();
 
 // CONEXÃO DO SQL SERVER - AZURE (NUVEM)
 var sqlServerConfig = {
-    server: "SEU_SERVIDOR",
-    database: "SEU_BANCO_DE_DADOS",
-    user: "root",
-    password: "SUAA",
+    server: "airdataserver.database.windows.net",
+    database: "airdata",
+    user: "CloudSA9549f82c",
+    password: "pi-airdata2022",
     pool: {
         max: 10,
         min: 0,
@@ -33,7 +33,7 @@ function executar(instrucao) {
             sql.connect(sqlServerConfig).then(function () {
                 return sql.query(instrucao);
             }).then(function (resultados) {
-                console.log(resultados);
+                console.log(resultados)
                 resolve(resultados.recordset);
             }).catch(function (erro) {
                 reject(erro);

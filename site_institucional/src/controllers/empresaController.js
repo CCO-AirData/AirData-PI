@@ -51,9 +51,10 @@ function cadastrar(req, res) {
         res.status(400).send("Algo está undefined!");
     } else {
         empresaModel.cadastrar(nomeEmpresa, cnpjEmpresa, telefoneEmpresa).then(function (resultado) {
-            var fkEmpresa = resultado.insertId;
+            console.log(resultado)
+            var fkEmpresa = process.env.AMBIENTE_PROCESSO == "desenvolvimento" ? resultado.insertId : resultado[0].ID;
             aeroportoModel.cadastrarAeroporto(fkEmpresa, nomeAeroporto, cepAeroporto, numeroAeroporto, ufAeroporto, cidadeAeroporto, bairroAeroporto, ruaAeroporto).then(function (resultado) {
-                var fkAeropoto = resultado.insertId;
+                var fkAeropoto = process.env.AMBIENTE_PROCESSO == "desenvolvimento" ? resultado.insertId : resultado[0].ID;
                 aeroportoModel.cadastrarTorre(fkAeropoto).then(function (resultado) {
                     usuarioModel.cadastrar(nomePessoal, emailPessoal, sha512(password), cpfPessoal, tipoUsuario, fkAeropoto).then(function (resultado) {
                         res.json(resultado);
