@@ -1,8 +1,8 @@
 from time import sleep
 
 # Váriaveis ambiente
-AMBIENTE_PRODUCAO = True
-# AMBIENTE_PRODUCAO = False
+# AMBIENTE_PRODUCAO = True
+AMBIENTE_PRODUCAO = False
 
 
 def main():
