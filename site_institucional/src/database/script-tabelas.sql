@@ -1,4 +1,4 @@
-CREATE USER 'airdata_client'@'localhost' IDENTIFIED BY 'sptech';
+CREATE USER IF NOT EXISTS 'airdata_client'@'localhost' IDENTIFIED BY 'sptech';
 GRANT SELECT, UPDATE, INSERT, DELETE, EXECUTE, SHOW VIEW ON airData.* TO 'airdata_client'@'localhost';
 
 DROP DATABASE IF EXISTS airData;
@@ -149,17 +149,18 @@ INSERT INTO torre VALUES (null,1);
 
 # antes de inserir esses dados abaixo, 
 # cadastre o servidor na API python e 
-# mude o endereço mac abaixo para o da sua máquina!!!!
+## mude o a variável @macAddress para o seu endereço mac!!!!
+SET @macAddress = 'C4-B0-B3-8C-D5-DF';
 
-INSERT INTO componente VALUES (null, '00:e0:4c:36:39:83', 'CPU', 'CPU1', 4.00, 'Registrador');
-INSERT INTO componente VALUES (null, '00:e0:4c:36:39:83', 'RAM', 'RAM1', 16.00, 'RAM');
-INSERT INTO componente VALUES (null, '00:e0:4c:36:39:83', 'DISK', 'DISK1', 500.00, 'HD');
+INSERT INTO componente VALUES (null, @macAddress, 'CPU', 'CPU1', 4.00, 'Registrador');
+INSERT INTO componente VALUES (null, @macAddress, 'RAM', 'RAM1', 16.00, 'RAM');
+INSERT INTO componente VALUES (null, @macAddress, 'DISK', 'DISK1', 500.00, 'HD');
 INSERT INTO metrica VALUES (null, 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'ramPercent', 'psutil.virtual_memory().percent', '%', FALSE);
 INSERT INTO metrica VALUES (null, 'diskPercent', 'psutil.disk_usage("/").percent', '%', FALSE);
-INSERT INTO parametro VALUES (1, 1, "00:e0:4c:36:39:83");
-INSERT INTO parametro VALUES (2, 2, "00:e0:4c:36:39:83");
-INSERT INTO parametro VALUES (3, 3, "00:e0:4c:36:39:83");
+INSERT INTO parametro VALUES (1, 2, @macAddress);
+INSERT INTO parametro VALUES (2, 3, @macAddress);
+INSERT INTO parametro VALUES (3, 4, @macAddress);
 
 -- Selects
 SELECT * FROM usuario;

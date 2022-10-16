@@ -88,12 +88,12 @@
                   <div class="col-lg-4 col-md-6 form-group">
                     CNPJ
                     <input type="text" name="cnpjEmpresa" class="form-control" id="cnpjEmpresa"
-                      placeholder="00.000.000/0000-00">
+                      placeholder="00.000.000/0000-00" maxlength="18">
                   </div>
                   <div class="col-lg-4 col-md-6  form-group">
                     Telefone
                     <input type="tel" name="telefoneEmpresa" class="form-control" id="telefoneEmpresa"
-                      placeholder="(00) 0000-0000">
+                      placeholder="(00) 0000-0000" maxlength="14">
                   </div>
 
                 </div>
@@ -107,8 +107,8 @@
                 </div>
                 <div class="col-lg-4 col-md-4 form-group">
                   CEP
-                  <input onfocusout="cep()" type="text" class="form-control" name="cepAeroporto" id="cepAeroporto"
-                    placeholder="00000-000">
+                  <input onkeyup="cep()" type="text" class="form-control" name="cepAeroporto" id="cepAeroporto"
+                    placeholder="00000-000" maxlength="9">
                 </div>
 
                 <div class="col-lg-4 col-md-4 form-group">
@@ -171,8 +171,9 @@
               <div class="row">
                 <h6>Informações Pessoais</h6>
                 <div class="col-lg-4 col-md-12 form-group">
-                  Nome 
-                  <input type="text" class="form-control" name="nomePessoal" id="nomePessoal" placeholder="Pedro Jesuino">
+                  Nome
+                  <input type="text" class="form-control" name="nomePessoal" id="nomePessoal"
+                    placeholder="Pedro Jesuino">
                 </div>
 
                 <div class="col-lg-4 col-md-4 form-group">
@@ -183,7 +184,8 @@
 
                 <div class="col-lg-4 col-md-12 form-group">
                   CPF
-                  <input type="text" class="form-control" name="cpfPessoal" id="cpfPessoal" placeholder="000.000.000-00">
+                  <input type="text" class="form-control" name="cpfPessoal" id="cpfPessoal" placeholder="000.000.000-00"
+                    maxlength="14">
                 </div>
 
                 <div class="col-lg-4 col-md-6 form-group">
@@ -382,6 +384,9 @@
     var cepAero = "";
 
     const cep = () => {
+      if (inputCep.value.length < 9) {
+        return
+      }
       cepAero = cepAero.replace("-", "");
       fetch(`https://viacep.com.br/ws/${cepAero}/json/`).then(function (response) {
         console.log(response)
@@ -397,83 +402,75 @@
       })
     }
 
+    inputCep.addEventListener("input", (e) => { numberMask(e, inputCep), cepMask(e, inputCep) })
+    inputTelefone.addEventListener("input", (e) => { numberMask(e, inputTelefone), telefoneMask(e, inputTelefone) })
+    inputCpf.addEventListener("input", (e) => { numberMask(e, inputCpf), cpfMask(e, inputCpf) })
+    inputCnpj.addEventListener("input", (e) => { numberMask(e, inputCnpj), cnpjMask(e, inputCnpj) })
 
-    inputTelefone.addEventListener("keyup", telefoneMask)
-    inputCep.addEventListener("keyup", cepMask);
-    inputCpf.addEventListener("keyup", cpfMask);
-    inputCnpj.addEventListener("keyup", cnpjMask);
-
-    function telefoneMask(e) {
-      if ((inputTelefone.value).length == 2) {
-        inputAtual = inputTelefone.value;
-        if (inputAtual.indexOf("(") < 0 && inputAtual.indexOf(")") < 0) {
-          inputTelefone.value = `(${inputAtual}) `;
-        } else {
-          inputTelefone.value = inputAtual
-        }
-      }
-      if ((inputTelefone.value).length == 9) {
-        inputTelefone.value += "-";
-      }
-      var charCode = (e.which) ? e.which : e.keyCode
-      if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputTelefone.value).length > 14) {
-        inputTelefone.value = telefoneAero;
-      }
-      else {
-        telefoneAero = inputTelefone.value;
+    function numberMask(e, campo) {
+      if (isNaN(e.data)) {
+        campo.value = campo.value.slice(0, -1)
       }
     }
 
-    function cepMask(e) {
-      if ((inputCep.value).length == 5) {
-        inputCep.value += "-";
+    let telefoneAero = ''
+    function telefoneMask(e, campo) {
+      if (e.inputType.startsWith('deleteContent') || campo.value.length == campo.maxLength) {
+        return
       }
-      var charCode = (e.which) ? e.which : e.keyCode
-      if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCep.value).length > 9) {
-        inputCep.value = cepAero;
+      if (campo.value.length >= 1 && !campo.value.includes('(')) {
+        campo.value = "(" + campo.value;
       }
-      else {
-        cepAero = inputCep.value;
+      if (campo.value.length >= 3 && !campo.value.includes(')')) {
+        campo.value = campo.value.slice(0, 3) + ")" + campo.value.slice(3);
       }
-    }
-
-    function cpfMask(e) {
-      if ((inputCpf.value).length == 3 || (inputCpf.value).length == 7) {
-        inputCpf.value += ".";
+      if (campo.value.length >= 4 && !campo.value.includes(' ')) {
+        campo.value = campo.value.slice(0, 4) + " " + campo.value.slice(4);
       }
-      if((inputCpf.value).length == 11){
-        inputCpf.value += "-";
-      }
-      var charCode = (e.which) ? e.which : e.keyCode
-      if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCpf.value).length > 14) {
-        inputCpf.value = cepAero;
-      }
-      else {
-        cepAero = inputCpf.value;
-      }
-    }
-    function cnpjMask(e) {
-      if ((inputCnpj.value).length == 2 || (inputCnpj.value).length == 6) {
-        inputCnpj.value += ".";
-      }
-      if ((inputCnpj.value).length == 10) {
-        inputCnpj.value += "/";
-      }
-      if ((inputCnpj.value).length == 15) {
-        inputCnpj.value += "-";
-      }
-      var charCode = (e.which) ? e.which : e.keyCode
-      if (charCode > 31 && (charCode < 48 || charCode > 57) || (inputCnpj.value).length > 18) {
-        inputCnpj.value = cepAero;
-      }
-      else {
-        cepAero = inputCnpj.value;
+      if (campo.value.length >= 9 && !campo.value.includes('-')) {
+        campo.value = campo.value.slice(0, 9) + "-" + campo.value.slice(9);
       }
     }
 
+    function cepMask(e, campo) {
+      if (campo.value.length >= 5 && !e.inputType.startsWith('deleteContent') && !campo.value.includes('-')) {
+        campo.value = campo.value.slice(0, 5) + "-" + campo.value.slice(5);
+      }
+      cepAero = campo.value;
+    }
 
+    function cpfMask(e, campo) {
+      if (e.inputType.startsWith('deleteContent') || campo.value.length == campo.maxLength) {
+        return
+      }
+      if (campo.value.length >= 3 && campo.value.charAt(3) != '.') {
+        campo.value = campo.value.slice(0, 3) + "." + campo.value.slice(3);
+      }
+      if (campo.value.length >= 7 && campo.value.charAt(7) != '.') {
+        campo.value = campo.value.slice(0, 7) + "." + campo.value.slice(7);
+      }
+      if (campo.value.length >= 11 && !campo.value.includes('-')) {
+        campo.value = campo.value.slice(0, 11) + "-" + campo.value.slice(11);
+      }
+    }
 
-
+    function cnpjMask(e, campo) {
+      if (e.inputType.startsWith('deleteContent') || campo.value.length == campo.maxLength) {
+        return
+      }
+      if (campo.value.length >= 2 && campo.value.charAt(2) != '.') {
+        campo.value = campo.value.slice(0, 2) + "." + campo.value.slice(2);
+      }
+      if (campo.value.length >= 6 && campo.value.charAt(6) != '.') {
+        campo.value = campo.value.slice(0, 6) + "." + campo.value.slice(6);
+      }
+      if (campo.value.length >= 10 && !campo.value.includes('/')) {
+        campo.value = campo.value.slice(0, 10) + "/" + campo.value.slice(10);
+      }
+      if (campo.value.length >= 15 && !campo.value.includes('-')) {
+        campo.value = campo.value.slice(0, 15) + "-" + campo.value.slice(15);
+      }
+    }
   </script>
 
 </body>
