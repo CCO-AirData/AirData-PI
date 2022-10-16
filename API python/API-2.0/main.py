@@ -127,8 +127,7 @@ def executar_{i}(servidor, componente, metrica):
             
         cursores.execute(query, val)
         bdsql.commit()
-        
-        print(leitura)
+
     else: 
         for row in leitura:
             if AMBIENTE_PRODUCAO:
@@ -147,11 +146,11 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
+                val = ("Perigo", componente), 
             
-            val = ("Perigo", componente, servidor)
-
             cursores.execute(query, val)
             bdsql.commit()
         
@@ -159,11 +158,11 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
+                val = ("Perigo", componente)
             
-            val = ("Crítico", componente, servidor)
-
             cursores.execute(query, val)
             bdsql.commit()
             
@@ -171,10 +170,10 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-
-            val = ("Risco de falha", componente, servidor)
+                val = ("Perigo", componente)
 
             cursores.execute(query, val)
             bdsql.commit()
@@ -183,10 +182,10 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-
-            val = ("Falha", componente, servidor)
+                val = ("Perigo", componente)
 
             cursores.execute(query, val)
             bdsql.commit()            
@@ -197,11 +196,12 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-            
-            val = ("Perigo", componente, servidor)
+                val = ("Perigo", componente)
 
+            
             cursores.execute(query, val)
             bdsql.commit()            
         
@@ -209,10 +209,10 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-
-            val = ("Crítico", componente, servidor)
+                val = ("Perigo", componente)
 
             cursores.execute(query, val)
             bdsql.commit()            
@@ -221,10 +221,10 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-
-            val = ("Risco de falha", componente, servidor)
+                val = ("Perigo", componente)
 
             cursores.execute(query, val)
             bdsql.commit()            
@@ -233,10 +233,10 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-
-            val = ("Falha", componente, servidor)
+                val = ("Perigo", componente)
 
             cursores.execute(query, val)
             bdsql.commit()            
@@ -247,11 +247,11 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
+                val = ("Perigo", componente)
             
-            val = ("Perigo", componente, servidor)
-
             cursores.execute(query, val)
             bdsql.commit()            
         
@@ -259,10 +259,10 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-
-            val = ("Crítico", componente, servidor)
+                val = ("Perigo", componente)
 
             cursores.execute(query, val)
             bdsql.commit()
@@ -271,10 +271,10 @@ def executar_{i}(servidor, componente, metrica):
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-
-            val = ("Risco de sobrecarga", componente, servidor)
+                val = ("Perigo", componente)
 
             cursores.execute(query, val)
             bdsql.commit()
@@ -282,10 +282,10 @@ def executar_{i}(servidor, componente, metrica):
         elif leitura > 95.0:
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-
-            val = ("Sobrecarregado", componente, servidor)
+                val = ("Perigo", componente)
             
             cursores.execute(query, val)
             bdsql.commit()
