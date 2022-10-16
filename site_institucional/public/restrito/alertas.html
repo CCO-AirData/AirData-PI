@@ -177,9 +177,15 @@
             resposta.json().then(json => {
                 console.log(json)
 
-                listarTabelaAlertas(json)
-                btnVerMais.style.display = 'none';
-                btnVerMenos.style.display = 'none';
+                if(json == false) {
+                  location.reload()
+                } else {
+                  listarTabelaAlertas(json)
+
+                  btnVerMais.style.display = 'none';
+                  btnVerMenos.style.display = 'none';
+                }
+
             });
         } else {
             console.log('ERRO - não foi possível receber os dados dos alertas filtrados')
