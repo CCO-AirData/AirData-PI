@@ -40,17 +40,21 @@
                     <select name="servidor" id="sltServidor">
                     </select><br><br>
 
-                    <label for="iptTipoComponente">Tipo do Componente*</label><br>
-                    <input type="text" id="iptTipoComponente" maxlength="45"><br>
+                    <label for="sltTipoComponente">Tipo do Componente*</label><br>
+                    <select name="sltTipoComponente" id="sltTipoComponente">
+                        <option value="CPU">CPU</option>
+                        <option value="RAM">Memória RAM</option>
+                        <option value="DISK">Disco Rígido</option>
+                    </select><br>
 
                     <label for="iptNomeComponente">Nome do Componente*</label><br>
-                    <input type="text" id="iptNomeComponente" maxlength="50"><br>
+                    <input type="text" id="iptNomeComponente" maxlength="50" placeholder="Ex.: Processador Intel Xeon E-2300"><br>
+                    
+                    <label for="iptTipoMemoria">Tipo de memória</label><br>
+                    <input type="text" id="iptTipoMemoria" maxlength="30" placeholder="Ex.: Registrador"><br>
 
                     <label for="iptMemoria">Memória</label><br>
-                    <input type="text" id="iptMemoria" maxlength="8"><br>
-
-                    <label for="iptTipoMemoria">Tipo de memória</label><br>
-                    <input type="text" id="iptTipoMemoria" maxlength="30"><br>
+                    <input type="text" id="iptMemoria" maxlength="8" placeholder="Ex.: 4.50"><br>
 
                     <button onclick="cadastrarComponente()">Cadastrar</button>
 
@@ -117,7 +121,7 @@
 
     function cadastrarComponente() {
         let fkServidorVar = document.getElementById("sltServidor").value;
-        let tipoComponenteVar = document.getElementById("iptTipoComponente").value;
+        let tipoComponenteVar = document.getElementById("sltTipoComponente").value;
         let nomeComponenteVar = document.getElementById("iptNomeComponente").value;
         let memoriaVar = document.getElementById("iptMemoria").value;
         let tipoMemoriaVar = document.getElementById("iptTipoMemoria").value;
