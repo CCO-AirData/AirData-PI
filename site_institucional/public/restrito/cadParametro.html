@@ -16,9 +16,11 @@
     <script src="https://kit.fontawesome.com/2eecc47c4e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/main.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body id="page-top" class="" onload="iniciarSessao(pagina)">
+<body id="page-top">
     <div id="wrapper">
         <!-- Sidebar -->
         <my-sidebar></my-sidebar>
@@ -34,9 +36,16 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Cadastro de Parametro</h1>
                     </div>
+                    <h4>Detalhes do Componente</h4>
+                    <p>Mac Address da máquina: <span id="spnMacAddress"></span></p>
+                    <p>Tipo de componente: <span id="spnTipoComponente"></span></p>
+                    <p>Nome do componente: <span id="spnNomeComponente"></span></p>
 
+                    <select name="sltMetricas" id="sltMetricas">
 
-                    
+                    </select><br>
+
+                    <button id="btnCadastrarMetrica" onclick="cadastrarMetrica()" disabled>Cadastrar</button>
 
                 </div>
                 <!---Container Fluid-->
@@ -73,78 +82,107 @@
 
 <script>
 
+    const urlParams = new URLSearchParams(window.location.search);
 
+    console.clear();
+    const idComponente = urlParams.get('idComponente');
+    const fkServidor = urlParams.get('fkServidor');
 
-    // var pagina = "painel";
+    if (idComponente == null || fkServidor == null) {
+        alert("idComponente ou fkServidor não encontrados");
+        window.location.href = "./painel.html";
+    }
 
-    // fetch("/maquinas/listar", {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //         fkTorreServer: sessionStorage.ID_TORRE
-    //     })
-    // }).then(function (resposta) {
-    //     console.log("resposta: ", resposta);
-    //     if (resposta.ok) {
-    //         resposta.json().then(json => {
-    //             console.log(json)
-    //             for (linha of json) {
-    //                 document.getElementById("sltServidor").innerHTML += `<option value="${linha.idServidor}">${linha.idServidor}</option>`;
-    //             }
-    //         });
-    //     } else {
-    //         console.log('ERRO - não foi possível receber os dados das máquinas')
-    //     }
-    // }).catch(function (resposta) {
-    //     console.log(`#ERRO: ${resposta}`);
-    // });
+    fetch("/maquinas/listar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkTorreServer: sessionStorage.ID_TORRE
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+            resposta.json().then(json => {
+                if (json.length == 0) {
+                    alert('Máquina não cadastrada nesta torre');
+                    window.location.href = './painel.html';
+                }
+            });
+        } else {
+            console.log('ERRO - não foi possível receber os dados das máquinas')
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
 
-    // function cadastrarComponente() {
-    //     let fkServidorVar = document.getElementById("sltServidor").value;
-    //     let tipoComponenteVar = document.getElementById("sltTipoComponente").value;
-    //     let nomeComponenteVar = document.getElementById("iptNomeComponente").value;
-    //     let memoriaVar = document.getElementById("iptMemoria").value;
-    //     let tipoMemoriaVar = document.getElementById("iptTipoMemoria").value;
+    fetch('/maquinas/getComponente', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            idComponenteServer: idComponente,
+            fkServidorServer: fkServidor
+        })
+    }).then(function (resultado) {
+        resultado.json().then(function (resJson) {
+            if (resJson.length < 1) {
+                alert("Parâmetros não correspondem a nenhuma máquina cadastrada");
+                window.location.href = "./painel.html";
+            } else {
+                document.getElementById("spnMacAddress").innerHTML = resJson[0].fkServidor;
+                document.getElementById("spnTipoComponente").innerHTML = resJson[0].tipoComponente;
+                document.getElementById("spnNomeComponente").innerHTML = resJson[0].nomeComponente;
 
-    //     if (tipoComponenteVar == "" || nomeComponenteVar == "") {
-    //         alert("Campos obrigatórios não estão preenchidos");
-    //         return;
-    //     }
+                //TODO: fetch para pegar as métricas
+                fetch('/metricas/listar', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                    })
+                }).then(function (resposta) {
+                    resposta.json().then(function (resJson) {
+                        for (let i = 0; i < resJson.length; i++) {
+                            document.getElementById('sltMetricas').innerHTML += `<option value="${resJson[i].idMetrica}">${resJson[i].nomeMetrica}</option>`;
+                        }
+                        document.getElementById('btnCadastrarMetrica').disabled = false;
+                    })
+                })
+            }
+        })
+    })
 
-    //     if(memoriaVar != tipoMemoriaVar && (memoriaVar == "" || tipoMemoriaVar == "")){
-    //         alert("Campos de memória apresentam dados incorretos");
-    //         return;
-    //     }
-
-    //     let patternDot = /^\d+\.\d{0,2}$/;
-    //     let patternComa = /^\d+,\d{0,2}$/;
-    //     if(!patternDot.test(memoriaVar) && !patternComa.test(memoriaVar)){
-    //         alert("Memória deve ser um número decimal com até duas casas decimais");
-    //         return;
-    //     }
-
-    //     memoriaVar = memoriaVar.replace(",", ".");
-
-    //     fetch("/maquinas/cadastrarComponente", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             fkServidorServer: fkServidorVar,
-    //             tipoComponenteServer: tipoComponenteVar,
-    //             nomeComponenteServer: nomeComponenteVar,
-    //             memoriaServer: memoriaVar,
-    //             tipoMemoriaServer: tipoMemoriaVar
-    //         })
-    //     }).then(function (resposta) {
-    //         if(resposta.ok){
-    //             alert("Componente cadastrado");
-    //             console.clear();
-    //             location.reload();
-    //         }
-    //     })
-    // }
+    function cadastrarMetrica() {
+        const fkMetricaVar = document.getElementById('sltMetricas').value;
+        fetch('/metricas/cadastrar', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fkMetricaServer: fkMetricaVar,
+                idComponenteServer: idComponente,
+                fkServidorServer: fkServidor
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                Swal.fire({
+                    title: 'Parâmetro salvo! Deseja cadastrar mais um parâmetro?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim',
+                    cancelButtonTtext: 'Não'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    } else {
+                        window.location.href = `./maquinas.html`;
+                    }
+                })                
+            }
+        })
+    }
 </script>

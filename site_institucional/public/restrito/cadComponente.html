@@ -16,9 +16,11 @@
     <script src="https://kit.fontawesome.com/2eecc47c4e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/main.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body id="page-top" class="" onload="iniciarSessao(pagina)">
+<body id="page-top" class="">
     <div id="wrapper">
         <!-- Sidebar -->
         <my-sidebar></my-sidebar>
@@ -48,8 +50,9 @@
                     </select><br>
 
                     <label for="iptNomeComponente">Nome do Componente*</label><br>
-                    <input type="text" id="iptNomeComponente" maxlength="50" placeholder="Ex.: Processador Intel Xeon E-2300"><br>
-                    
+                    <input type="text" id="iptNomeComponente" maxlength="50"
+                        placeholder="Ex.: Processador Intel Xeon E-2300"><br>
+
                     <label for="iptTipoMemoria">Tipo de memória</label><br>
                     <input type="text" id="iptTipoMemoria" maxlength="30" placeholder="Ex.: Registrador"><br>
 
@@ -107,7 +110,6 @@
         console.log("resposta: ", resposta);
         if (resposta.ok) {
             resposta.json().then(json => {
-                console.log(json)
                 for (linha of json) {
                     document.getElementById("sltServidor").innerHTML += `<option value="${linha.idServidor}">${linha.idServidor}</option>`;
                 }
@@ -131,14 +133,14 @@
             return;
         }
 
-        if(memoriaVar != tipoMemoriaVar && (memoriaVar == "" || tipoMemoriaVar == "")){
+        if (memoriaVar != tipoMemoriaVar && (memoriaVar == "" || tipoMemoriaVar == "")) {
             alert("Campos de memória apresentam dados incorretos");
             return;
         }
 
         let patternDot = /^\d+\.\d{0,2}$/;
         let patternComa = /^\d+,\d{0,2}$/;
-        if(!patternDot.test(memoriaVar) && !patternComa.test(memoriaVar)){
+        if (!patternDot.test(memoriaVar) && !patternComa.test(memoriaVar)) {
             alert("Memória deve ser um número decimal com até duas casas decimais");
             return;
         }
@@ -158,10 +160,19 @@
                 tipoMemoriaServer: tipoMemoriaVar
             })
         }).then(function (resposta) {
-            if(resposta.ok){
-                alert("Componente cadastrado");
-                console.clear();
-                location.reload();
+            if (resposta.ok) {
+                resposta.json().then(function (resJson) {
+                    Swal.fire({
+                        title: 'Componente salvo! Deseja cadastrar novo parâmetro?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Cadastrar Parâmetro',
+                        cancelButtonTtext: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = `./cadParametro.html?idComponente=${resJson.insertId}&fkServidor=${fkServidorVar}`;
+                        }
+                    })
+                })
             }
         })
     }

@@ -26,7 +26,28 @@ function cadastrarComponente(req, res) {
         }).catch(
             function (erro) {
                 console.log(erro);
-                console.log("\nHouve um erro ao listar cadastrar o componente! Erro: ", erro.sqlMessage);
+                console.log("\nHouve um erro ao cadastrar o componente! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        )
+    }
+}
+
+function getComponente(req, res){
+    const idComponente = req.body.idComponenteServer;
+    const fkServidor = req.body.fkServidorServer;
+
+    if(idComponente == undefined){
+        res.status(400).send("O idComponente está undefined!");
+    } else if (fkServidor == undefined){
+        res.status(400).send("A fkServidor está undefined!");
+    } else {
+        maquinaModel.getComponente(idComponente, fkServidor).then(function (resposta) {
+            res.json(resposta)
+        }).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao buscar os dados do componente! Erro: ", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
             }
         )
@@ -78,6 +99,7 @@ function deletar(req, res) {
 
 module.exports = {
     cadastrarComponente,
+    getComponente,
     listar,
     deletar
 }

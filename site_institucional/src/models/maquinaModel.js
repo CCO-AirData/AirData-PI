@@ -19,6 +19,12 @@ function cadastrarComponente(fkServidor, tipoComponente, nomeComponente, memoria
     return database.executar(instrucao);
 }
 
+function getComponente(idComponente, fkServidor){
+    let instrucao = `SELECT * FROM componente WHERE idComponente = ${idComponente} && fkServidor = '${fkServidor}'`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 function deletar(mac) {
     var instrucao = `DELETE FROM servidor WHERE idServidor = "${mac}";`;
     console.log("Executando a instrução SQL: \n" + instrucao);
@@ -27,6 +33,7 @@ function deletar(mac) {
 
 module.exports = {
     cadastrarComponente,
+    getComponente,
     listar,
     deletar
 };

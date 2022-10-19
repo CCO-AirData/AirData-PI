@@ -7,6 +7,10 @@ router.post("/cadastrarComponente", function (req, res) {
     maquinaController.cadastrarComponente(req, res);
 });
 
+router.post("/getComponente", function (req, res) {
+    maquinaController.getComponente(req, res);
+});
+
 router.post("/listar", function (req, res) {
     maquinaController.listar(req, res);
 });
