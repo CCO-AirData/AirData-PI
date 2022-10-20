@@ -1,19 +1,19 @@
 var express = require("express");
 var router = express.Router();
 
-var empresaController = require("../controllers/medidasController");
+var medidasController = require("../controllers/medidasController");
 
 //Direcionando para a função medidasGrafico de medidasController.js
-router.post("/grafico", function (req, res) {
-    empresaController.medidasGrafico(req, res);
+router.get("/cards-tempo-real/:idMaquina/:metrica", function (req, res) {
+    medidasController.medidasCardsTempoReal(req, res);
 })
 
-router.get("/cards-tempo-real/:idMaquina/:metrica", function (req, res) {
-    empresaController.medidasCardsTempoReal(req, res);
+router.get("/grafico-tempo-real/:idMaquina/:metrica/:limite", function (req, res) {
+    medidasController.medidasGraficoTempoReal(req, res);
 })
 
 router.get("/getComponentesServidor/:idMaquina", function (req, res) {
-    empresaController.getComponentesServidor(req, res);
+    medidasController.getComponentesServidor(req, res);
 })
 
 module.exports = router;

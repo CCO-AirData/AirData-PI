@@ -7,7 +7,7 @@ function getComponentesServidor(idMaquina) {
     return database.executar(instrucao);
 }
 
-function medidasGrafico(idMaquina, metrica, limite) {
+function medidasCardsTempoReal(idMaquina, metrica, limite) {
     if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         var instrucao = `SELECT * FROM vw_${metrica} WHERE idServidor = "${idMaquina}" LIMIT ${limite};`;
         console.log("Executando a instrução SQL: \n" + instrucao);
@@ -18,7 +18,7 @@ function medidasGrafico(idMaquina, metrica, limite) {
     return database.executar(instrucao);
 }
 
-function medidasCardsTempoReal(idMaquina, metrica, limite) {
+function medidasGraficoTempoReal(idMaquina, metrica, limite) {
     if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         var instrucao = `SELECT * FROM vw_${metrica} WHERE idServidor = "${idMaquina}" LIMIT ${limite};`;
         console.log("Executando a instrução SQL: \n" + instrucao);
@@ -32,6 +32,6 @@ function medidasCardsTempoReal(idMaquina, metrica, limite) {
 
 module.exports = {
     getComponentesServidor,
-    medidasGrafico,
-    medidasCardsTempoReal
+    medidasCardsTempoReal,
+    medidasGraficoTempoReal
 };

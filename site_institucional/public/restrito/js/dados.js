@@ -80,7 +80,7 @@ function obterDadosCards(idMaquina, metrica) {
             }
         })
         .catch(function (error) {
-            console.error(`Erro na obtenção dos dados do aquario p/ gráfico: ${error.message}`);
+            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         });
 }
 
@@ -88,26 +88,18 @@ function obterDadosCards(idMaquina, metrica) {
 function obterDadosGrafico(idMaquina, metrica, isPrimeiroPlot) {
     var limite;
     isPrimeiroPlot ? limite = 12 : limite = 1
-
-    fetch("/medidas/grafico", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            idMaquina: idMaquina,
-            metrica: metrica,
-            limite: limite
-        })
-    }).then(response => {
+    console.log('Criando gráfico')
+    fetch(`/medidas/grafico-tempo-real/${idMaquina}/${metrica}/${limite}`)
+        .then(response => {
             if (response.ok) {
                 response.json().then(resposta => {
 
-                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    console.log(`Dados recebidos Gráfico: ${JSON.stringify(resposta)}`);
                     console.log(typeof resposta)
                     console.log(resposta)
-
+                    
                     isPrimeiroPlot ? plotarGrafico(metrica, resposta, limite) : atualizarGrafico(metrica, resposta)
+
                 });
             } else {
 

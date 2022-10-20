@@ -302,7 +302,9 @@
         var dadosGrafico = [];
         var labelsGrafico = [];
 
-        for (var i = 0; i < limite; i++) {
+        console.log('Cheguei no plotar')
+
+        for (var i = 0; i < resposta.length; i++) {
             var dados = resposta[i]
             var valorLido = dados.valorLido;
             var unidadeMedida = dados.unidadeMedida;
@@ -352,10 +354,5 @@
             obterDadosGrafico(idMaquina, metrica, false);
         }, tempoCapturaGrafico);
     }
-
-
-
-
-
 
 </script>
