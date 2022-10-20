@@ -146,6 +146,14 @@ CREATE VIEW vw_onlineServers AS
 	FROM leitura
 	GROUP BY fkComponente_fkServidor;
 
+CREATE VIEW vw_componenteMetrica AS
+SELECT idComponente, fkServidor, tipoComponente, nomeComponente, tipoMemoria, nomeMetrica, unidadeMedida 
+FROM componente 
+JOIN parametro ON fkComponente_idComponente = idComponente 
+AND fkComponente_fkServidor = fkServidor
+JOIN metrica ON fkMetrica = idMetrica
+ORDER BY idComponente, fkServidor; 
+
 -- Inserts 
 INSERT INTO empresa (nomeEmpresa,cnpjEmpresa,telefoneEmpresa) VALUES 
 ('AirData', '00.000.000/0000-00', '(00) 0000-0000');
@@ -158,7 +166,7 @@ INSERT INTO torre VALUES (null,1);
 # antes de inserir esses dados abaixo, 
 # cadastre o servidor na API python e 
 ## mude o a variável @macAddress para o seu endereço mac!!!!
-SET @macAddress = 'C4-B0-B3-8C-D5-DF';
+SET @macAddress = '98:83:89:92:f2:a9';
 
 INSERT INTO componente (idComponente, fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) VALUES (null, @macAddress, 'CPU', 'CPU1', 4.00, 'Registrador');
 INSERT INTO componente (idComponente, fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) VALUES (null, @macAddress, 'RAM', 'RAM1', 16.00, 'RAM');
@@ -176,11 +184,13 @@ SELECT * FROM empresa;
 SELECT * FROM aeroporto;
 SELECT * FROM torre;
 SELECT * FROM servidor;
-SELECT * FROM componente;
+SELECT * FROM componente; 
 SELECT * FROM metrica;
 SELECT * FROM leitura;
 SELECT * FROM alerta;
 SELECT * FROM parametro;
+
+
 
 SELECT * FROM vw_iniciarSessao;
 SELECT * FROM vw_cpuPercent;
