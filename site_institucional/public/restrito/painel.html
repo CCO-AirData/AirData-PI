@@ -228,23 +228,11 @@
                                                 <th>Data</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="body-table">
                                             <tr>
-                                                <td><a href="#">000001</a></td>
+                                                <td><a>000001</a></td>
                                                 <td>Sobrecarregamento</td>
                                                 <td>CPU</td>
-                                                <td><span>01/01/2022</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="#">000002</a></td>
-                                                <td>Tendência de Piora</td>
-                                                <td>GPU</td>
-                                                <td><span>01/01/2022</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="#">000003</a></td>
-                                                <td>Falha</td>
-                                                <td>DISCO</td>
                                                 <td><span>01/01/2022</span></td>
                                             </tr>
                                         </tbody>
@@ -294,7 +282,29 @@
 <script>
 
     var pagina = "painel";
+    var pagina = "painelAlertas";
 
+    function listarTabelaAlertas(listaAlertas) {
+        var bodyTable = document.getElementById('body-table');
+        bodyTable.innerHTML = '';
+        
+        for(i = 0; i < 4; i++) {
+          var mac = listaAlertas[i].idServidor;
+          mac = mac.replace(/:/g, "-").toUpperCase();
+    
+          var dataHorario = listaAlertas[i].momentoAlerta.split("T");
+          dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+    
+          bodyTable.innerHTML += `
+            <tr>
+              <td><a href="#">${listaAlertas[i].idAlerta}</a></td>
+              <td>${listaAlertas[i].statusAlerta}</td>
+              <td>${listaAlertas[i].tipoComponente}</td>
+              <td>${dataHorario}</td>
+            </tr>
+          `
+        }
+      }
 
     document.querySelector("#painel-link").classList.add("active")
 </script>

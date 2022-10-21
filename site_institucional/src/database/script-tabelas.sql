@@ -177,6 +177,7 @@ SELECT * FROM aeroporto;
 SELECT * FROM torre;
 SELECT * FROM servidor;
 SELECT * FROM componente;
+SELECT * FROM alerta;
 SELECT * FROM metrica;
 SELECT * FROM leitura;
 SELECT * FROM alerta;

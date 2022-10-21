@@ -23,7 +23,7 @@ function iniciarSessao(pagina){
         var mac = macAdress.replace(/:/g, "-").toUpperCase();
         tituloPagina.innerText = `Dashboard | ${mac}`
         tituloDash.innerText = mac;
-    } else if(pagina == 'alertas'){
+    } else if(pagina == 'alertas' || pagina == 'painelAlertas'){
         receberDadosAlertas(sessionStorage.ID_TORRE, 10);
         receberOpcoesFiltros(sessionStorage.ID_TORRE);
     }
