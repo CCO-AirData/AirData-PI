@@ -32,6 +32,17 @@
     border: 1px solid #106EEA !important;
 }
 
+.titulo-componentes {
+    display: flex;
+    align-items: center;
+}
+
+.titulo-componentes i {
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
 /* CHART.JS*/
 
 .chartjs-render-monitor {

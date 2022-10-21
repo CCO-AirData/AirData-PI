@@ -26,6 +26,8 @@ function iniciarSessao(pagina){
     } else if(pagina == 'alertas'){
         receberDadosAlertas(sessionStorage.ID_TORRE, 10);
         receberOpcoesFiltros(sessionStorage.ID_TORRE);
+    } else if(pagina == 'componentes'){
+        receberDadosComponentes(macAdress);
     }
 }
 
@@ -119,6 +121,59 @@ function receberDadosAlertas(fkTorre, limite){
     }).catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
     });
+}
+
+function receberDadosComponentes(fkServidor){
+    fetch("/metricas/listarComponentes", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkServidorServer: fkServidor,
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+            resposta.json().then(json => {
+                console.log(json)
+                listarTabelaComponentes(json)
+            });
+        } else {
+            console.log('ERRO - não foi possível receber os dados dos componentes')
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+}
+
+function receberOpcoesComponentes(tipo, componente) {
+    fetch("/metricas/listarOpcoesComponentes", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nomeComponenteServer: componente
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+            resposta.json().then(json => {
+                console.log(json)
+                if(tipo == 'componente') {
+                    listarOpcoesComponentes(json)
+                } else {
+                    listarOpcoesParametro(json)
+                }
+            });
+        } else {
+            console.log('ERRO - não foi possível receber as opções de filtragem')
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+
 }
 
 function receberOpcoesFiltros(fkTorre){

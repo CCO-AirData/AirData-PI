@@ -72,6 +72,7 @@ function obterDadosCards(idMaquina, metrica) {
                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
                     console.log(typeof resposta)
                     console.log(resposta)
+                    console.log(metrica)
                     plotarCards(metrica, resposta);
                 });
             } else {

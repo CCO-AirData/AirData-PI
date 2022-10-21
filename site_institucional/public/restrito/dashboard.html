@@ -33,6 +33,7 @@
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800" id="titulo-macAdress">MAC</h1>
+                        <input id="btn-gerenciarComponentes" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerenciar Componentes">
                     </div>
 
                     <div class="row mb-3">
@@ -354,5 +355,11 @@
             obterDadosGrafico(idMaquina, metrica, false);
         }, tempoCapturaGrafico);
     }
+
+    var btnGerenciarComponentes = document.getElementById('btn-gerenciarComponentes')
+
+    btnGerenciarComponentes.addEventListener('click', () => {
+        window.location = './componentes.html'
+    })
 
 </script>

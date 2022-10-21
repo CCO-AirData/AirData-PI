@@ -1,20 +1,61 @@
 var metricaModel = require("../models/metricaModel");
 
 function listar(req, res) {
-    metricaModel.listar()
-        .then(
-            function (resultado) {
-                console.log(`\nMétricas: ${resultado}`);
-                res.json(resultado)
-            }
-        ).catch(
-            function (erro) {
-                console.log(erro);
-                console.log("\nHouve um erro ao listar as métricas! Erro: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        )
+    var fkServidor = req.body.fkServidorServer
+    console.log(fkServidor)
+    if (fkServidor == undefined) {
+        res.status(400).send("A fkServidor está undefined!");
+    } else {
+        metricaModel.listar(fkServidor)
+            .then(
+                function (resultado) {
+                    console.log(`\nComponentes: ${resultado}`);
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao listar os Componentes! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+    }
 }
+
+function listarOpcoesComponentes(req, res) {
+        nomeComponente = req.body.nomeComponenteServer;
+
+        if(nomeComponente == undefined) {
+            metricaModel.listarOpcoesComponentes()
+            .then(
+                function (resultado) {
+                    console.log(`\nOpções de Componentes: ${resultado}`);
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao listar as opções de Componentes! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+        } else {
+            metricaModel.listarOpcoesParametro(nomeComponente)
+            .then(
+                function (resultado) {
+                    console.log(`\nOpções de Componentes: ${resultado}`);
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao listar as opções de Componentes! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+        }
+    }
+
 
 function cadastrar(req, res) {
     let fkMetrica = req.body.fkMetricaServer;
@@ -43,5 +84,6 @@ function cadastrar(req, res) {
 
 module.exports = {
     listar,
+    listarOpcoesComponentes,
     cadastrar
 }
