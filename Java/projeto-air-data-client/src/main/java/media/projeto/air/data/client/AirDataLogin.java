@@ -8,50 +8,43 @@ package media.projeto.air.data.client;
  *
  * @author Victor
  */
-
 import javax.swing.*;
-
-
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class AirDataLogin extends javax.swing.JFrame {
 
     String email;
     String senha;
- 
 
     public AirDataLogin() {
         initComponents();
-        String email = "" ;
+        String email = "";
         String senha = "";
-        
 
     }
-
-    AirDataDash dash = new AirDataDash();
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         SejaBemVindo = new javax.swing.JLabel();
-        iptSenha = new javax.swing.JTextField();
         TextoSenha = new javax.swing.JLabel();
         TextoEmail = new javax.swing.JLabel();
         iptEmail = new javax.swing.JTextField();
         entrar = new javax.swing.JButton();
+        iptSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(447, 388));
+        setResizable(false);
 
         SejaBemVindo.setForeground(new java.awt.Color(0, 0, 255));
         SejaBemVindo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         SejaBemVindo.setText("LOGIN");
-
-        iptSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                iptSenhaActionPerformed(evt);
-            }
-        });
 
         TextoSenha.setText("Sua Senha:");
 
@@ -70,6 +63,12 @@ public class AirDataLogin extends javax.swing.JFrame {
             }
         });
 
+        iptSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iptSenhaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,12 +77,12 @@ public class AirDataLogin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(142, 142, 142)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TextoSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(iptSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(iptEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(SejaBemVindo, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(TextoSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(iptEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(TextoEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(SejaBemVindo, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(iptSenha)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(183, 183, 183)
                         .addComponent(entrar)))
@@ -100,9 +99,9 @@ public class AirDataLogin extends javax.swing.JFrame {
                 .addComponent(iptEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
                 .addComponent(TextoSenha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(iptSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(entrar)
                 .addContainerGap(127, Short.MAX_VALUE))
         );
@@ -111,43 +110,52 @@ public class AirDataLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void iptSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iptSenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_iptSenhaActionPerformed
-
     private void iptEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iptEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_iptEmailActionPerformed
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
-        // TODO add your handling code here:
-        Banco banco = new Banco();
-        
-         
-        email = iptEmail.getText();
+        try {
+            // TODO add your handling code here:
+            AirDataDash dash = new AirDataDash();
+            Banco banco = new Banco();
+            JdbcTemplate connection = banco.getConnection();
+            MacAddress rede = new MacAddress();
+            String MacAddres = rede.Mac();
+            email = iptEmail.getText();
 
-        senha = iptSenha.getText();
+            senha = iptSenha.getText();
 
-        
-        if (banco.select(email, senha)) {
-              this.setVisible(false);
-            dash.setVisible(true);
-        }
-        else{
-              JOptionPane.showMessageDialog(null, "Erro ao realizar Login");
+            if (banco.select(email, senha)) {
+                if (banco.select()) {
+                    this.setVisible(false);
+                    dash.setVisible(true);
+                } else {
+                    this.setVisible(false);
+                    dash.setVisible(true);
+                    String query = String.format("insert into servidor values ('%s',1);", MacAddres);
+
+                    connection.update(query);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao realizar Login");
+            }
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(AirDataLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SocketException ex) {
+            Logger.getLogger(AirDataLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_entrarActionPerformed
+
+    private void iptSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iptSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_iptSenhaActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])  {
-       
-       
-      
-      
-        
-        
+    public static void main(String args[]) {
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -171,7 +179,7 @@ public class AirDataLogin extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -187,6 +195,6 @@ public class AirDataLogin extends javax.swing.JFrame {
     private javax.swing.JLabel TextoSenha;
     private javax.swing.JButton entrar;
     private javax.swing.JTextField iptEmail;
-    private javax.swing.JTextField iptSenha;
+    private javax.swing.JPasswordField iptSenha;
     // End of variables declaration//GEN-END:variables
 }

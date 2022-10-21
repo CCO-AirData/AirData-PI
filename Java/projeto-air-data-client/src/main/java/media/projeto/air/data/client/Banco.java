@@ -61,6 +61,8 @@ public class Banco {
     return generatedPassword;
 }
   
+ 
+  
   public Boolean select(String email, String senha){
       String senhaCriptografada = criptografia(senha);
       String conexao = String.format("SELECT * FROM vw_iniciarSessao WHERE emailUsuario = '%s' AND senhaUsuario = '%s';",email,senhaCriptografada);
@@ -74,6 +76,21 @@ public class Banco {
       return true;
       }
   }
+  
+  public Boolean select(){
+   MacAddress rede = new MacAddress();
+   
+   
+       String conexao = String.format("SELECT * FROM servidor where idServidor = '%s'",rede.Mac());
+       List <Banco> resultado = connection.query(conexao, new BeanPropertyRowMapper(Banco.class));
+       if (resultado.size() == 0) {
+          return false;
+      }
+      else{
+      return true;
+      }
+      
+  }
  
   
   public JdbcTemplate getConnection() {
@@ -81,6 +98,8 @@ public class Banco {
     return connection;
 
   }
+
+   
   
 
 }
