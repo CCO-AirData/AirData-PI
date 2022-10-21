@@ -33,72 +33,12 @@
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800" id="titulo-macAdress">MAC</h1>
+                        <input id="btn-gerenciarComponentes" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerenciar Componentes">
                     </div>
 
                     <div class="row mb-3">
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">CPU</div>
-                                            <div id="card_cpu_percent" class="h5 mb-0 font-weight-bold text-gray-800">0%
-                                            </div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
+                        <div id="container_cards" class="row mb-3">
 
-                                                <span>ESTÁVEL</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-
-                                            <i class="fas fa-light fa-microchip fa-2x text-primary"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- New User Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">MEMÓRIA RAM</div>
-                                            <div id="card_ram_percent"
-                                                class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0%</div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
-
-                                                <span>INSTÁVEL</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-memory fa-2x text-info"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">DISCO</div>
-                                            <div id="card_disk_percent" class="h5 mb-0 font-weight-bold text-gray-800">
-                                                0%</div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
-
-                                                <span>ESTÁVEL</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-solid fa-hard-drive fa-2x text-warning"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- Area Chart -->
@@ -106,7 +46,16 @@
                             <div class="card mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 id="titulo_grafico_linha" class="m-0 font-weight-bold text-primary">MÉDIA DO ANO (POR MÊS)</h6>
+                                    <h6 id="titulo_grafico_linha" class="m-0 font-weight-bold text-primary"></h6>
+                                    <select id="select_componentes"
+                                        onchange="alterarCapturaGrafico(select_componentes.value)">
+                                        <option value="1000">1 segundo</option>
+                                        <option value="5000">5 segundos</option>
+                                        <option value="30000">30 segundos</option>
+                                        <option value="60000">1 minuto</option>
+                                        <option value="900000">15 minutos</option>
+                                        <option value="1800000">30 minutos</option>
+                                    </select>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-area">
@@ -294,16 +243,36 @@
 <script>
     const idMaquina = sessionStorage.MAC_SERVIDOR;
     const tempoCapturaCards = 1000;
-    const tempoCapturaGrafico = 1000;
+    var tempoCapturaGrafico = 1000;
+
 
     var pagina = "dashboard";
 
+
     setTimeout(() => {
-        console.log("Cheguei")
-        iniciar();
+        console.log("Cheguei");
+        criarTela();
+        setTimeout(() => {
+            iniciar();
+        }, 100);
     }, 100)
 
-    function iniciar(){
+
+    // Alterar tempo de captura do grafico
+
+    function alterarCapturaGrafico(novoTempo) {
+        tempoCapturaGrafico = novoTempo;
+    }
+
+    // Criando HTML dos cards
+
+    function criarTela() {
+        obterComponentes(idMaquina);
+    }
+
+    // Plotando dados dos cards
+
+    function iniciar() {
         // Funções em ./js/dados.js
         obterDadosCards(idMaquina, 'cpuPercent');
         obterDadosCards(idMaquina, 'ramPercent');
@@ -315,14 +284,14 @@
 
     function plotarCards(metrica, dadosMaquina) {
 
-            var idToSnakeCase = "card_" + metrica.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`); 
-            var idCard = document.getElementById(idToSnakeCase)
-            console.log(idToSnakeCase)
+        var idToSnakeCase = tratarId(metrica)
+        var idCard = document.getElementById(idToSnakeCase)
+        console.log(idToSnakeCase)
 
-            var percent = dadosMaquina[0].valorLido;
-            
-            idCard.innerHTML = `${Math.round(percent, 0)}%`;        
-        
+        var percent = dadosMaquina[0].valorLido;
+
+        idCard.innerHTML = `${Math.round(percent, 0)}%`;
+
         setTimeout(() => {
             obterDadosCards(idMaquina, metrica);
         }, tempoCapturaCards);
@@ -334,7 +303,9 @@
         var dadosGrafico = [];
         var labelsGrafico = [];
 
-        for (var i = 0; i < limite; i++) {
+        console.log('Cheguei no plotar')
+
+        for (var i = 0; i < resposta.length; i++) {
             var dados = resposta[i]
             var valorLido = dados.valorLido;
             var unidadeMedida = dados.unidadeMedida;
@@ -353,11 +324,11 @@
         myLineChart.update();
 
         if (metrica == 'cpuPercent') {
-            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA CPU (TEMPO REAL)'
+            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA CPU'
         } else if (metrica == 'ramPercent') {
-            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA RAM (TEMPO REAL)'
+            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA RAM'
         } else if (metrica == 'diskPercent') {
-            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DO DISCO (TEMPO REAL)'
+            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DO DISCO'
         }
 
         setTimeout(() => {
@@ -372,7 +343,7 @@
         var valorLido = dados.valorLido;
         var unidadeMedida = dados.unidadeMedida;
         var dataHorario = dados.horario.split("T");
-        dataHorario = [dataHorario[0].replace(/-/g, "/"),dataHorario[1].slice(0, 8)];
+        dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
 
         myLineChart.data.labels.shift();
         myLineChart.data.datasets[0].data.shift();
@@ -385,9 +356,10 @@
         }, tempoCapturaGrafico);
     }
 
+    var btnGerenciarComponentes = document.getElementById('btn-gerenciarComponentes')
 
-
-
-
+    btnGerenciarComponentes.addEventListener('click', () => {
+        window.location = './componentes.html'
+    })
 
 </script>

@@ -11,7 +11,7 @@ function cadastrarComponente(req, res) {
         res.status(400).send("A fkServidor está undefined!");
     } else if (tipoComponente == undefined) {
         res.status(400).send("O tipoComponente está undefined!");
-    } else if(nomeComponente == undefined) {
+    } else if (nomeComponente == undefined) {
         res.status(400).send("O nomeComponente está undefined!")
     } else if (memoria == undefined) {
         res.status(400).send("A memória está undefined!");
@@ -26,7 +26,28 @@ function cadastrarComponente(req, res) {
         }).catch(
             function (erro) {
                 console.log(erro);
-                console.log("\nHouve um erro ao listar cadastrar o componente! Erro: ", erro.sqlMessage);
+                console.log("\nHouve um erro ao cadastrar o componente! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        )
+    }
+}
+
+function getComponente(req, res) {
+    const idComponente = req.body.idComponenteServer;
+    const fkServidor = req.body.fkServidorServer;
+
+    if (idComponente == undefined) {
+        res.status(400).send("O idComponente está undefined!");
+    } else if (fkServidor == undefined) {
+        res.status(400).send("A fkServidor está undefined!");
+    } else {
+        maquinaModel.getComponente(idComponente, fkServidor).then(function (resposta) {
+            res.json(resposta)
+        }).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao buscar os dados do componente! Erro: ", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
             }
         )
@@ -49,6 +70,28 @@ function listar(req, res) {
                 function (erro) {
                     console.log(erro);
                     console.log("\nHouve um erro ao listar as máquinas! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+    }
+}
+
+function listarComEstado(req, res) {
+    var fkTorre = req.body.fkTorreServer;
+
+    if (fkTorre == undefined) {
+        res.status(400).send("A fkTorre do aeroporto está undefined!");
+    } else {
+        maquinaModel.listarComEstado(fkTorre)
+            .then(
+                function (resultado) {
+                    console.log(`\nMáquinas e estado: ${resultado}`);
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao listar as máquinas com os estados! Erro: ", erro.sqlMessage);
                     res.status(500).json(erro.sqlMessage);
                 }
             )
@@ -78,6 +121,8 @@ function deletar(req, res) {
 
 module.exports = {
     cadastrarComponente,
+    getComponente,
     listar,
+    listarComEstado,
     deletar
 }
