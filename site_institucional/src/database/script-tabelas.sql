@@ -351,9 +351,6 @@ INSERT INTO metrica VALUES ('ramPercent', 'psutil.virtual_memory().percent', '%'
 INSERT INTO metrica VALUES ('diskPercent', 'psutil.disk_usage("/").percent', '%', 0);
 
 
-SELECT TOP ${limite} * FROM vw_${metrica} WHERE idServidor = "${idMaquina}";
-
-
 
 
 
