@@ -6,8 +6,23 @@ function listar(fkTorre) {
     return database.executar(instrucao);
 }
 
-function cadastrarComponente(){
+function cadastrarComponente(fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) {
+    let instrucao = "";
+    if (memoria == "null" && tipoMemoria == "null") {
+        instrucao = `INSERT INTO componente (fkServidor, tipoComponente, nomeComponente) 
+        VALUES ('${fkServidor}', '${tipoComponente}', '${nomeComponente}');`;
+    } else if (memoria != "null" && tipoMemoria != "null") {
+        instrucao = `INSERT INTO componente (fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) 
+        VALUES ('${fkServidor}', '${tipoComponente}', '${nomeComponente}', '${memoria}', '${tipoMemoria}');`;
+    }
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
 
+function getComponente(idComponente, fkServidor){
+    let instrucao = `SELECT * FROM componente WHERE idComponente = ${idComponente} && fkServidor = '${fkServidor}'`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
 }
 
 function deletar(mac) {
@@ -18,6 +33,7 @@ function deletar(mac) {
 
 module.exports = {
     cadastrarComponente,
+    getComponente,
     listar,
     deletar
 };

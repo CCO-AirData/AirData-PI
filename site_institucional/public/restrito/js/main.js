@@ -43,6 +43,16 @@ class mySidebar extends HTMLElement {
                     
             </li>
 
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                
+                <a id="cad-componente-link" class="nav-link" href="./cadComponente.html">
+                    <i class="bi bi-people-fill"></i>
+                    <span style="font-size:1rem">Cadastrar Componentes</span></a>
+                    
+            </li>
+
             
         </ul>
         
