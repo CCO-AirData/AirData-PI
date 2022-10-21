@@ -283,8 +283,9 @@
     // Pegando dados de porcentagem para os cards no topo da tela
 
     function plotarCards(metrica, dadosMaquina) {
-
+        console.log(dadosMaquina)
         var idToSnakeCase = tratarId(metrica)
+        idToSnakeCase += dadosMaquina[0].idComponente
         var idCard = document.getElementById(idToSnakeCase)
         console.log(idToSnakeCase)
 
