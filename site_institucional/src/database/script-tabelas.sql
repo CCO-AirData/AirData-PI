@@ -72,9 +72,10 @@ CREATE TABLE alerta(
 );
 
 CREATE TABLE metrica (
-	idMetrica INT PRIMARY KEY AUTO_INCREMENT,
+	idMetrica INT PRIMARY KEY,
     nomeComponente VARCHAR(40) NOT NULL,
     nomeMetrica VARCHAR(40) NOT NULL,
+    nomeView VARCHAR(40) NOT NULL,
     comando VARCHAR(50) NOT NULL,
     unidadeMedida VARCHAR(10) NOT NULL,
     isTupla TINYINT NOT NULL
@@ -111,7 +112,7 @@ JOIN componente ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
 WHERE metrica.nomeComponente = 'CPU'
-AND nomeMetrica = 'Porcentagem de uso'
+AND metrica.nomeMetrica = 'Porcentagem de uso'
 ORDER BY horario DESC;
 
 CREATE VIEW vw_ramPercent AS
@@ -121,7 +122,7 @@ JOIN componente ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
 WHERE metrica.nomeComponente = 'RAM'
-AND nomeMetrica = 'Porcentagem de uso'
+AND metrica.nomeMetrica = 'Porcentagem de uso'
 ORDER BY horario DESC;
 
 CREATE VIEW vw_diskPercent AS
@@ -131,7 +132,7 @@ JOIN componente ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
 WHERE metrica.nomeComponente = 'DISCO'
-AND nomeMetrica = 'Porcentagem de uso'
+AND metrica.nomeMetrica = 'Porcentagem de uso'
 ORDER BY horario DESC;
 
 CREATE VIEW vw_alertas as
@@ -150,17 +151,19 @@ CREATE VIEW vw_onlineServers AS
 	FROM leitura
 	GROUP BY fkComponente_fkServidor;
 
-<<<<<<< HEAD
--- delete from componente where idComponente = 2 ;
-=======
 CREATE VIEW vw_componenteMetrica AS
-SELECT idComponente, fkServidor, tipoComponente, componente.nomeComponente, tipoMemoria, nomeMetrica, unidadeMedida 
+SELECT idComponente, fkServidor, tipoComponente, componente.nomeComponente, tipoMemoria, nomeMetrica, unidadeMedida, nomeView 
 FROM componente 
 JOIN parametro ON fkComponente_idComponente = idComponente 
 AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
 ORDER BY idComponente, fkServidor; 
->>>>>>> a515db6ef84dc1fae5a6ea1f7a9c4db37aa13bff
+
+-- cardápio
+INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, nomeView, comando, unidadeMedida, isTupla) VALUES (1, 'CPU', 'Porcentagem de uso', 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', FALSE);
+INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, nomeView, comando, unidadeMedida, isTupla) VALUES (2, 'RAM', 'Porcentagem de uso', 'ramPercent', 'psutil.virtual_memory().percent', '%', FALSE);
+INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, nomeView, comando, unidadeMedida, isTupla) VALUES (3, 'DISCO', 'Porcentagem de uso', 'diskPercent', 'psutil.disk_usage("/").percent', '%', FALSE);
+
 
 -- Inserts 
 INSERT INTO aeroporto (fkEmpresa,nomeAeroporto,cepAeroporto,numeroAeroporto,ufAeroporto,cidadeAeroporto,bairroAeroporto,ruaAeroporto) VALUES 
@@ -180,33 +183,19 @@ Insert INTO servidor values(1,1);
 # antes de inserir esses dados abaixo, 
 # cadastre o servidor na API python e 
 ## mude o a variável @macAddress para o seu endereço mac!!!!
-<<<<<<< HEAD
-SET @macAddress = 'b8:2a:72:a2:73:d4';
-=======
-SET @macAddress = '10:5b:ad:fa:55:af';
->>>>>>> a515db6ef84dc1fae5a6ea1f7a9c4db37aa13bff
 
 INSERT INTO componente (idComponente, fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) VALUES (null, @macAddress, 'CPU', 'CPU1', 4.00, 'Registrador');
 INSERT INTO componente (idComponente, fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) VALUES (null, @macAddress, 'RAM', 'RAM1', 16.00, 'RAM');
 INSERT INTO componente (idComponente, fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) VALUES (null, @macAddress, 'DISK', 'DISK1', 500.00, 'HD');
-INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, comando, unidadeMedida, isTupla) VALUES (null, 'CPU', 'Porcentagem de uso', 'psutil.cpu_percent(interval=0.1)', '%', FALSE);
-INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, comando, unidadeMedida, isTupla) VALUES (null, 'RAM', 'Porcentagem de uso', 'psutil.virtual_memory().percent', '%', FALSE);
-INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, comando, unidadeMedida, isTupla) VALUES (null, 'DISCO', 'Porcentagem de uso', 'psutil.disk_usage("/").percent', '%', FALSE);
-INSERT INTO parametro (fkMetrica, fkComponente_idComponente, fkComponente_fkServidor) VALUES (1, 1, @macAddress);
-INSERT INTO parametro (fkMetrica, fkComponente_idComponente, fkComponente_fkServidor) VALUES (2, 2, @macAddress);
-INSERT INTO parametro (fkMetrica, fkComponente_idComponente, fkComponente_fkServidor) VALUES (3, 3, @macAddress);
 
 SELECT * FROM usuario;
 SELECT * FROM empresa;
 SELECT * FROM aeroporto;
 SELECT * FROM torre;
 SELECT * FROM servidor;
-<<<<<<< HEAD
 SELECT * FROM componente;
 SELECT * FROM alerta;
-=======
 SELECT * FROM componente; 
->>>>>>> 7e3fb14374eb4a44f12ead0c89da77fe84d067b9
 SELECT * FROM metrica;
 SELECT * FROM leitura;
 SELECT * FROM alerta;
@@ -217,6 +206,7 @@ SELECT * FROM vw_cpuPercent;
 SELECT * FROM vw_ramPercent;
 SELECT * FROM vw_diskPercent;
 SELECT * FROM vw_alertas;
+SELECT * FROM vw_componenteMetrica;
 
 SELECT * from parametro WHERE fkComponente_fkServidor = '00:e0:4c:36:39:83';
 SELECT comando, isTupla FROM metrica WHERE idMetrica = 1;

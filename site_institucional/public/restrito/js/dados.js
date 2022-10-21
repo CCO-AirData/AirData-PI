@@ -28,11 +28,11 @@ function criarCards(vtComponentes){
         var componente = vtComponentes[i]
         var icone;
 
-        if(componente.nomeMetrica.startsWith("disk")){
+        if(componente.nomeView.startsWith("disk")){
             icone = "fas fa-solid fa-hard-drive fa-2x text-warning"
-        } else if (componente.nomeMetrica.startsWith("ram")){
+        } else if (componente.nomeView.startsWith("ram")){
             icone = "fas fa-memory fa-2x text-info"
-        } else if (componente.nomeMetrica.startsWith("cpu")){
+        } else if (componente.nomeView.startsWith("cpu")){
             icone = "fas fa-light fa-microchip fa-2x text-primary"
         }
 
@@ -44,7 +44,7 @@ function criarCards(vtComponentes){
                 <div class="row align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-uppercase mb-1">${componente.tipoComponente} | ${componente.nomeComponente} (${componente.unidadeMedida})</div>
-                        <div id="${tratarId(componente.nomeMetrica)}" class="h5 mb-0 font-weight-bold text-gray-800">0%
+                        <div id="${tratarId(componente.nomeView)}" class="h5 mb-0 font-weight-bold text-gray-800">0%
                         </div>
                         <div class="mt-2 mb-0 text-muted text-xs">
 
