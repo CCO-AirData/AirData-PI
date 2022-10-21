@@ -24,6 +24,7 @@ var mySqlConfig = {
     user: "airdata_client",
     database: "airData",
     password: "sptech",
+    timezone: "-00:00"
 };
 
 function executar(instrucao) {

@@ -16,6 +16,8 @@
     <script src="https://kit.fontawesome.com/2eecc47c4e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/main.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body id="page-top" class="" onload="iniciarSessao(pagina)">
@@ -35,225 +37,39 @@
                         <h1 class="h3 mb-0 text-gray-800">Painel Geral</h1>
                     </div>
 
-                    <div class="row mb-3">
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <div class="row align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">CPU</div>
-                                            <div id="card_cpu_percent" class="h5 mb-0 font-weight-bold text-gray-800">0%
-                                            </div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
+                    <h3>Servidores offline: <span id="spnServidoresOffline">0</span></h3><br>
+                    <h3>Servidores online: <span id="spnServidoresOnline">0</span></h3>
+                    <button id="btnVerMaquinasOffline" disabled onclick="mostrarModal()">Ver máquinas offline</button>
 
-                                                <span>ESTÁVEL</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-
-                                            <i class="fas fa-light fa-microchip fa-2x text-primary"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col-xl-8 col-lg-7 mb-4">
+                        <div class="card">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">ALERTAS</h6>
+                                <a class="m-0 float-right btn btn-danger btn-sm" href="alertas.html">HISTORICO <i
+                                        class="fas fa-chevron-right"></i></a>
                             </div>
-                        </div>
-                        <!-- New User Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">MEMÓRIA RAM</div>
-                                            <div id="card_ram_percent"
-                                                class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0%</div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
-
-                                                <span>INSTÁVEL</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-memory fa-2x text-info"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Alertas ID</th>
+                                            <th>Motivo</th>
+                                            <th>Hardware</th>
+                                            <th>Data</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="corpo-tabela-alertas">
+                                        <tr>
+                                            <td><a>000001</a></td>
+                                            <td>Sobrecarregamento</td>
+                                            <td>CPU</td>
+                                            <td><span>01/01/2022</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
+                            <div class="card-footer"></div>
                         </div>
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">DISCO</div>
-                                            <div id="card_disk_percent" class="h5 mb-0 font-weight-bold text-gray-800">
-                                                0%</div>
-                                            <div class="mt-2 mb-0 text-muted text-xs">
-
-                                                <span>ESTÁVEL</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-solid fa-hard-drive fa-2x text-warning"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card mb-4">
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 id="titulo_grafico_linha" class="m-0 font-weight-bold text-primary">MÉDIA DO ANO (POR MÊS)</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <div class="chartjs-size-monitor">
-                                            <div class="chartjs-size-monitor-expand">
-                                                <div class=""></div>
-                                            </div>
-                                            <div class="chartjs-size-monitor-shrink">
-                                                <div class=""></div>
-                                            </div>
-                                        </div>
-                                        <div class="chartjs-size-monitor">
-                                            <div class="chartjs-size-monitor-expand">
-                                                <div class=""></div>
-                                            </div>
-                                            <div class="chartjs-size-monitor-shrink">
-                                                <div class=""></div>
-                                            </div>
-                                        </div>
-                                        <canvas id="myAreaChart" style="display: block; width: 1013px; height: 320px;"
-                                            width="1013" height="320" class="chartjs-render-monitor"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card mb-4">
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">MÉDIA ULTIMOS 5 MESES</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
-                                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">CPU <i class="fas fa-chevron-down"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink" x-placement="bottom-end"
-                                            style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(62px, 31px, 0px);">
-                                            <div class="dropdown-header">SELECIONA O HARDWARE</div>
-                                            <a class="dropdown-item" href="#">MEMÓRIA RAM</a>
-                                            <a class="dropdown-item" href="#">GPU</a>
-                                            <a class="dropdown-item active" href="#">CPU</a>
-                                            <a class="dropdown-item" href="#">DISCO</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <div class="small text-gray-500">MAIO <div class="small float-right"><b>80%</b>
-                                            </div>
-                                        </div>
-                                        <div class="progress" style="height: 12px;">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 80%"
-                                                aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="small text-gray-500">ABRIL<div class="small float-right"><b>70%</b>
-                                            </div>
-                                        </div>
-                                        <div class="progress" style="height: 12px;">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%"
-                                                aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="small text-gray-500">MARÇO<div class="small float-right"><b>55%</b>
-                                            </div>
-                                        </div>
-                                        <div class="progress" style="height: 12px;">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 55%"
-                                                aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="small text-gray-500">FEVEREIRO<div class="small float-right">
-                                                <b>50%</b>
-                                            </div>
-                                        </div>
-                                        <div class="progress" style="height: 12px;">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
-                                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="small text-gray-500">JANEIRO<div class="small float-right">
-                                                <b>30%</b>
-                                            </div>
-                                        </div>
-                                        <div class="progress" style="height: 12px;">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 30%"
-                                                aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer text-center">
-                                    <a class="m-0 small text-primary card-link" href="#">HISTORICO <i
-                                            class="fas fa-chevron-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Invoice Example -->
-                        <div class="col-xl-8 col-lg-7 mb-4">
-                            <div class="card">
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">ALERTAS</h6>
-                                    <a class="m-0 float-right btn btn-danger btn-sm" href="alertas.html">HISTORICO <i
-                                            class="fas fa-chevron-right"></i></a>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table align-items-center table-flush">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th>Alertas ID</th>
-                                                <th>Motivo</th>
-                                                <th>Hardware</th>
-                                                <th>Data</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><a href="#">000001</a></td>
-                                                <td>Sobrecarregamento</td>
-                                                <td>CPU</td>
-                                                <td><span>01/01/2022</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="#">000002</a></td>
-                                                <td>Tendência de Piora</td>
-                                                <td>GPU</td>
-                                                <td><span>01/01/2022</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="#">000003</a></td>
-                                                <td>Falha</td>
-                                                <td>DISCO</td>
-                                                <td><span>01/01/2022</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="card-footer"></div>
-                            </div>
-                        </div>
-                        <!-- Message From Customer-->
                     </div>
                     <!--Row-->
                     <div class="row">
@@ -293,8 +109,103 @@
 
 <script>
 
-    var pagina = "painel";
+    // var pagina = "painel";
+    var pagina = "painelAlertas";
 
+    let maquinasOffline = [];
+    let maquinasOnline = [];
+    fetch('/maquinas/listarComEstado', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkTorreServer: sessionStorage.ID_TORRE
+        })
+    }).then(function (resultado) {
+        resultado.json().then(function (resJson) {
+            resJson.forEach(function (maquina) {
+                if (maquina.estado == 'OFFLINE') {
+                    maquinasOffline.push(maquina)
+                }
+                if (maquina.estado == 'ONLINE') {
+                    maquinasOnline.push(maquina)
+                }
+            });
+            document.getElementById('spnServidoresOffline').innerHTML = maquinasOffline.length;
+            document.getElementById('spnServidoresOnline').innerHTML = maquinasOnline.length;
+            listarMaquinasOffline();
+            document.getElementById('btnVerMaquinasOffline').disabled = false;
+        });
+    });
+
+    let tabelaOffline = "";
+    function listarMaquinasOffline() {
+        tabelaOffline =
+            '<div class="col-xl-10 col-lg-7 mb-4">' +
+            '<div class="card">' +
+            '<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">' +
+            '<h6 class="m-0 font-weight-bold text-primary">MÁQUINAS OFFLINE</h6>' +
+            '</div>' +
+            '<div class="table-responsive">' +
+            '<table class="table align-items-center table-flush">' +
+            '<thead class="thead-light">' +
+            '<tr>' +
+            '<th>ID da Torre</th>' +
+            '<th>ID do Servidor</th>' +
+            '<th>Última leitura</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody id="corpo-tabela-offline">';
+        maquinasOffline.forEach(function (maquina) {
+            tabelaOffline += `
+            <tr>
+                <td>${maquina.fkTorre}</td>
+                <td>${maquina.idServidor}</td>
+                <td>${maquina.ultimaLeitura}</td>
+            </tr>
+            `
+        });
+        tabelaOffline +=
+            '</tbody>' +
+            '</table>' +
+            '</div>' +
+            '<div class="card-footer"></div>' +
+            '</div>' +
+            '</div>';
+    }
+
+    function mostrarModal() {
+        Swal.fire({
+            // icon: 'error',
+            // title: 'Oops...',
+            // text: 'Something went wrong!',
+            // footer: '<a href="">Why do I have this issue?</a>'
+            html: tabelaOffline
+        })
+    }
+
+    function listarTabelaAlertas(listaAlertas) {
+        var bodyTable = document.getElementById('corpo-tabela-alertas');
+        bodyTable.innerHTML = '';
+
+        for (i = 0; i < 4; i++) {
+            var mac = listaAlertas[i].idServidor;
+            mac = mac.replace(/:/g, "-").toUpperCase();
+
+            var dataHorario = listaAlertas[i].momentoAlerta.split("T");
+            dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+
+            bodyTable.innerHTML += `
+            <tr>
+              <td>${listaAlertas[i].idAlerta}</td>
+              <td>${listaAlertas[i].statusAlerta}</td>
+              <td>${listaAlertas[i].tipoComponente}</td>
+              <td>${dataHorario}</td>
+            </tr>
+          `
+        }
+    }
 
     document.querySelector("#painel-link").classList.add("active")
 </script>

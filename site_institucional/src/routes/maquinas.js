@@ -15,6 +15,10 @@ router.post("/listar", function (req, res) {
     maquinaController.listar(req, res);
 });
 
+router.post("/listarComEstado", function (req, res) {
+    maquinaController.listarComEstado(req, res);
+});
+
 router.post("/deletar", function (req, res) {
     maquinaController.deletar(req, res);
 });

@@ -187,7 +187,12 @@ SELECT * FROM empresa;
 SELECT * FROM aeroporto;
 SELECT * FROM torre;
 SELECT * FROM servidor;
+<<<<<<< HEAD
+SELECT * FROM componente;
+SELECT * FROM alerta;
+=======
 SELECT * FROM componente; 
+>>>>>>> 7e3fb14374eb4a44f12ead0c89da77fe84d067b9
 SELECT * FROM metrica;
 SELECT * FROM leitura;
 SELECT * FROM alerta;
@@ -345,9 +350,6 @@ ORDER BY momentoAlerta DESC;
 INSERT INTO metrica VALUES ('cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', 0);
 INSERT INTO metrica VALUES ('ramPercent', 'psutil.virtual_memory().percent', '%', 0);
 INSERT INTO metrica VALUES ('diskPercent', 'psutil.disk_usage("/").percent', '%', 0);
-
-
-SELECT TOP ${limite} * FROM vw_${metrica} WHERE idServidor = "${idMaquina}";
 
 
 
