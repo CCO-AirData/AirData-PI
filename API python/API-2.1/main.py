@@ -130,7 +130,7 @@ def executar_{i}(servidor, componente, metrica):
         return float(valor[0:4].replace(",", '.'))
 
     if metrica == 4:
-        if platform == 'Linux':
+        if platform.system() == 'Linux':
             leitura = eval(comando)
         else:
             # USAR OPHM PARA VISUALIZAR SOMENTE CPU
