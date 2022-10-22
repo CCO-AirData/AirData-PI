@@ -281,21 +281,20 @@
         obterDadosCards(idMaquina, 'cpuPercent');
         obterDadosCards(idMaquina, 'ramPercent');
         obterDadosCards(idMaquina, 'diskPercent');
+        obterDadosCards(idMaquina, 'cpuTemp');
         obterDadosGrafico(idMaquina, 'cpuPercent', true);
     }
 
     // Pegando dados de porcentagem para os cards no topo da tela
 
     function plotarCards(metrica, dadosMaquina) {
-        console.log(dadosMaquina)
         var idToSnakeCase = tratarId(metrica)
         idToSnakeCase += dadosMaquina[0].idComponente
         var idCard = document.getElementById(idToSnakeCase)
-        console.log(idToSnakeCase)
 
         var percent = dadosMaquina[0].valorLido;
 
-        idCard.innerHTML = `${Math.round(percent, 0)}%`;
+        idCard.innerHTML = `${Math.round(percent, 0)}${dadosMaquina[0].unidadeMedida}`;
 
         setTimeout(() => {
             obterDadosCards(idMaquina, metrica);
