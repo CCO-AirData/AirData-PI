@@ -207,6 +207,7 @@ SELECT * FROM vw_ramPercent;
 SELECT * FROM vw_diskPercent;
 SELECT * FROM vw_alertas;
 SELECT * FROM vw_componenteMetrica;
+SELECT * FROM vw_onlineServers;
 
 SELECT * from parametro WHERE fkComponente_fkServidor = '00:e0:4c:36:39:83';
 SELECT comando, isTupla FROM metrica WHERE idMetrica = 1;
@@ -284,7 +285,9 @@ CREATE TABLE alerta(
 
 CREATE TABLE metrica (
 	idMetrica INT PRIMARY KEY IDENTITY(1,1),
+    nomeComponente VARCHAR(40) NOT NULL,
     nomeMetrica VARCHAR(40) NOT NULL,
+    nomeView VARCHAR(40) NOT NULL,
     comando VARCHAR(50) NOT NULL,
     unidadeMedida VARCHAR(10) NOT NULL,
     isTupla BIT NOT NULL
@@ -319,7 +322,8 @@ FROM leitura
 JOIN componente ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
-WHERE nomeMetrica = 'cpuPercent'
+WHERE metrica.nomeComponente = 'CPU'
+AND metrica.nomeMetrica = 'Porcentagem de uso'
 ORDER BY horario DESC;
 
 CREATE VIEW vw_ramPercent AS
@@ -328,7 +332,8 @@ FROM leitura
 JOIN componente ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
-WHERE nomeMetrica = 'ramPercent'
+WHERE metrica.nomeComponente = 'RAM'
+AND metrica.nomeMetrica = 'Porcentagem de uso'
 ORDER BY horario DESC;
 
 CREATE VIEW vw_diskPercent AS
@@ -337,7 +342,8 @@ FROM leitura
 JOIN componente ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
-WHERE nomeMetrica = 'diskPercent'
+WHERE metrica.nomeComponente = 'DISCO'
+AND metrica.nomeMetrica = 'Porcentagem de uso'
 ORDER BY horario DESC;
 
 CREATE VIEW vw_alertas as
@@ -348,12 +354,29 @@ JOIN servidor ON alerta.fkServidor = idServidor
 JOIN torre ON fkTorre = idTorre
 ORDER BY momentoAlerta DESC;
 
+CREATE VIEW vw_onlineServers AS
+	SELECT fkComponente_fkServidor AS idServidor, MAX(horario) AS ultimaLeitura, DATEDIFF(MINUTE, MAX(horario), GETDATE()) AS minutosDesdeUltimaLeitura, 
+		CASE WHEN DATEDIFF(MINUTE, MAX(horario), GETDATE()) > 1 THEN 'OFFLINE'
+		ELSE 'ONLINE'
+		END AS estado
+	FROM leitura
+	GROUP BY fkComponente_fkServidor;
+    
+CREATE VIEW vw_componenteMetrica AS
+SELECT TOP 50 idComponente, fkServidor, tipoComponente, componente.nomeComponente, tipoMemoria, nomeMetrica, unidadeMedida, nomeView 
+FROM componente 
+JOIN parametro ON fkComponente_idComponente = idComponente 
+AND fkComponente_fkServidor = fkServidor
+JOIN metrica ON fkMetrica = idMetrica
+ORDER BY idComponente, fkServidor; 
+
 -- 0 = false
 -- 1 = true
 
-INSERT INTO metrica VALUES ('cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', 0);
-INSERT INTO metrica VALUES ('ramPercent', 'psutil.virtual_memory().percent', '%', 0);
-INSERT INTO metrica VALUES ('diskPercent', 'psutil.disk_usage("/").percent', '%', 0);
+INSERT INTO metrica VALUES ('CPU', 'Porcentagem de uso', 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', 0);
+INSERT INTO metrica VALUES ('RAM', 'Porcentagem de uso', 'ramPercent', 'psutil.virtual_memory().percent', '%', 0);
+INSERT INTO metrica VALUES ('DISCO', 'Porcentagem de uso', 'diskPercent', 'psutil.disk_usage("/").percent', '%', 0);
+
 
 
 
