@@ -12,12 +12,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 /**
  *
- * @author ivanm
+ * @author
  */
 public class Banco {
-    
    
  private JdbcTemplate connection;
 
@@ -25,25 +25,37 @@ public class Banco {
     // Criando o construtor para identificar o banco
   public Banco() {
 
-
-
     BasicDataSource dataSource = new BasicDataSource();
-
-    dataSource​.setDriverClassName("com.mysql.jdbc.Driver");
     
-    // Colocar aqui o caminho do banco e o nome do database -- padrão = localhost:3306
-    dataSource​.setUrl("jdbc:mysql://127.0.0.1:3306/airdata");
-    
-    // Nome do usuário da conexão 
-    dataSource​.setUsername("airdata_client");
-    
-    // Senha da conexão 
-    dataSource​.setPassword("sptech");
 
-    this.connection = new JdbcTemplate(dataSource);
-
+    dataSource​.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    
+//    // Colocar aqui o caminho do banco e o nome do database -- padrão = localhost:3306
+    dataSource​.setUrl("jdbc:sqlserver://airdataserver.database.windows.net:1433;database=airdata;user=CloudSA9549f82c@airdataserver;password=pi-airdata2022;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30");
+     this.connection = new JdbcTemplate(dataSource);
   }
   
+  public void conectar(){
+  
+  
+
+//    // Nome do usuário da conexão 
+//    dataSource​.setUsername("airdata_client");
+//    
+//    // Senha da conexão 
+//    dataSource​.setPassword("sptech");
+
+       String conexao = String.format("SELECT * FROM usuario");
+       List <Banco> resultado = connection.query(conexao, new BeanPropertyRowMapper(Banco.class));
+       if (resultado.size() == 0) {
+           System.out.println("fail");
+      }
+      else{
+           System.out.println("sucess");
+           System.out.println(resultado);
+      }
+    
+  }
   
   public String criptografia(String passwordToHash){
     String generatedPassword = null;
@@ -98,8 +110,5 @@ public class Banco {
     return connection;
 
   }
-
-   
-  
-
 }
+
