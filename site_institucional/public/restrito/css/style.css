@@ -80,6 +80,16 @@
     top: 0
 }
 
+.legenda{
+    width: 30%;
+    height: 150px;
+    border: 2px solid #5a5a5a;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
 @keyframes chartjs-render-animation {
     from {
         opacity: .99
