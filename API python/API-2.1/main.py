@@ -1,8 +1,10 @@
+# coding: utf-8
 from time import sleep
 
 # Váriaveis ambiente
-# AMBIENTE_PRODUCAO = True
-AMBIENTE_PRODUCAO = False
+AMBIENTE_PRODUCAO = True
+# AMBIENTE_PRODUCAO = False
+
 
 def main():
     import hashlib
@@ -67,7 +69,8 @@ def cadastrarServidor(bdsql, cursor, mac, torre):
 
     bdsql.commit()
     sleep(2)
-    print(f"Servidor cadastrado com sucesso!\n MAC: {mac}\n Torre: {torre}")
+    print(f'Servidor cadastrado com sucesso!\n MAC: {mac}\n Torre: {torre}')
+    selecionarParametro(mac)
 
 def selecionarParametro(mac):
     bdsql, cursor = conectar()
@@ -86,12 +89,11 @@ def selecionarParametro(mac):
         executarMonitoramento(resposta, mac, len(resposta))
     else:
         print("Nenhuma componente cadastrado para monitoramento, cadastre na sua dashboard!")
-        sleep(5)
+        sleep(3)
         selecionarParametro(mac)
 
 def executarMonitoramento(resposta, mac, qtdParametros):
     print("Executando monitoramento...")
-
     isWorking = True
     while isWorking:
         script = """
@@ -103,6 +105,11 @@ import threading
             script += f"""
 def executar_{i}(servidor, componente, metrica):
     import psutil
+    from time import sleep
+    from json import loads
+    from urllib3 import PoolManager
+    import platform
+
     bdsql, cursores = conectar()
 
     if AMBIENTE_PRODUCAO:
@@ -116,12 +123,30 @@ def executar_{i}(servidor, componente, metrica):
     resposta = cursores.fetchall() # resposta retorna isto [(comando, isTupla)]
     isTupla = resposta[0][1]
 
-    comando = resposta[0][0]    
-    leitura = eval(comando)    
+    comando = resposta[0][0] 
+    leitura = None
+
+    def conversor(valor):
+        return float(valor[0:4].replace(",", '.'))
+
+    if metrica == 4:
+        if platform.system() == 'Linux':
+            leitura = eval(comando)
+        else:
+            # USAR OPHM PARA VISUALIZAR SOMENTE CPU
+            with PoolManager() as pool:
+                response = pool.request('GET', 'http://localhost:9000/data.json')
+                data = loads(response.data.decode('utf-8'))
+                temp_value = data['Children'][0]['Children'][0]['Children'][1]['Children'][0]['Value']
+                
+                leitura = conversor(temp_value)
+                sleep(1)
+    else:
+        leitura = eval(comando)    
 
     if isTupla == 0:
         if AMBIENTE_PRODUCAO:
-            query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(?, getdate(), ?, ?, ?)")
+            query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(?, DATEADD(HOUR, -3, GETDATE()), ?, ?, ?)")
         else:
             query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, now(), %s, %s, %s)")
             
@@ -133,7 +158,7 @@ def executar_{i}(servidor, componente, metrica):
     else: 
         for row in leitura:
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(?, getdate(), ?, ?, ?)")   
+                query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(?, DATEADD(HOUR, -3, GETDATE()), ?, ?, ?)")   
             else:
                 query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, now(), %s, %s, %s)")   
 
@@ -147,7 +172,7 @@ def executar_{i}(servidor, componente, metrica):
         if leitura >= 70.0 and leitura <= 75.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -159,7 +184,7 @@ def executar_{i}(servidor, componente, metrica):
         elif leitura > 75.0 and leitura <= 85.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Critico", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -171,7 +196,7 @@ def executar_{i}(servidor, componente, metrica):
         elif leitura > 85.0 and leitura <= 95.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Risco de falha", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -183,7 +208,7 @@ def executar_{i}(servidor, componente, metrica):
         elif leitura > 95.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Falha", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -197,7 +222,7 @@ def executar_{i}(servidor, componente, metrica):
         if leitura >= 70.0 and leitura <= 75.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -210,7 +235,7 @@ def executar_{i}(servidor, componente, metrica):
         elif leitura > 75.0 and leitura <= 85.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Critico", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -222,7 +247,7 @@ def executar_{i}(servidor, componente, metrica):
         elif leitura > 85.0 and leitura <= 95.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Risco de falha", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -234,7 +259,7 @@ def executar_{i}(servidor, componente, metrica):
         elif leitura > 95.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Falha", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -248,7 +273,7 @@ def executar_{i}(servidor, componente, metrica):
         if leitura >= 70.0 and leitura <= 75.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Perigo", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -260,7 +285,7 @@ def executar_{i}(servidor, componente, metrica):
         elif leitura > 75.0 and leitura <= 85.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Critico", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -272,7 +297,7 @@ def executar_{i}(servidor, componente, metrica):
         elif leitura > 85.0 and leitura <= 95.0:
 
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Risco de falha", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -283,7 +308,7 @@ def executar_{i}(servidor, componente, metrica):
             
         elif leitura > 95.0:
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
                 val = ("Falha", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
@@ -292,7 +317,44 @@ def executar_{i}(servidor, componente, metrica):
             cursores.execute(query, val)
             bdsql.commit()
 
+    elif metrica == 4:
+        if leitura >= 70.0 and leitura <= 75.0:
 
+            if AMBIENTE_PRODUCAO:
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
+                val = ("Perigo de superaquecimento", componente, servidor)
+            else:
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
+                val = ("Perigo de superaquecimento", componente)
+
+            
+            cursores.execute(query, val)
+            bdsql.commit()            
+        
+        elif leitura > 75.0 and leitura <= 90.0:
+
+            if AMBIENTE_PRODUCAO:
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
+                val = ("Superaquecimento", componente, servidor)
+            else:
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
+                val = ("Superaquecimento", componente)
+
+            cursores.execute(query, val)
+            bdsql.commit()            
+            
+        elif leitura > 90.0:
+
+            if AMBIENTE_PRODUCAO:
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, DATEADD(HOUR, -3, GETDATE()), ?, ?)")
+                val = ("Temperatura muito elevada", componente, servidor)
+            else:
+                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
+                val = ("Temperatura muito elevada", componente)
+
+            cursores.execute(query, val)
+            bdsql.commit()            
+            
 threading.Thread(target=executar_{i}, args=('{row[2]}', {row[1]}, {row[0]},)).start()
     """
         i += 1
@@ -329,10 +391,22 @@ def verificarAtualizacaoParametros(mac, qtdParametros):
 
 def conectar():
     if AMBIENTE_PRODUCAO:
+        # Para usar na AWS
+        # 1. sudo apt-get install unixodbc-dev
+        # 2. sudo apt-get install python-pip
+        # 3. pip install pyodbc
         import pyodbc as pyo 
 
-        # Download driver
+        # Download driver (Windows)
         #https://go.microsoft.com/fwlink/?linkid=2202930
+
+        #Download driver (Linux)
+        # sudo su
+        # curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+        # curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list
+        # exit
+        # sudo apt-get update
+        # sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
 
         bdsql = pyo.connect("Driver={ODBC Driver 18 for SQL Server};Server=tcp:airdataserver.database.windows.net,1433;Database=airdata;Uid=CloudSA9549f82c;Pwd=pi-airdata2022;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
         mycursor = bdsql.cursor()

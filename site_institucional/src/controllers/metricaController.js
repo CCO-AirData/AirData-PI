@@ -82,8 +82,29 @@ function cadastrar(req, res) {
 
 }
 
+function deletarComponente(req, res) {
+    let idComponente = req.body.idComponenteServer;
+
+    if (idComponente == undefined) {
+        res.status(400).send("O idComponente está undefined!");
+    } else {
+        metricaModel.deletar(idComponente).then(function (resposta) {
+            res.json(resposta);
+        }).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao deletar o componente! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+
+    }
+
+}
+
 module.exports = {
     listar,
     listarOpcoesComponentes,
-    cadastrar
+    cadastrar,
+    deletarComponente
 }

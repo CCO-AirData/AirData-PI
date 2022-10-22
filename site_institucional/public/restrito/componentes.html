@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="../assets/img/LogoAzulEscuro.svg" rel="icon">
-    <title>Painel Geral</title>
+    <title>Gerenciamento de Componentes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -218,15 +218,16 @@
                 tipoMemoriaServer: tipoMemoria
             })
         }).then(function (resposta) {
+            console.log(resposta.json)
             if (resposta.ok) {
-                resposta.json().then(function (resJson) {
+                resposta.json().then(function (idComponente) {
                     Swal.fire({
                         title: 'Componente cadastrado! ',
                         text: 'Redirecionando para a tela de cadastro de parâmetros...',
                         icon: 'success',
                         confirmButtonText: 'OK',
                     }).then((result) => {
-                        exibirTelaCadParametro(resJson.insertId, fkServidor, tipoComponente);
+                        exibirTelaCadParametro(idComponente, fkServidor, tipoComponente);
                     })
 
                 })
@@ -303,6 +304,62 @@
         })
 
     }
+
+    function exibirTelaConfirmacao(idComponente) {
+        Swal.fire({
+            title: 'Você tem certeza?',
+            text: "Essa ação não pode ser revertida!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, tenho certeza!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deletarComponente(idComponente);
+            }
+        })
+    }
+
+    function deletarComponente(idComponente) {
+        fetch("/metricas/deletar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idComponenteServer: idComponente
+            })
+            }).then(function (resposta) {
+            console.log("resposta: ", resposta);
+            if (resposta.ok) {
+                console.log("componente deletado")
+                Swal.fire(
+                    'Deletado!',
+                    'O componente foi deletado.',
+                    'success'
+                )
+                setTimeout(() => {
+                location.reload();
+                }, "2000")
+            } else {
+                throw (
+                Swal.fire(
+                    'Erro!',
+                    'Não foi possível deletar esse componente.',
+                    'error'
+                )
+                );
+            }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+
+
+    }
+
+
 
     var btnVoltar = document.getElementById('btn-voltar');
     console.log(btnVoltar)

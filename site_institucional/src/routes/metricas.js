@@ -15,4 +15,8 @@ router.post("/cadastrar", function (req, res) {
     metricaController.cadastrar(req, res);
 });
 
+router.post("/deletar", function (req, res) {
+    metricaController.deletarComponente(req, res);
+});
+
 module.exports = router;

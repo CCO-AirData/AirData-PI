@@ -22,7 +22,7 @@ function cadastrarComponente(req, res) {
         tipoMemoria = tipoMemoria == "" ? "null" : tipoMemoria;
 
         maquinaModel.cadastrarComponente(fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria).then(function (resposta) {
-            res.json(resposta)
+            process.env.AMBIENTE_PROCESSO == 'producao' ? res.json(resposta[0].ID) : res.json(resposta.insertId)
         }).catch(
             function (erro) {
                 console.log(erro);
