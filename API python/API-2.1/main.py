@@ -397,8 +397,16 @@ def conectar():
         # 3. pip install pyodbc
         import pyodbc as pyo 
 
-        # Download driver
+        # Download driver (Windows)
         #https://go.microsoft.com/fwlink/?linkid=2202930
+
+        #Download driver (Linux)
+        # sudo su
+        # curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+        # curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list
+        # exit
+        # sudo apt-get update
+        # sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
 
         bdsql = pyo.connect("Driver={ODBC Driver 18 for SQL Server};Server=tcp:airdataserver.database.windows.net,1433;Database=airdata;Uid=CloudSA9549f82c;Pwd=pi-airdata2022;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
         mycursor = bdsql.cursor()
