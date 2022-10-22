@@ -315,7 +315,7 @@ CREATE TABLE alerta(
 );
 
 CREATE TABLE metrica (
-	idMetrica INT PRIMARY KEY IDENTITY(1,1),
+	idMetrica INT PRIMARY KEY,
     nomeComponente VARCHAR(40) NOT NULL,
     nomeMetrica VARCHAR(40) NOT NULL,
     nomeView VARCHAR(40) NOT NULL,
@@ -377,6 +377,16 @@ WHERE metrica.nomeComponente = 'DISCO'
 AND metrica.nomeMetrica = 'Porcentagem de uso'
 ORDER BY horario DESC;
 
+CREATE VIEW vw_cpuTemp AS
+SELECT TOP 50 idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
+FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente
+AND fkComponente_fkServidor = fkServidor
+JOIN metrica ON fkMetrica = idMetrica
+WHERE metrica.nomeComponente = 'CPU'
+AND metrica.nomeMetrica = 'Temperatura'
+ORDER BY horario DESC;
+
 CREATE VIEW vw_alertas as
 SELECT TOP 150 idAlerta, statusAlerta, momentoAlerta, fkTorre, tipoComponente, idServidor
 FROM alerta
@@ -404,10 +414,10 @@ ORDER BY idComponente, fkServidor;
 -- 0 = false
 -- 1 = true
 
-INSERT INTO metrica VALUES ('CPU', 'Porcentagem de uso', 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', 0);
-INSERT INTO metrica VALUES ('RAM', 'Porcentagem de uso', 'ramPercent', 'psutil.virtual_memory().percent', '%', 0);
-INSERT INTO metrica VALUES ('DISCO', 'Porcentagem de uso', 'diskPercent', 'psutil.disk_usage("/").percent', '%', 0);
-INSERT INTO metrica VALUES ('CPU', 'Temperatura', 'cpuTemp', '', '°C', 0);
+INSERT INTO metrica VALUES (1, 'CPU', 'Porcentagem de uso', 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', 0);
+INSERT INTO metrica VALUES (2, 'RAM', 'Porcentagem de uso', 'ramPercent', 'psutil.virtual_memory().percent', '%', 0);
+INSERT INTO metrica VALUES (3, 'DISCO', 'Porcentagem de uso', 'diskPercent', 'psutil.disk_usage("/").percent', '%', 0);
+INSERT INTO metrica VALUES (4, 'CPU', 'Temperatura', 'cpuTemp', '', '°C', 0);
 
 
 
