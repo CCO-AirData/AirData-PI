@@ -51,7 +51,7 @@ def selecionarServidor(torre):
     resposta = mycursor.fetchall()
 
     if(len(resposta) > 0):
-        selecionarParametro(mycursor, mac())
+        selecionarParametro(mac())
     else :
         cadastrarServidor(bdsql, mycursor, mac(), torre)
 
@@ -70,8 +70,8 @@ def cadastrarServidor(bdsql, cursor, mac, torre):
     sleep(2)
     print(f"Servidor cadastrado com sucesso!\n MAC: {mac}\n Torre: {torre}")
 
-def selecionarParametro(cursor, mac):
-
+def selecionarParametro(mac):
+    bdsql, cursor = conectar()
     if AMBIENTE_PRODUCAO:
         query = ("SELECT * from parametro WHERE fkComponente_fkServidor = ?")
     else:
@@ -84,14 +84,15 @@ def selecionarParametro(cursor, mac):
     resposta = cursor.fetchall()
 
     if(len(resposta) > 0):
-        executarMonitoramento(resposta)
+        executarMonitoramento(resposta, mac, len(resposta))
     else:
         print("Nenhuma componente cadastrado para monitoramento, cadastre na sua dashboard!")
         sleep(3)
- 
-def executarMonitoramento(resposta):
+
+def executarMonitoramento(resposta, mac, qtdParametros):
     print("Executando monitoramento...")
-    while True:
+    isWorking = True
+    while isWorking:
         script = """
 import threading   
         """
@@ -125,18 +126,14 @@ def executar_{i}(servidor, componente, metrica):
         return float(valor[0:4].replace(",", '.'))
 
     if comando == "":
-
+        # USAR OPHM PARA VISUALIZAR SOMENTE CPU
         with PoolManager() as pool:
             response = pool.request('GET', 'http://localhost:9000/data.json')
             data = loads(response.data.decode('utf-8'))
-        
-            temp_value = data['Children'][0]['Children'][1]['Children'][1]['Children'][0]['Value']
+            temp_value = data['Children'][0]['Children'][0]['Children'][1]['Children'][0]['Value']
             
             leitura = conversor(temp_value)
-            print(leitura)
             sleep(1)
-
-
     else:
         leitura = eval(comando)    
 
@@ -359,6 +356,30 @@ threading.Thread(target=executar_{i}, args=('{row[2]}', {row[1]}, {row[0]},)).st
 
         sleep(5)
         print("Executando...")
+
+        isWorking = verificarAtualizacaoParametros(mac, qtdParametros)
+
+    selecionarParametro(mac)
+
+def verificarAtualizacaoParametros(mac, qtdParametros):
+    bdsql, cursor = conectar()
+
+    if AMBIENTE_PRODUCAO:
+        query = ("SELECT * from parametro WHERE fkComponente_fkServidor = ?")
+    else:
+        query = ("SELECT * from parametro WHERE fkComponente_fkServidor = %s")
+
+    
+    params = (mac, )
+    cursor.execute(query, params)
+
+    resposta = cursor.fetchall()
+
+    if(len(resposta) > qtdParametros):
+        return False
+    else:
+        return True
+
 
 
 def conectar():
