@@ -218,15 +218,16 @@
                 tipoMemoriaServer: tipoMemoria
             })
         }).then(function (resposta) {
+            console.log(resposta.json)
             if (resposta.ok) {
-                resposta.json().then(function (resJson) {
+                resposta.json().then(function (idComponente) {
                     Swal.fire({
                         title: 'Componente cadastrado! ',
                         text: 'Redirecionando para a tela de cadastro de parâmetros...',
                         icon: 'success',
                         confirmButtonText: 'OK',
                     }).then((result) => {
-                        exibirTelaCadParametro(resJson.insertId, fkServidor, tipoComponente);
+                        exibirTelaCadParametro(idComponente, fkServidor, tipoComponente);
                     })
 
                 })

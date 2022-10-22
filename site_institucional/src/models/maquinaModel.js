@@ -14,12 +14,12 @@ function listarComEstado(fkTorre){
 
 function cadastrarComponente(fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) {
     let instrucao = "";
-    if (memoria == "null" && tipoMemoria == "null") {
-        instrucao = `INSERT INTO componente (fkServidor, tipoComponente, nomeComponente) 
-        VALUES ('${fkServidor}', '${tipoComponente}', '${nomeComponente}');`;
-    } else {
-        instrucao = `INSERT INTO componente (fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) 
-        VALUES ('${fkServidor}', '${tipoComponente}', '${nomeComponente}', '${memoria}', '${tipoMemoria}');`;
+    if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucao = `INSERT INTO componente (fkServidor, tipoComponente, nomeComponente, tipoMemoria, memoria) 
+        VALUES ('${fkServidor}', '${tipoComponente}', '${nomeComponente}', '${tipoMemoria}', '${memoria}');`;
+    } else if(process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucao = `INSERT INTO componente (fkServidor, tipoComponente, nomeComponente, tipoMemoria, memoria) VALUES ('${fkServidor}', '${tipoComponente}', '${nomeComponente}', '${tipoMemoria}', '${memoria}');
+                    SELECT @@IDENTITY AS ID;`; 
     }
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);

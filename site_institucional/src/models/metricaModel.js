@@ -6,7 +6,7 @@ function listar(fkServidor){
 }
 
 function listarOpcoesComponentes() {
-    var instrucao = `SELECT nomeComponente FROM metrica`;
+    var instrucao = `SELECT DISTINCT nomeComponente FROM metrica`;
     return database.executar(instrucao);
 }
 

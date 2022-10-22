@@ -299,7 +299,7 @@ threading.Thread(target=executar_{i}, args=('{row[2]}', {row[1]}, {row[0]},)).st
         if script != None:
             exec(script)
 
-        sleep(2)
+        sleep(5)
         print("Executando...")
 
         isWorking = verificarAtualizacaoParametros(mac, qtdParametros)

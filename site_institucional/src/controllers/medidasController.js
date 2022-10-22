@@ -32,7 +32,7 @@ function medidasCardsTempoReal(req, res) {
     } else {
         medidasModel.medidasCardsTempoReal(idMaquina, metrica, limite).then(function (resultado) {
             if (resultado.length > 0) {
-                console.log('res',resultado)
+                console.log('resposta',resultado)
                 res.status(200).json(resultado);
             } else {
                 res.status(204).send("Nenhum resultado encontrado!")
