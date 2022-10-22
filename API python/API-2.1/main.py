@@ -314,66 +314,50 @@ def executar_{i}(servidor, componente, metrica):
             bdsql.commit()
 
     elif metrica == 4:
-        if leitura >= 45.0 and leitura <= 50.0:
+        if leitura >= 70.0 and leitura <= 75.0:
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
-                val = ("Perigo", componente, servidor)
+                val = ("Perigo de superaquecimento", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-                val = ("Perigo", componente)
+                val = ("Perigo de superaquecimento", componente)
 
             
             cursores.execute(query, val)
             bdsql.commit()            
         
-        elif leitura > 50.0 and leitura <= 55.0:
+        elif leitura > 75.0 and leitura <= 90.0:
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
-                val = ("Critico", componente, servidor)
+                val = ("Superaquecimento", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-                val = ("Critico", componente)
+                val = ("Superaquecimento", componente)
 
             cursores.execute(query, val)
             bdsql.commit()            
             
-        elif leitura > 55.0 and leitura <= 60.0:
+        elif leitura > 90.0:
 
             if AMBIENTE_PRODUCAO:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
-                val = ("Risco de falha", componente, servidor)
+                val = ("Temperatura muito elevada", componente, servidor)
             else:
                 query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-                val = ("Risco de falha", componente)
+                val = ("Temperatura muito elevada", componente)
 
             cursores.execute(query, val)
             bdsql.commit()            
             
-        elif leitura > 60.0:
-
-            if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente, fkServidor) VALUES (?, getdate(), ?, ?)")
-                val = ("Falha", componente, servidor)
-            else:
-                query = ("INSERT INTO alerta (statusAlerta, momentoAlerta, fkComponente) VALUES (%s, now(), %s)")
-                val = ("Falha", componente)
-
-            cursores.execute(query, val)
-            bdsql.commit()          
-
-        
-        
-
-
 threading.Thread(target=executar_{i}, args=('{row[2]}', {row[1]}, {row[0]},)).start()
     """
         i += 1
         if script != None:
             exec(script)
 
-        sleep(2)
+        sleep(5)
         print("Executando...")
 
 
