@@ -70,6 +70,7 @@ def cadastrarServidor(bdsql, cursor, mac, torre):
     bdsql.commit()
     sleep(2)
     print(f'Servidor cadastrado com sucesso!\n MAC: {mac}\n Torre: {torre}')
+    selecionarParametro(mac)
 
 def selecionarParametro(mac):
     bdsql, cursor = conectar()
@@ -89,6 +90,7 @@ def selecionarParametro(mac):
     else:
         print("Nenhuma componente cadastrado para monitoramento, cadastre na sua dashboard!")
         sleep(3)
+        selecionarParametro(mac)
 
 def executarMonitoramento(resposta, mac, qtdParametros):
     print("Executando monitoramento...")
