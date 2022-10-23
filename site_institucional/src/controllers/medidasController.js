@@ -49,6 +49,9 @@ function medidasGraficoTempoReal(req, res) {
     var idMaquina = req.params.idMaquina;
     var metrica = req.params.metrica;
     var limite = req.params.limite;
+    var idComponente = req.params.idComponente;
+
+    console.log(idComponente)
     
     if (idMaquina == null || idMaquina == undefined){
         res.status(400).send("O idMaquina está undefined");
@@ -57,7 +60,7 @@ function medidasGraficoTempoReal(req, res) {
     } else if (limite == null || metrica == undefined){
         res.status(400).send("O limite está undefined");
     } else {
-        medidasModel.medidasGraficoTempoReal(idMaquina, metrica, limite).then(function (resultado) {
+        medidasModel.medidasGraficoTempoReal(idMaquina, metrica, limite, idComponente).then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
             } else {

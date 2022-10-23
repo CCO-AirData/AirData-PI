@@ -43,6 +43,10 @@
     margin-right: 10px;
 }
 
+#card_componentes {
+    cursor: pointer;
+}
+
 /* CHART.JS*/
 
 .chartjs-render-monitor {
