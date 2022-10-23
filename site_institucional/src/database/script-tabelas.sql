@@ -176,9 +176,9 @@ CREATE VIEW vw_maquinasMaiorUsoCpu AS
     INNER JOIN servidor ON componente.fkServidor = servidor.idServidor 
     WHERE tipoComponente = 'CPU' AND valorLido != 0.0 AND fkMetrica = 1
     GROUP BY idComponente, fkServidor
-    ORDER BY ultimoHorario DESC
+    ORDER BY valorLido DESC
     LIMIT 3;
-    
+        
 CREATE VIEW vw_alertasRecentes AS 
 	SELECT * FROM alerta INNER JOIN componente ON alerta.fkComponente = componente.idComponente 
     INNER JOIN servidor ON componente.fkServidor = servidor.idServidor 
@@ -410,13 +410,14 @@ JOIN servidor ON alerta.fkServidor = idServidor
 JOIN torre ON fkTorre = idTorre
 ORDER BY momentoAlerta DESC;
 
-CREATE VIEW vw_onlineServers AS
-	SELECT fkComponente_fkServidor AS idServidor, MAX(horario) AS ultimaLeitura, DATEDIFF(MINUTE, MAX(horario), GETDATE()) AS minutosDesdeUltimaLeitura, 
+CREATE VIEW vw_onlineServers AS	
+	SELECT servidor.fkTorre, fkComponente_fkServidor AS idServidor, MAX(horario) AS ultimaLeitura, DATEDIFF(MINUTE, MAX(horario), GETDATE()) AS minutosDesdeUltimaLeitura, 
 		CASE WHEN DATEDIFF(MINUTE, MAX(horario), GETDATE()) > 1 THEN 'OFFLINE'
 		ELSE 'ONLINE'
 		END AS estado
 	FROM leitura
-	GROUP BY fkComponente_fkServidor;
+    INNER JOIN servidor ON servidor.idServidor = leitura.fkComponente_fkServidor
+	GROUP BY fkComponente_fkServidor, fkTorre;
     
 CREATE VIEW vw_componenteMetrica AS
 SELECT TOP 50 idComponente, fkServidor, tipoComponente, componente.nomeComponente, tipoMemoria, nomeMetrica, unidadeMedida, nomeView 
@@ -425,6 +426,14 @@ JOIN parametro ON fkComponente_idComponente = idComponente
 AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
 ORDER BY idComponente, fkServidor; 
+
+CREATE VIEW vw_maquinasMaiorUsoCpu AS 	
+	SELECT TOP 3 idComponente, fkServidor, MAX(horario) AS ultimoHorario, valorLido, nomeComponente, idServidor, fkTorre FROM leitura 
+    INNER JOIN componente ON leitura.fkComponente_idComponente = componente.idComponente AND leitura.fkComponente_fkServidor = componente.fkServidor 
+    INNER JOIN servidor ON componente.fkServidor = servidor.idServidor 
+    WHERE tipoComponente = 'CPU' AND valorLido != 0.0 AND fkMetrica = 1
+    GROUP BY idComponente, fkServidor, valorLido, componente.nomeComponente, servidor.idServidor, servidor.fkTorre
+    ORDER BY valorLido DESC;
 
 -- 0 = false
 -- 1 = true
