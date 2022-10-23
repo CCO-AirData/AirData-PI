@@ -23,8 +23,9 @@ function iniciarSessao(pagina){
         var mac = macAdress.replace(/:/g, "-").toUpperCase();
         tituloPagina.innerText = `Dashboard | ${mac}`
         tituloDash.innerText = mac;
+        receberDadosAlertas(sessionStorage.ID_TORRE, 3);
     } else if(pagina == 'alertas' || pagina == 'painelAlertas'){
-        receberDadosAlertas(sessionStorage.ID_TORRE, 10);
+        receberDadosAlertas(sessionStorage.ID_TORRE, 4);
         receberOpcoesFiltros(sessionStorage.ID_TORRE);
     } else if(pagina == 'componentes'){
         receberDadosComponentes(macAdress);

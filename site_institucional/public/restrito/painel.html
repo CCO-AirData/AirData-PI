@@ -233,7 +233,7 @@
         var bodyTable = document.getElementById('corpo-tabela-alertas');
         bodyTable.innerHTML = '';
 
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < listaAlertas.length; i++) {
             var mac = listaAlertas[i].idServidor;
             mac = mac.replace(/:/g, "-").toUpperCase();
 
