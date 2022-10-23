@@ -14,7 +14,7 @@ function listarComEstado(fkTorre){
 
 function listarMaiorUsoCpu(fkTorre){
     if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        let instrucao = `SELECT * FROM vw_maquinasMaiorUsoCpu WHERE fkTorre = 1;`
+        let instrucao = `SELECT * FROM vw_maquinasMaiorUsoCpu WHERE fkTorre = ${fkTorre};`
         return database.executar(instrucao);
     }
 }
