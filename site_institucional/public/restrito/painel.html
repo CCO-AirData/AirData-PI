@@ -20,9 +20,10 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* .serverCard h3 {
-            width: 100%;
-        } */
+        #map{
+            height: 35em;
+            width: 80%;
+        }
     </style>
 </head>
 
@@ -129,6 +130,22 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div id="map"></div>
+                    </div>
+                    <script>
+                        function initMap() {
+                            var options = {
+                                zoom:10,
+                                center:{lat:-23.5489,lng:-46.6388}
+                            }
+
+                            var map = new google.maps.Map(document.getElementById('map'), options);
+                        }
+                    </script>
+                    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFgalD2gdnIe0jQEnYsHTAqdY8-XECQrI&callback=initMap">
+                    </script>
                 </div>
                 <!---Container Fluid-->
             </div>
