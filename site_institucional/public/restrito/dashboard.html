@@ -280,9 +280,30 @@
         idToSnakeCase += dadosMaquina[0].idComponente
         var idCard = document.getElementById(idToSnakeCase)
 
+        var spanStatus = `status_${idToSnakeCase}`
+        spanStatus = document.getElementById(spanStatus)
+        console.log(spanStatus)
+        
         var percent = dadosMaquina[0].valorLido;
 
         idCard.innerHTML = `${Math.round(percent, 0)}${dadosMaquina[0].unidadeMedida}`;
+
+        if(percent < 70) {
+            spanStatus.innerText = "ESTÁVEL"
+            spanStatus.style.color = "green"
+        } else if(percent <= 75) {
+            spanStatus.innerText = "PERIGO"
+            spanStatus.style.color = "black"
+        } else if(percent <= 85) {
+            spanStatus.innerText = "CRÍTICO"
+            spanStatus.style.color = "rgb(223, 201, 2)"
+        } else if(percent <= 95) {
+            spanStatus.innerText = "RISCO DE FALHA"
+            spanStatus.style.color = "orange"
+        } else if(percent <= 100) {
+            spanStatus.innerText = "FALHA"
+            spanStatus.style.color = "red"
+        }
 
         setTimeout(() => {
             obterDadosCards(idMaquina, metrica);

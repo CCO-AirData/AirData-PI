@@ -48,7 +48,7 @@ function criarCards(vtComponentes){
                         </div>
                         <div class="mt-2 mb-0 text-muted text-xs">
 
-                            <span>ESTÁVEL</span>
+                            <span id="status_${tratarId(componente.nomeView)}${componente.idComponente}">ESTÁVEL</span>
                         </div>
                     </div>
                     <div class="col-auto">
