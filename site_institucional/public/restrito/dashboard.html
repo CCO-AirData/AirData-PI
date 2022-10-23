@@ -266,10 +266,10 @@
 
     function iniciar() {
         // Funções em ./js/dados.js
-        // obterDadosCards(idMaquina, 'cpuPercent');
-        // obterDadosCards(idMaquina, 'ramPercent');
-        // obterDadosCards(idMaquina, 'diskPercent');
-        // obterDadosCards(idMaquina, 'cpuTemp');
+        obterDadosCards(idMaquina, 'cpuPercent');
+        obterDadosCards(idMaquina, 'ramPercent');
+        obterDadosCards(idMaquina, 'diskPercent');
+        obterDadosCards(idMaquina, 'cpuTemp');
         // obterDadosGrafico(idMaquina, 'cpuPercent', true);
     }
 
@@ -313,18 +313,13 @@
     // Pegando dados para plotar no gráfico de linha
 
     var metricaAtualPlotar = ''
-    var trocouGrafico = false
 
     function plotarGrafico(metrica, resposta, limite) {
         if(metricaAtualPlotar != metrica) {
-            trocouGrafico = true
             metricaAtualPlotar = metrica
-        } else {
-            trocouGrafico = false
         }
-        console.log(trocouGrafico)
         myLineChart.destroy()
-        criarGrafico()
+        criarGrafico(metrica)
         var dadosGrafico = [];
         var labelsGrafico = [];
 
@@ -350,6 +345,8 @@
             titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA RAM'
         } else if (metrica == 'diskPercent') {
             titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DO DISCO'
+        } else if (metrica == 'cpuTemp') {
+            titulo_grafico_linha.innerHTML = 'TEMPERATURA DA CPU'
         }
         
         setTimeout(() => {

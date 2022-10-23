@@ -30,7 +30,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 var myLineChart
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
-function criarGrafico() {
+function criarGrafico(metrica) {
   myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -80,7 +80,7 @@ function criarGrafico() {
             padding: 10,
             // Include a dollar sign in the ticks
             callback: function(value, index, values) {
-              return '%' + number_format(value);
+              return metrica == "cpuTemp" ? number_format(value) + 'ºC' : '%' + number_format(value)
             },
           suggestedMin: 0,
           suggestedMax: 100
@@ -114,7 +114,8 @@ function criarGrafico() {
         callbacks: {
           label: function(tooltipItem, chart) {
             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-            return datasetLabel + ': %' + number_format(tooltipItem.yLabel);
+            var simbolo = metrica == "cpuTemp" ? ': ºC' : ': %'
+            return datasetLabel + simbolo + number_format(tooltipItem.yLabel);
           }
         }
       }
