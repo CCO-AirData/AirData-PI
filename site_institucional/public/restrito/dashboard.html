@@ -270,7 +270,6 @@
         obterDadosCards(idMaquina, 'ramPercent');
         obterDadosCards(idMaquina, 'diskPercent');
         obterDadosCards(idMaquina, 'cpuTemp');
-        // obterDadosGrafico(idMaquina, 'cpuPercent', true);
     }
 
     // Pegando dados de porcentagem para os cards no topo da tela
@@ -312,12 +311,13 @@
 
     // Pegando dados para plotar no gráfico de linha
 
-    var metricaAtualPlotar = ''
+    var idAtualPlotar = ''
 
-    function plotarGrafico(metrica, resposta, limite) {
-        if(metricaAtualPlotar != metrica) {
-            metricaAtualPlotar = metrica
+    function plotarGrafico(metrica, resposta, limite, idComponente) {
+        if(idAtualPlotar != idComponente) {
+            idAtualPlotar = idComponente
         }
+        console.log(resposta)
         myLineChart.destroy()
         criarGrafico(metrica)
         var dadosGrafico = [];
@@ -350,14 +350,13 @@
         }
         
         setTimeout(() => {
-            obterDadosGrafico(idMaquina, metrica, false);
+            obterDadosGrafico(idMaquina, metrica, false, idComponente);
         }, tempoCapturaGrafico);
     }
 
 
-    function atualizarGrafico(metrica, resposta) {
-        
-        if(metricaAtualPlotar == metrica) {
+    function atualizarGrafico(metrica, resposta, idComponente) {
+        if(idAtualPlotar == idComponente) {
             var dados = resposta[0]
             var valorLido = dados.valorLido;
             var unidadeMedida = dados.unidadeMedida;
@@ -369,10 +368,9 @@
             myLineChart.data.labels.push(dataHorario);
             myLineChart.data.datasets[0].data.push(valorLido);
             myLineChart.update();
-            console.log(metricaAtualPlotar, metrica)
             
             setTimeout(() => {
-                obterDadosGrafico(idMaquina, metrica, false);
+                obterDadosGrafico(idMaquina, metrica, false, idComponente);
             }, tempoCapturaGrafico);
         }
     }

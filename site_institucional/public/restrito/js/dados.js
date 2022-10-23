@@ -37,9 +37,9 @@ function criarCards(vtComponentes){
 
         console.log(componente)
 
-        cards.innerHTML += `<div onclick="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${componente.nomeView}', true)" class="col-xl-3 col-md-6 mb-4">
+        cards.innerHTML += `<div onclick="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${componente.nomeView}', true, ${componente.idComponente})" class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
-            <div class="card-body">
+            <div id="card_componentes" class="card-body">
                 <div class="row align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-uppercase mb-1">${componente.tipoComponente} | ${componente.nomeComponente} (${componente.unidadeMedida})</div>
@@ -85,11 +85,11 @@ function obterDadosCards(idMaquina, metrica) {
 }
 
 // Obtendo dados grafico
-function obterDadosGrafico(idMaquina, metrica, isPrimeiroPlot) {
+function obterDadosGrafico(idMaquina, metrica, isPrimeiroPlot, idComponente) {
     var limite;
     isPrimeiroPlot ? limite = 12 : limite = 1
     console.log('Criando gráfico')
-    fetch(`/medidas/grafico-tempo-real/${idMaquina}/${metrica}/${limite}`)
+    fetch(`/medidas/grafico-tempo-real/${idMaquina}/${metrica}/${limite}/${idComponente}`)
         .then(response => {
             if (response.ok) {
                 response.json().then(resposta => {
@@ -98,7 +98,7 @@ function obterDadosGrafico(idMaquina, metrica, isPrimeiroPlot) {
                     console.log(typeof resposta)
                     console.log(resposta)
                     
-                    isPrimeiroPlot ? plotarGrafico(metrica, resposta, limite) : atualizarGrafico(metrica, resposta)
+                    isPrimeiroPlot ? plotarGrafico(metrica, resposta, limite, idComponente) : atualizarGrafico(metrica, resposta, idComponente)
 
                 });
             } else {
