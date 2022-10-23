@@ -18,6 +18,12 @@
     <script src="./js/main.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* .serverCard h3 {
+            width: 100%;
+        } */
+    </style>
 </head>
 
 <body id="page-top" class="" onload="iniciarSessao(pagina)">
@@ -29,7 +35,6 @@
             <div id="content">
                 <!-- TopBar -->
                 <my-topbar></my-topbar>
-                <!-- Topbar -->
 
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
@@ -37,40 +42,67 @@
                         <h1 class="h3 mb-0 text-gray-800">Painel Geral</h1>
                     </div>
 
-                    <h3>Servidores offline: <span id="spnServidoresOffline">0</span></h3><br>
-                    <h3>Servidores online: <span id="spnServidoresOnline">0</span></h3>
-                    <button id="btnVerMaquinasOffline" disabled onclick="mostrarModal()">Ver máquinas offline</button>
-
-                    <div class="col-xl-8 col-lg-7 mb-4">
-                        <div class="card">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">ALERTAS</h6>
-                                <a class="m-0 float-right btn btn-danger btn-sm" href="alertas.html">HISTORICO <i
-                                        class="fas fa-chevron-right"></i></a>
+                    <div class="row">
+                        <div class="col-md-3 mb-3 card text-center">
+                            <div class="card-body mt-0">
+                                <div class="row">
+                                    <h4 class="card-title">Máquinas offline</h4>
+                                </div>
+                                <div class="row">
+                                    <h3><span id="spnServidoresOffline">0</span></h3>
+                                </div>
+                                <div class="row">
+                                    <button type="button" class="btn btn-link" id="btnVerMaquinasOffline" disabled
+                                        onclick="mostrarModal()">Ver máquinas offline</button>
+                                </div>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table align-items-center table-flush">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Alertas ID</th>
-                                            <th>Motivo</th>
-                                            <th>Hardware</th>
-                                            <th>Data</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="corpo-tabela-alertas">
-                                        <tr>
-                                            <td><a>000001</a></td>
-                                            <td>Sobrecarregamento</td>
-                                            <td>CPU</td>
-                                            <td><span>01/01/2022</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card-footer"></div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3 mb-3 card text-center d-flex justify-content-center">
+                            <h4>Servidores online</h4>
+                            <h3><span id="spnServidoresOnline">0</span></h3>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3 mb-3 card text-center d-flex justify-content-center">
+                            <h4>Alertas recentes:</h4>
+                            <h3><span id="spnAlertasRecentes">0</span></h3>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-7 mb-4">
+                            <div class="card">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">ALERTAS</h6>
+                                    <a class="m-0 float-right btn btn-danger btn-sm" href="alertas.html">HISTORICO <i
+                                            class="fas fa-chevron-right"></i></a>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Alertas ID</th>
+                                                <th>Motivo</th>
+                                                <th>Hardware</th>
+                                                <th>Data</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="corpo-tabela-alertas">
+                                            <tr>
+                                                <td><a>000001</a></td>
+                                                <td>Sobrecarregamento</td>
+                                                <td>CPU</td>
+                                                <td><span>01/01/2022</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-footer"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!--Row-->
                     <div class="row">
                     </div>
@@ -112,6 +144,7 @@
     // var pagina = "painel";
     var pagina = "painelAlertas";
 
+    //listando as máquinas com o estado
     let maquinasOffline = [];
     let maquinasOnline = [];
     fetch('/maquinas/listarComEstado', {
@@ -139,10 +172,25 @@
         });
     });
 
+    //Pegando a quantidade de alertas recentes
+    fetch('/alertas/listarRecentes', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkTorreServer: sessionStorage.ID_TORRE
+        }).then(function (resultado){
+            resultado.json().then(function (resJson){
+                document.getElementById('spnAlertasRecentes').innerHTML = resJson.length;
+            })
+        })
+    })
+
     let tabelaOffline = "";
     function listarMaquinasOffline() {
         tabelaOffline =
-            '<div class="col-xl-10 col-lg-7 mb-4">' +
+            '<div class="col-12">' +
             '<div class="card">' +
             '<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">' +
             '<h6 class="m-0 font-weight-bold text-primary">MÁQUINAS OFFLINE</h6>' +
@@ -177,10 +225,6 @@
 
     function mostrarModal() {
         Swal.fire({
-            // icon: 'error',
-            // title: 'Oops...',
-            // text: 'Something went wrong!',
-            // footer: '<a href="">Why do I have this issue?</a>'
             html: tabelaOffline
         })
     }
@@ -189,7 +233,7 @@
         var bodyTable = document.getElementById('corpo-tabela-alertas');
         bodyTable.innerHTML = '';
 
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < listaAlertas.length; i++) {
             var mac = listaAlertas[i].idServidor;
             mac = mac.replace(/:/g, "-").toUpperCase();
 

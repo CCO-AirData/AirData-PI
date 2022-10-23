@@ -111,9 +111,9 @@ MacAddress rede = new MacAddress();
 List<Volume> discoTotal = looca.getGrupoDeDiscos().getVolumes();
                 JdbcTemplate connection = banco.getConnection();
               
-                String CPU = String.format("insert into leitura values(1,now(),%d,1,'%s')",respostaCPU, MacAddres);
-                String RAM = String.format("insert into leitura values(2,now(),%d,2,'%s')",memoriaUso, MacAddres);
-                String DISCO = String.format("insert into leitura values(3,now(),%d,3,'%s')",discoTotal.get(0).getDisponivel()/giga, MacAddres);
+                String CPU = String.format("insert into leitura values(1,GETDATE(),%d,29,'%s')",respostaCPU, MacAddres);
+                String RAM = String.format("insert into leitura values(2,GETDATE(),%d,31,'%s')",memoriaUso, MacAddres);
+                String DISCO = String.format("insert into leitura values(3,GETDATE(),%d,30,'%s')",discoTotal.get(0).getDisponivel()/giga, MacAddres);
                 
                 connection.update(CPU);
                 connection.update(RAM);

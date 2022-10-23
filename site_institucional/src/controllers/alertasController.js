@@ -88,8 +88,30 @@ function receberDadosFiltro(req, res) {
     }
 }
 
+function listarRecentes(req, res) {
+    let fkTorre = req.body.fkTorreServer;
+
+    if (fkTorre == undefined) {
+        res.status(400).send("A fkTorre da torre está undefined!");
+    } else {
+        alertasModel.listarRecentes(fkTorre).then(
+            function (resultado) {
+                console.log(`\nAlertas recentes encontrados: ${resultado}`);
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao receber os alertas recentes! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+    }
+}
+
 module.exports = {
     receberDadosAlertas,
     receberOpcoesFiltros,
-    receberDadosFiltro
+    receberDadosFiltro,
+    listarRecentes
 }

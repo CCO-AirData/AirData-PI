@@ -154,11 +154,12 @@ JOIN torre ON fkTorre = idTorre
 ORDER BY momentoAlerta DESC;
 
 CREATE VIEW vw_onlineServers AS
-	SELECT fkComponente_fkServidor AS idServidor, MAX(horario) AS ultimaLeitura, TIMESTAMPDIFF(MINUTE, MAX(horario), NOW()) AS minutosDesdeUltimaLeitura, 
+	SELECT servidor.fkTorre, fkComponente_fkServidor AS idServidor, MAX(horario) AS ultimaLeitura, TIMESTAMPDIFF(MINUTE, MAX(horario), NOW()) AS minutosDesdeUltimaLeitura, 
 		CASE WHEN TIMESTAMPDIFF(MINUTE, MAX(horario), NOW()) > 1 THEN 'OFFLINE'
 		ELSE 'ONLINE'
 		END AS estado
 	FROM leitura
+    INNER JOIN servidor ON leitura.fkComponente_fkServidor = servidor.fkTorre
 	GROUP BY fkComponente_fkServidor;
 
 CREATE VIEW vw_componenteMetrica AS
@@ -167,7 +168,19 @@ FROM componente
 JOIN parametro ON fkComponente_idComponente = idComponente 
 AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
-ORDER BY idComponente, fkServidor; 
+ORDER BY idComponente, fkServidor;
+
+CREATE VIEW vw_maquinasMaiorUsoCpu AS 
+	SELECT idComponente, fkServidor, MAX(horario), valorLido, nomeComponente, idServidor, fkTorre FROM leitura 
+    INNER JOIN componente ON leitura.fkComponente_idComponente = componente.idComponente AND leitura.fkComponente_fkServidor = componente.fkServidor 
+    INNER JOIN servidor ON componente.fkServidor = servidor.idServidor 
+    WHERE tipoComponente = 'CPU' 
+    GROUP BY idComponente, fkServidor;
+    
+CREATE VIEW vw_alertasRecentes AS 
+	SELECT * FROM alerta INNER JOIN componente ON alerta.fkComponente = componente.idComponente 
+    INNER JOIN servidor ON componente.fkServidor = servidor.idServidor 
+    WHERE TIMESTAMPDIFF(MINUTE, momentoAlerta, NOW()) <= 30;
 
 -- cardápio
 INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, nomeView, comando, unidadeMedida, isTupla) VALUES 

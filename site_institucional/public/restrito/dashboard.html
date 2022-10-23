@@ -179,23 +179,11 @@
                                                     <th>Data</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="corpo-tabela-alertas">
                                                 <tr>
-                                                    <td><a href="#">000001</a></td>
+                                                    <td><a>000001</a></td>
                                                     <td>Sobrecarregamento</td>
                                                     <td>CPU</td>
-                                                    <td><span>01/01/2022</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><a href="#">000002</a></td>
-                                                    <td>Tendência de Piora</td>
-                                                    <td>GPU</td>
-                                                    <td><span>01/01/2022</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><a href="#">000003</a></td>
-                                                    <td>Falha</td>
-                                                    <td>DISCO</td>
                                                     <td><span>01/01/2022</span></td>
                                                 </tr>
                                             </tbody>
@@ -282,7 +270,6 @@
         obterDadosCards(idMaquina, 'ramPercent');
         obterDadosCards(idMaquina, 'diskPercent');
         obterDadosCards(idMaquina, 'cpuTemp');
-        obterDadosGrafico(idMaquina, 'cpuPercent', true);
     }
 
     // Pegando dados de porcentagem para os cards no topo da tela
@@ -292,9 +279,30 @@
         idToSnakeCase += dadosMaquina[0].idComponente
         var idCard = document.getElementById(idToSnakeCase)
 
+        var spanStatus = `status_${idToSnakeCase}`
+        spanStatus = document.getElementById(spanStatus)
+        console.log(spanStatus)
+        
         var percent = dadosMaquina[0].valorLido;
 
         idCard.innerHTML = `${Math.round(percent, 0)}${dadosMaquina[0].unidadeMedida}`;
+
+        if(percent < 70) {
+            spanStatus.innerText = "ESTÁVEL"
+            spanStatus.style.color = "green"
+        } else if(percent <= 75) {
+            spanStatus.innerText = "PERIGO"
+            spanStatus.style.color = "black"
+        } else if(percent <= 85) {
+            spanStatus.innerText = "CRÍTICO"
+            spanStatus.style.color = "rgb(223, 201, 2)"
+        } else if(percent <= 95) {
+            spanStatus.innerText = "RISCO DE FALHA"
+            spanStatus.style.color = "orange"
+        } else if(percent <= 100) {
+            spanStatus.innerText = "FALHA"
+            spanStatus.style.color = "red"
+        }
 
         setTimeout(() => {
             obterDadosCards(idMaquina, metrica);
@@ -303,11 +311,17 @@
 
     // Pegando dados para plotar no gráfico de linha
 
-    function plotarGrafico(metrica, resposta, limite) {
+    var idAtualPlotar = ''
+
+    function plotarGrafico(metrica, resposta, limite, idComponente) {
+        if(idAtualPlotar != idComponente) {
+            idAtualPlotar = idComponente
+        }
+        console.log(resposta)
+        myLineChart.destroy()
+        criarGrafico(metrica)
         var dadosGrafico = [];
         var labelsGrafico = [];
-
-        console.log('Cheguei no plotar')
 
         for (var i = 0; i < resposta.length; i++) {
             var dados = resposta[i]
@@ -320,8 +334,6 @@
             labelsGrafico.push(dataHorario)
         }
 
-        console.log('Dados grafico: ', dadosGrafico);
-        console.log('Labels grafico: ', labelsGrafico);
 
         myLineChart.data.datasets[0].data = dadosGrafico;
         myLineChart.data.labels = labelsGrafico;
@@ -333,31 +345,59 @@
             titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA RAM'
         } else if (metrica == 'diskPercent') {
             titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DO DISCO'
+        } else if (metrica == 'cpuTemp') {
+            titulo_grafico_linha.innerHTML = 'TEMPERATURA DA CPU'
         }
-
+        
         setTimeout(() => {
-            obterDadosGrafico(idMaquina, metrica, false);
+            obterDadosGrafico(idMaquina, metrica, false, idComponente);
         }, tempoCapturaGrafico);
     }
 
 
+    function atualizarGrafico(metrica, resposta, idComponente) {
+        if(idAtualPlotar == idComponente) {
+            var dados = resposta[0]
+            var valorLido = dados.valorLido;
+            var unidadeMedida = dados.unidadeMedida;
+            var dataHorario = dados.horario.split("T");
+            dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
 
-    function atualizarGrafico(metrica, resposta) {
-        var dados = resposta[0]
-        var valorLido = dados.valorLido;
-        var unidadeMedida = dados.unidadeMedida;
-        var dataHorario = dados.horario.split("T");
-        dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+            myLineChart.data.labels.shift();
+            myLineChart.data.datasets[0].data.shift();
+            myLineChart.data.labels.push(dataHorario);
+            myLineChart.data.datasets[0].data.push(valorLido);
+            myLineChart.update();
+            
+            setTimeout(() => {
+                obterDadosGrafico(idMaquina, metrica, false, idComponente);
+            }, tempoCapturaGrafico);
+        }
+    }
 
-        myLineChart.data.labels.shift();
-        myLineChart.data.datasets[0].data.shift();
-        myLineChart.data.labels.push(dataHorario);
-        myLineChart.data.datasets[0].data.push(valorLido);
-        myLineChart.update();
+    function listarTabelaAlertas(listaAlertas) {
+        var bodyTable = document.getElementById('corpo-tabela-alertas');
+        bodyTable.innerHTML = '';
 
-        setTimeout(() => {
-            obterDadosGrafico(idMaquina, metrica, false);
-        }, tempoCapturaGrafico);
+        console.log("aaaaaaaaaaaa",listaAlertas)
+        console.log(bodyTable)
+
+        for (i = 0; i < listaAlertas.length; i++) {
+            var mac = listaAlertas[i].idServidor;
+            mac = mac.replace(/:/g, "-").toUpperCase();
+
+            var dataHorario = listaAlertas[i].momentoAlerta.split("T");
+            dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+
+            bodyTable.innerHTML += `
+            <tr>
+              <td>${listaAlertas[i].idAlerta}</td>
+              <td>${listaAlertas[i].statusAlerta}</td>
+              <td>${listaAlertas[i].tipoComponente}</td>
+              <td>${dataHorario}</td>
+            </tr>
+          `
+        }
     }
 
     var btnGerenciarComponentes = document.getElementById('btn-gerenciarComponentes')

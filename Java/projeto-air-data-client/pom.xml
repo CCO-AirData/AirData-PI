@@ -56,13 +56,12 @@
             <version>8.0.30</version>
         </dependency>
         <!-- SQL Server -->
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-            <version>7.2.2.jre8</version>
-            <!-- ou versão 7.2.2.jre11, se sua JDK for a 11 -->
-            <!-- ou versão que já existir na .m2 local -->
-        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+<dependency>
+    <groupId>com.microsoft.sqlserver</groupId>
+    <artifactId>mssql-jdbc</artifactId>
+    <version>7.2.2.jre8</version>
+</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>

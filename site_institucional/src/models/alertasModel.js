@@ -45,8 +45,17 @@ function listarAlertasFiltrados(fkTorre, limite, hardware, maquina) {
     return database.executar(instrucao);
 }
 
+function listarRecentes(fkTorre){
+    if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        let instrucao = `SELECT * FROM vw_alertasRecentes WHERE fkTorre = ${fkTorre}`;
+        console.log("Executando a instrução SQL: \n" + instrucao); 
+    }
+    return database.executar(instrucao);
+}
+
 module.exports = {
     listarFiltros,
     listarAlertas,
-    listarAlertasFiltrados
+    listarAlertasFiltrados,
+    listarRecentes
 };

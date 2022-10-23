@@ -133,7 +133,7 @@ public class AirDataLogin extends javax.swing.JFrame {
                 } else {
                     this.setVisible(false);
                     dash.setVisible(true);
-                    String query = String.format("insert into servidor values ('%s',1);", MacAddres);
+                    String query = String.format("insert into servidor values ('%s',2);", MacAddres);
 
                     connection.update(query);
                 }
