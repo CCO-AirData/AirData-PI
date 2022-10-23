@@ -15,7 +15,9 @@ router.post("/receberDadosFiltro", function (req, res) {
     alertasController.receberDadosFiltro(req, res);
 });
 
-
+router.post("/listarRecentes", function (req, res) {
+    alertasController.listarRecentes(req, res);
+});
 
 
 module.exports = router;
