@@ -12,6 +12,13 @@ function listarComEstado(fkTorre){
     return database.executar(instrucao);
 }
 
+function listarMaiorUsoCpu(fkTorre){
+    if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        let instrucao = `SELECT * FROM vw_maquinasMaiorUsoCpu WHERE fkTorre = 1;`
+        return database.executar(instrucao);
+    }
+}
+
 function cadastrarComponente(fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria) {
     let instrucao = "";
     if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
@@ -42,5 +49,6 @@ module.exports = {
     getComponente,
     listar,
     listarComEstado,
+    listarMaiorUsoCpu,
     deletar
 };

@@ -103,8 +103,31 @@
                         </div>
                     </div>
 
-                    <!--Row-->
+
                     <div class="row">
+                        <div class="col-xl-8 col-lg-7 mb-4">
+                            <div class="card">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">MÁQUINAS COM MAIOR USO DE CPU</h6>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Nome do Componente</th>
+                                                <th>ID do Servidor</th>
+                                                <th>Maior porcentagem alcançada</th>
+                                                <th>Horário</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="corpo-tabela-uso-cpu">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-footer"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!---Container Fluid-->
@@ -184,6 +207,29 @@
     }).then(function (resultado) {
         resultado.json().then(function (resJson) {
             document.getElementById('spnAlertasRecentes').innerHTML = resJson.length;
+        })
+    })
+
+    //pegando os servidores com maior uso de CPU
+    fetch('/maquinas/listarMaiorUsoCpu', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkTorreServer: sessionStorage.ID_TORRE
+        })
+    }).then(function (resultado) {
+        resultado.json().then(function (resJson) {
+            let tabelaUsoCpu = document.getElementById('corpo-tabela-uso-cpu');
+            resJson.forEach((maquina) => {
+                tabelaUsoCpu.innerHTML += `<tr>
+                                                <td>${maquina.nomeComponente}</td>
+                                                <td>${maquina.idServidor}</td>
+                                                <td>${maquina.valorLido}</td>
+                                                <td>${maquina.ultimoHorario}</td>
+                                            </tr>`
+            })
         })
     })
 
