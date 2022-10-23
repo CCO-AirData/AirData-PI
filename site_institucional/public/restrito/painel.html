@@ -180,10 +180,10 @@
         },
         body: JSON.stringify({
             fkTorreServer: sessionStorage.ID_TORRE
-        }).then(function (resultado){
-            resultado.json().then(function (resJson){
-                document.getElementById('spnAlertasRecentes').innerHTML = resJson.length;
-            })
+        })
+    }).then(function (resultado) {
+        resultado.json().then(function (resJson) {
+            document.getElementById('spnAlertasRecentes').innerHTML = resJson.length;
         })
     })
 

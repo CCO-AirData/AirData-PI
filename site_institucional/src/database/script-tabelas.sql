@@ -159,7 +159,7 @@ CREATE VIEW vw_onlineServers AS
 		ELSE 'ONLINE'
 		END AS estado
 	FROM leitura
-    INNER JOIN servidor ON leitura.fkComponente_fkServidor = servidor.fkTorre
+    INNER JOIN servidor ON servidor.idServidor = leitura.fkComponente_fkServidor
 	GROUP BY fkComponente_fkServidor;
 
 CREATE VIEW vw_componenteMetrica AS
