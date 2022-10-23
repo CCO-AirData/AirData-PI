@@ -171,11 +171,12 @@ JOIN metrica ON fkMetrica = idMetrica
 ORDER BY idComponente, fkServidor;
 
 CREATE VIEW vw_maquinasMaiorUsoCpu AS 
-	SELECT idComponente, fkServidor, MAX(horario), valorLido, nomeComponente, idServidor, fkTorre FROM leitura 
+	SELECT idComponente, fkServidor, MAX(horario) AS ultimoHorario, valorLido, nomeComponente, idServidor, fkTorre FROM leitura 
     INNER JOIN componente ON leitura.fkComponente_idComponente = componente.idComponente AND leitura.fkComponente_fkServidor = componente.fkServidor 
     INNER JOIN servidor ON componente.fkServidor = servidor.idServidor 
     WHERE tipoComponente = 'CPU' 
-    GROUP BY idComponente, fkServidor;
+    GROUP BY idComponente, fkServidor
+    LIMIT 3;
     
 CREATE VIEW vw_alertasRecentes AS 
 	SELECT * FROM alerta INNER JOIN componente ON alerta.fkComponente = componente.idComponente 

@@ -98,6 +98,28 @@ function listarComEstado(req, res) {
     }
 }
 
+function listarMaiorUsoCpu(req, res) {
+    var fkTorre = req.body.fkTorreServer;
+
+    if (fkTorre == undefined) {
+        res.status(400).send("A fkTorre do aeroporto está undefined!");
+    } else {
+        maquinaModel.listarMaiorUsoCpu(fkTorre)
+            .then(
+                function (resultado) {
+                    console.log(`\nMáquinas com uso de CPU: ${resultado}`);
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao listar as máquinas com os usos de CPU! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+    }
+}
+
 function deletar(req, res) {
     var mac = req.body.macServer;
 
@@ -124,5 +146,6 @@ module.exports = {
     getComponente,
     listar,
     listarComEstado,
+    listarMaiorUsoCpu,
     deletar
 }
