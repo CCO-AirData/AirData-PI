@@ -21,7 +21,6 @@ function obterComponentes(idMaquina) {
 }
 
 function criarCards(vtComponentes){
-
     var cards = document.getElementById("container_cards") 
 
     for(var i = 0; i < vtComponentes.length; i++){
@@ -38,7 +37,7 @@ function criarCards(vtComponentes){
 
         console.log(componente)
 
-        cards.innerHTML += `<div class="col-xl-3 col-md-6 mb-4">
+        cards.innerHTML += `<div onclick="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${componente.nomeView}', true)" class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
             <div class="card-body">
                 <div class="row align-items-center">

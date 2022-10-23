@@ -266,11 +266,11 @@
 
     function iniciar() {
         // Funções em ./js/dados.js
-        obterDadosCards(idMaquina, 'cpuPercent');
-        obterDadosCards(idMaquina, 'ramPercent');
-        obterDadosCards(idMaquina, 'diskPercent');
-        obterDadosCards(idMaquina, 'cpuTemp');
-        obterDadosGrafico(idMaquina, 'cpuPercent', true);
+        // obterDadosCards(idMaquina, 'cpuPercent');
+        // obterDadosCards(idMaquina, 'ramPercent');
+        // obterDadosCards(idMaquina, 'diskPercent');
+        // obterDadosCards(idMaquina, 'cpuTemp');
+        // obterDadosGrafico(idMaquina, 'cpuPercent', true);
     }
 
     // Pegando dados de porcentagem para os cards no topo da tela
@@ -312,11 +312,21 @@
 
     // Pegando dados para plotar no gráfico de linha
 
+    var metricaAtualPlotar = ''
+    var trocouGrafico = false
+
     function plotarGrafico(metrica, resposta, limite) {
+        if(metricaAtualPlotar != metrica) {
+            trocouGrafico = true
+            metricaAtualPlotar = metrica
+        } else {
+            trocouGrafico = false
+        }
+        console.log(trocouGrafico)
+        myLineChart.destroy()
+        criarGrafico()
         var dadosGrafico = [];
         var labelsGrafico = [];
-
-        console.log('Cheguei no plotar')
 
         for (var i = 0; i < resposta.length; i++) {
             var dados = resposta[i]
@@ -329,8 +339,6 @@
             labelsGrafico.push(dataHorario)
         }
 
-        console.log('Dados grafico: ', dadosGrafico);
-        console.log('Labels grafico: ', labelsGrafico);
 
         myLineChart.data.datasets[0].data = dadosGrafico;
         myLineChart.data.labels = labelsGrafico;
@@ -343,30 +351,33 @@
         } else if (metrica == 'diskPercent') {
             titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DO DISCO'
         }
-
+        
         setTimeout(() => {
             obterDadosGrafico(idMaquina, metrica, false);
         }, tempoCapturaGrafico);
     }
 
 
-
     function atualizarGrafico(metrica, resposta) {
-        var dados = resposta[0]
-        var valorLido = dados.valorLido;
-        var unidadeMedida = dados.unidadeMedida;
-        var dataHorario = dados.horario.split("T");
-        dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+        
+        if(metricaAtualPlotar == metrica) {
+            var dados = resposta[0]
+            var valorLido = dados.valorLido;
+            var unidadeMedida = dados.unidadeMedida;
+            var dataHorario = dados.horario.split("T");
+            dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
 
-        myLineChart.data.labels.shift();
-        myLineChart.data.datasets[0].data.shift();
-        myLineChart.data.labels.push(dataHorario);
-        myLineChart.data.datasets[0].data.push(valorLido);
-        myLineChart.update();
-
-        setTimeout(() => {
-            obterDadosGrafico(idMaquina, metrica, false);
-        }, tempoCapturaGrafico);
+            myLineChart.data.labels.shift();
+            myLineChart.data.datasets[0].data.shift();
+            myLineChart.data.labels.push(dataHorario);
+            myLineChart.data.datasets[0].data.push(valorLido);
+            myLineChart.update();
+            console.log(metricaAtualPlotar, metrica)
+            
+            setTimeout(() => {
+                obterDadosGrafico(idMaquina, metrica, false);
+            }, tempoCapturaGrafico);
+        }
     }
 
     function listarTabelaAlertas(listaAlertas) {
