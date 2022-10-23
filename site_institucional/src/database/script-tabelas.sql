@@ -174,8 +174,9 @@ CREATE VIEW vw_maquinasMaiorUsoCpu AS
 	SELECT idComponente, fkServidor, MAX(horario) AS ultimoHorario, valorLido, nomeComponente, idServidor, fkTorre FROM leitura 
     INNER JOIN componente ON leitura.fkComponente_idComponente = componente.idComponente AND leitura.fkComponente_fkServidor = componente.fkServidor 
     INNER JOIN servidor ON componente.fkServidor = servidor.idServidor 
-    WHERE tipoComponente = 'CPU' 
+    WHERE tipoComponente = 'CPU' AND valorLido != 0.0
     GROUP BY idComponente, fkServidor
+    ORDER BY ultimoHorario DESC
     LIMIT 3;
     
 CREATE VIEW vw_alertasRecentes AS 
