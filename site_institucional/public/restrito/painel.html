@@ -24,6 +24,10 @@
             height: 35em;
             width: 80%;
         }
+
+        .sweet-width {
+            width: 50%;
+        }
     </style>
 </head>
 
@@ -84,18 +88,12 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>Alertas ID</th>
-                                                <th>Motivo</th>
+                                                <th>Status</th>
                                                 <th>Hardware</th>
                                                 <th>Data</th>
                                             </tr>
                                         </thead>
                                         <tbody id="corpo-tabela-alertas">
-                                            <tr>
-                                                <td><a>000001</a></td>
-                                                <td>Sobrecarregamento</td>
-                                                <td>CPU</td>
-                                                <td><span>01/01/2022</span></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -304,11 +302,16 @@
         resultado.json().then(function (resJson) {
             let tabelaUsoCpu = document.getElementById('corpo-tabela-uso-cpu');
             resJson.forEach((maquina) => {
+                var mac = maquina.idServidor;
+                mac = mac.replace(/:/g, "-").toUpperCase();
+                var dataHorario = maquina.ultimoHorario.split("T");
+                dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+
                 tabelaUsoCpu.innerHTML += `<tr>
                                                 <td>${maquina.nomeComponente}</td>
-                                                <td>${maquina.idServidor}</td>
+                                                <td>${mac}</td>
                                                 <td>${maquina.valorLido}</td>
-                                                <td>${maquina.ultimoHorario}</td>
+                                                <td>${dataHorario}</td>
                                             </tr>`
             })
         })
@@ -333,11 +336,16 @@
             '</thead>' +
             '<tbody id="corpo-tabela-offline">';
         maquinasOffline.forEach(function (maquina) {
+            var mac = maquina.idServidor;
+            mac = mac.replace(/:/g, "-").toUpperCase();
+            var dataHorario = maquina.ultimaLeitura.split("T");
+            dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+
             tabelaOffline += `
             <tr>
                 <td>${maquina.fkTorre}</td>
-                <td>${maquina.idServidor}</td>
-                <td>${maquina.ultimaLeitura}</td>
+                <td>${mac}</td>
+                <td>${dataHorario}</td>
             </tr>
             `
         });
@@ -352,7 +360,8 @@
 
     function mostrarModal() {
         Swal.fire({
-            html: tabelaOffline
+            html: tabelaOffline,
+            customClass: 'sweet-width'
         })
     }
 
@@ -369,12 +378,12 @@
 
             bodyTable.innerHTML += `
             <tr>
-              <td>${listaAlertas[i].idAlerta}</td>
-              <td>${listaAlertas[i].statusAlerta}</td>
-              <td>${listaAlertas[i].tipoComponente}</td>
-              <td>${dataHorario}</td>
+                <td>${listaAlertas[i].idAlerta}</td>
+                <td>${listaAlertas[i].statusAlerta}</td>
+                <td>${listaAlertas[i].tipoComponente}</td>
+                <td>${dataHorario}</td>
             </tr>
-          `
+            `
         }
     }
 
