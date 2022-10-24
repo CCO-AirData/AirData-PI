@@ -441,7 +441,7 @@ CREATE VIEW vw_maquinasMaiorUsoCpu AS
 INSERT INTO metrica VALUES (1, 'CPU', 'Porcentagem de uso', 'cpuPercent', 'psutil.cpu_percent(interval=0.1)', '%', 0);
 INSERT INTO metrica VALUES (2, 'RAM', 'Porcentagem de uso', 'ramPercent', 'psutil.virtual_memory().percent', '%', 0);
 INSERT INTO metrica VALUES (3, 'DISCO', 'Porcentagem de uso', 'diskPercent', 'psutil.disk_usage("/").percent', '%', 0);
-INSERT INTO metrica VALUES (4, 'CPU', 'Temperatura', 'cpuTemp', '', '°C', 0);
+INSERT INTO metrica VALUES (4, 'CPU', 'Temperatura', 'cpuTemp', 'psutil.sensors_temperatures()', '°C', 0);
 
 
 
