@@ -411,8 +411,8 @@ JOIN torre ON fkTorre = idTorre
 ORDER BY momentoAlerta DESC;
 
 CREATE VIEW vw_onlineServers AS	
-	SELECT servidor.fkTorre, fkComponente_fkServidor AS idServidor, MAX(horario) AS ultimaLeitura, DATEDIFF(MINUTE, MAX(horario), GETDATE()) AS minutosDesdeUltimaLeitura, 
-		CASE WHEN DATEDIFF(MINUTE, MAX(horario), GETDATE()) > 1 THEN 'OFFLINE'
+	SELECT servidor.fkTorre, fkComponente_fkServidor AS idServidor, MAX(horario) AS ultimaLeitura, DATEDIFF(MINUTE, MAX(horario), DATEADD(HOUR, -3, GETDATE())) AS minutosDesdeUltimaLeitura, 
+		CASE WHEN DATEDIFF(MINUTE, MAX(horario), DATEADD(HOUR, -3, GETDATE())) > 1 THEN 'OFFLINE'
 		ELSE 'ONLINE'
 		END AS estado
 	FROM leitura
