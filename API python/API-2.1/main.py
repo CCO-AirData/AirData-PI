@@ -69,7 +69,7 @@ def cadastrarServidor(bdsql, cursor, mac, torre):
 
     bdsql.commit()
     sleep(2)
-    print('Servidor cadastrado com sucesso!\n MAC: ' + mac + '\n Torre: ' + torre)
+    print(f"Servidor cadastrado com sucesso!\n MAC: {mac}\n Torre: {torre}")
     selecionarParametro(mac)
 
 def selecionarParametro(mac):
