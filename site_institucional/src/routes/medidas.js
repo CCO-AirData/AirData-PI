@@ -4,11 +4,11 @@ var router = express.Router();
 var medidasController = require("../controllers/medidasController");
 
 //Direcionando para a função medidasGrafico de medidasController.js
-router.get("/cards-tempo-real/:idMaquina/:metrica", function (req, res) {
+router.get("/cards-tempo-real/:idMaquina&:metrica&:nomeComponente&:nomeMetrica", function (req, res) {
     medidasController.medidasCardsTempoReal(req, res);
 })
 
-router.get("/grafico-tempo-real/:idMaquina/:metrica/:limite/:idComponente", function (req, res) {
+router.get("/grafico-tempo-real/:idMaquina&:metrica&:limite&:idComponente&:nomeComponente&:nomeMetrica", function (req, res) {
     medidasController.medidasGraficoTempoReal(req, res);
 })
 

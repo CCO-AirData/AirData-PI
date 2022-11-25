@@ -7,23 +7,36 @@ function getComponentesServidor(idMaquina) {
     return database.executar(instrucao);
 }
 
-function medidasCardsTempoReal(idMaquina, metrica, limite) {
+function medidasCardsTempoReal(idMaquina, metrica, nomeComponente, nomeMetrica, limite) {
     if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         var instrucao = `SELECT * FROM vw_${metrica} WHERE idServidor = '${idMaquina}' LIMIT ${limite};`;
         console.log("Executando a instrução SQL: \n" + instrucao);
     } else if (process.env.AMBIENTE_PROCESSO == "producao") {
-        var instrucao = `SELECT TOP ${limite} * FROM vw_${metrica} WHERE idServidor = '${idMaquina}';`;
+        var instrucao = `SELECT TOP ${limite} idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida FROM leitura
+        JOIN componente ON fkComponente_idComponente = idComponente AND fkComponente_fkServidor = fkServidor
+        JOIN metrica ON fkMetrica = idMetrica
+        WHERE metrica.nomeComponente = '${nomeComponente}'
+        AND metrica.nomeMetrica = '${nomeMetrica}'
+        AND fkServidor = '${idMaquina}'
+        ORDER BY horario DESC;`;
         console.log("Executando a instrução SQL: \n" + instrucao);
     }
     return database.executar(instrucao);
 }
 
-function medidasGraficoTempoReal(idMaquina, metrica, limite, idComponente) {
+function medidasGraficoTempoReal(idMaquina, metrica, limite, idComponente, nomeComponente, nomeMetrica) {
     if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         var instrucao = `SELECT * FROM vw_${metrica} WHERE idServidor = '${idMaquina}' AND idComponente = ${idComponente} LIMIT ${limite};`;
         console.log("Executando a instrução SQL: \n" + instrucao);
     } else if (process.env.AMBIENTE_PROCESSO == "producao") {
-        var instrucao = `SELECT TOP ${limite} * FROM vw_${metrica} WHERE idServidor = '${idMaquina}' AND idComponente = ${idComponente};`;
+        var instrucao = `SELECT TOP ${limite} idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida FROM leitura
+        JOIN componente ON fkComponente_idComponente = idComponente AND fkComponente_fkServidor = fkServidor
+        JOIN metrica ON fkMetrica = idMetrica
+        WHERE metrica.nomeComponente = '${nomeComponente}'
+        AND metrica.nomeMetrica = '${nomeMetrica}'
+        AND fkServidor = '${idMaquina}'
+        AND idComponente = ${idComponente}
+        ORDER BY horario DESC;`;
         console.log("Executando a instrução SQL: \n" + instrucao);
     }
     return database.executar(instrucao);

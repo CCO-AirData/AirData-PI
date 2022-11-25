@@ -266,10 +266,10 @@
 
     function iniciar() {
         // Funções em ./js/dados.js
-        obterDadosCards(idMaquina, 'cpuPercent');
-        obterDadosCards(idMaquina, 'ramPercent');
-        obterDadosCards(idMaquina, 'diskPercent');
-        obterDadosCards(idMaquina, 'cpuTemp');
+        obterDadosCards(idMaquina, 'cpuPercent', 'CPU', 'Porcentagem de uso');
+        obterDadosCards(idMaquina, 'ramPercent', 'RAM', 'Porcentagem de uso');
+        obterDadosCards(idMaquina, 'diskPercent', 'DISCO', 'Porcentagem de uso');
+        obterDadosCards(idMaquina, 'cpuTemp', 'CPU', 'Temperatura');
     }
 
     // Pegando dados de porcentagem para os cards no topo da tela

@@ -29,15 +29,24 @@ function criarCards(vtComponentes){
 
         if(componente.nomeView.startsWith("disk")){
             icone = "fas fa-solid fa-hard-drive fa-2x text-warning"
+            nomeComponente = 'DISCO'
+            nomeMetrica = 'Porcentagem de uso' 
         } else if (componente.nomeView.startsWith("ram")){
             icone = "fas fa-memory fa-2x text-info"
+            nomeComponente = 'RAM'
+            nomeMetrica = 'Porcentagem de uso' 
         } else if (componente.nomeView.startsWith("cpu")){
             icone = "fas fa-light fa-microchip fa-2x text-primary"
+            nomeComponente = 'CPU'
+            nomeMetrica = 'Porcentagem de uso' 
+        }else{
+            nomeComponente = 'CPU'
+            nomeMetrica = 'Temperatura'
         }
 
         console.log(componente)
 
-        cards.innerHTML += `<div onclick="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${componente.nomeView}', true, ${componente.idComponente})" class="col-xl-3 col-md-6 mb-4">
+        cards.innerHTML += `<div onclick="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${componente.nomeView}', true, ${componente.idComponente}, '${nomeComponente}', '${nomeMetrica}')" class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
             <div id="card_componentes" class="card-body">
                 <div class="row align-items-center">
@@ -62,16 +71,15 @@ function criarCards(vtComponentes){
 }
 
 // Obtendo dados dos cards
-function obterDadosCards(idMaquina, metrica) {
-    fetch(`/medidas/cards-tempo-real/${idMaquina}/${metrica}`)
+function obterDadosCards(idMaquina, metrica, nomeComponente, nomeMetrica) {
+    console.log(nomeComponente)
+    console.log(nomeMetrica)
+    fetch(`/medidas/cards-tempo-real/${idMaquina}&${metrica}&${nomeComponente}&${nomeMetrica}`)
         .then(response => {
             if (response.ok) {
                 response.json().then(resposta => {
 
-                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                    console.log(typeof resposta)
-                    console.log(resposta)
-                    console.log(metrica)
+                    
                     plotarCards(metrica, resposta);
                 });
             } else {
@@ -85,11 +93,11 @@ function obterDadosCards(idMaquina, metrica) {
 }
 
 // Obtendo dados grafico
-function obterDadosGrafico(idMaquina, metrica, isPrimeiroPlot, idComponente) {
+function obterDadosGrafico(idMaquina, metrica, isPrimeiroPlot, idComponente, nomeComponente, nomeMetrica) {
     var limite;
     isPrimeiroPlot ? limite = 12 : limite = 1
     console.log('Criando gráfico')
-    fetch(`/medidas/grafico-tempo-real/${idMaquina}/${metrica}/${limite}/${idComponente}`)
+    fetch(`/medidas/grafico-tempo-real/${idMaquina}&${metrica}&${limite}&${idComponente}&${nomeComponente}&${nomeMetrica}`)
         .then(response => {
             if (response.ok) {
                 response.json().then(resposta => {
