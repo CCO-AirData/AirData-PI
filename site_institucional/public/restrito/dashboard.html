@@ -496,7 +496,7 @@
 
         spanMediaMes.innerText = mediaUso.toFixed(0) + res[0].unidadeMedida;
         spanMediaMesEstatistica.innerText = diferencaMediaMes.toFixed(0) + res[0].unidadeMedida;
-        spanQtdMetricas.innerText = res[0].qtdMetricas;
+        spanQtdMetricas.innerText = res.length;
 
         var previsao = null
         var diferencaMediaMesPrevisao = null;
@@ -542,7 +542,7 @@
         var dadosAnalytics = [
             {media: mediaUso.toFixed(0), diferenca: diferencaMediaMes.toFixed(0), unidadeMedida: res[0].unidadeMedida},
             {media: previsao, diferenca: diferencaMediaMesPrevisao, unidadeMedida: res[0].unidadeMedida},
-            {media: res[0].qtdMetricas, diferenca: null, unidadeMedida: null}
+            {media: res.length, diferenca: null, unidadeMedida: null}
         ]
 
         sessionStorage.DADOS_ANALYTICS = JSON.stringify(dadosAnalytics);
