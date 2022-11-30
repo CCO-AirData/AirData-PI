@@ -42,21 +42,26 @@
                             </div>
     
                             <!-- Area Chart -->
-                            <div class="row">
+                            <hr class="sidebar-divider">
+                            <div id="section-choose" class="row">
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800" id="titulo-choose">Selecione um Componente</h1>
+                                </div>
+                            </div>
+                            <div id="section-analytics" class="row">
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800" id="titulo-macAdress">Analytics</h1>
+                                    <input id="btn-gerarRelatorio" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerar Relatório">
+                                </div>
                                 <div class="col-xl-8 col-lg-7">
                                     <div class="card mb-4">
                                         <div
                                             class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                             <h6 id="titulo_grafico_linha" class="m-0 font-weight-bold text-primary"></h6>
-                                            <select id="select_componentes"
-                                                onchange="alterarCapturaGrafico(select_componentes.value)">
-                                                <option value="1000">1 segundo</option>
-                                                <option value="5000">5 segundos</option>
-                                                <option value="30000">30 segundos</option>
-                                                <option value="60000">1 minuto</option>
-                                                <option value="900000">15 minutos</option>
-                                                <option value="1800000">30 minutos</option>
-                                            </select>
+                                            <div>
+                                                <span id="area-select-mes"></span>
+                                                <span id="area-select-metrica"></span>
+                                            </div>
                                         </div>
                                         <div class="card-body">
                                             <div class="chart-area">
@@ -82,114 +87,93 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Pie Chart -->
-                                <div class="col-xl-4 col-lg-5">
-                                    <div class="card mb-4">
+                            <div id="section-dashboard">
+                                <div class="col-xl-8 col-lg-7 mb-4">
+                                    <div class="card">
                                         <div
                                             class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                            <h6 class="m-0 font-weight-bold text-primary">MÉDIA ULTIMOS 5 MESES</h6>
-                                            <div class="dropdown no-arrow">
-                                                <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button"
-                                                    id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">CPU <i class="fas fa-chevron-down"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                    aria-labelledby="dropdownMenuLink" x-placement="bottom-end"
-                                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(62px, 31px, 0px);">
-                                                    <div class="dropdown-header">SELECIONA O HARDWARE</div>
-                                                    <a class="dropdown-item" href="#">MEMÓRIA RAM</a>
-                                                    <a class="dropdown-item" href="#">GPU</a>
-                                                    <a class="dropdown-item active" href="#">CPU</a>
-                                                    <a class="dropdown-item" href="#">DISCO</a>
+                                            <h6 class="m-0 font-weight-bold text-primary">TITULO</h6>
+                                        </div>
+                                        <div class="grafico">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mb-3 area-estatisticas">
+                                    <div class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
+                                        <div class="card h-md-100">
+                                            <div class="card-header pb-0">
+                                                <h6 class="mb-0 mt-2">Média do Mês</h6>
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-end">
+                                                <div class="row justify-content-between">
+                                                    <div class="col-auto align-self-end">
+                                                        <div id="span-mediaMes" class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
+                                                        <span id="span-badgeMediaMes" class="badge">
+                                                            <span id="icon-mediaMes" class=""></span>
+                                                            <span id="span-mediaMesEstatistica">0%</span> 
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-auto ps-0 mt-n4"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="mb-3">
-                                                <div class="small text-gray-500">MAIO <div class="small float-right"><b>80%</b>
-                                                    </div>
-                                                </div>
-                                                <div class="progress" style="height: 12px;">
-                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 80%"
-                                                        aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
+                                    </div>
+                                    <div class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
+                                        <div class="card h-md-100">
+                                            <div class="card-header pb-0">
+                                                <h6 class="mb-0 mt-2">Quantidade de Métricas</h6>
                                             </div>
-                                            <div class="mb-3">
-                                                <div class="small text-gray-500">ABRIL<div class="small float-right"><b>70%</b>
+                                            <div class="card-body d-flex flex-column justify-content-end">
+                                                <div class="row justify-content-between">
+                                                    <div class="col-auto align-self-end">
+                                                        <div id="span-qtdMetricas" class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
+                                                        <span class="fs--2 bg-200 text-primary">
+                                                            métrica(s)
+                                                        </span>
                                                     </div>
-                                                </div>
-                                                <div class="progress" style="height: 12px;">
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 70%"
-                                                        aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <div class="small text-gray-500">MARÇO<div class="small float-right"><b>55%</b>
-                                                    </div>
-                                                </div>
-                                                <div class="progress" style="height: 12px;">
-                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 55%"
-                                                        aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <div class="small text-gray-500">FEVEREIRO<div class="small float-right">
-                                                        <b>50%</b>
-                                                    </div>
-                                                </div>
-                                                <div class="progress" style="height: 12px;">
-                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
-                                                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <div class="small text-gray-500">JANEIRO<div class="small float-right">
-                                                        <b>30%</b>
-                                                    </div>
-                                                </div>
-                                                <div class="progress" style="height: 12px;">
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 30%"
-                                                        aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="col-auto ps-0 mt-n4"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-footer text-center">
-                                            <a class="m-0 small text-primary card-link" href="#">HISTORICO <i
-                                                    class="fas fa-chevron-right"></i></a>
+                                    </div>
+                                    <div id="card-previsao" class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
+                                        <div class="card h-md-100">
+                                            <div class="card-header pb-0">
+                                                <h6 class="mb-0 mt-2">Previsão (<span id="span-proxMes">Novembro</span>)</h6>
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-end">
+                                                <div class="row justify-content-between">
+                                                    <div class="col-auto align-self-end">
+                                                        <div id="span-previsao" class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
+                                                        <span id="span-badgePrevisao" class="badge">
+                                                            <span id="icon-previsao"></span>
+                                                            <span id="span-previsaoEstatistica">-</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-auto ps-0 mt-n4"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>    
-                            </div>
-                            <!-- Invoice Example -->
-                            <div class="col-xl-8 col-lg-7 mb-4">
-                                <div class="card">
-                                    <div
-                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold text-primary">ALERTAS</h6>
-                                        <a class="m-0 float-right btn btn-danger btn-sm" href="alertas.html">HISTORICO <i
-                                                class="fas fa-chevron-right"></i></a>
+                                    <div class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
+                                        <div class="card h-md-100">
+                                            <div class="card-header pb-0">
+                                                <h6 class="mb-0 mt-2">Status</h6>
+                                            </div>
+                                            <div class="card-body d-flex flex-column justify-content-end">
+                                                <div class="row justify-content-between">
+                                                    <div class="col-auto align-self-end">
+                                                        <div id="span-status" class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
+                                                        <span id="icon-status" class="badge">
+                                                            
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-auto ps-0 mt-n4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="table-responsive">
-                                        <table class="table align-items-center table-flush">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th>Alertas ID</th>
-                                                    <th>Motivo</th>
-                                                    <th>Hardware</th>
-                                                    <th>Data</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="corpo-tabela-alertas">
-                                                <tr>
-                                                    <td><a>000001</a></td>
-                                                    <td>Sobrecarregamento</td>
-                                                    <td>CPU</td>
-                                                    <td><span>01/01/2022</span></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="card-footer"></div>
                                 </div>
                             </div>
                             <!-- Message From Customer-->
@@ -227,7 +211,6 @@
     <script src="../assets/js/demo/chart-area-demo.js"></script>
     <script src="./js/script.js"></script>
     <script src="./js/dados.js"></script>
-
 </body>
 
 </html>
@@ -237,15 +220,13 @@
     const tempoCapturaCards = 1000;
     var tempoCapturaGrafico = 1000;
 
-
     var pagina = "dashboard";
 
-
     setTimeout(() => {
-        console.log("Cheguei");
         criarTela();
         setTimeout(() => {
             iniciar();
+            console.log('chamou iniciar()')
         }, 100);
     }, 100)
 
@@ -274,14 +255,14 @@
 
     // Pegando dados de porcentagem para os cards no topo da tela
 
-    function plotarCards(metrica, dadosMaquina) {
+    function plotarCards(metrica, dadosMaquina, nomeComponente, nomeMetrica) {
         var idToSnakeCase = tratarId(metrica)
         idToSnakeCase += dadosMaquina[0].idComponente
         var idCard = document.getElementById(idToSnakeCase)
 
         var spanStatus = `status_${idToSnakeCase}`
         spanStatus = document.getElementById(spanStatus)
-        console.log(spanStatus)
+        // console.log(spanStatus)
         
         var percent = dadosMaquina[0].valorLido;
 
@@ -305,7 +286,7 @@
         }
 
         setTimeout(() => {
-            obterDadosCards(idMaquina, metrica);
+            obterDadosCards(idMaquina, metrica, nomeComponente, nomeMetrica);
         }, tempoCapturaCards);
     }
 
@@ -313,74 +294,60 @@
 
     var idAtualPlotar = ''
 
-    function plotarGrafico(metrica, resposta, limite, idComponente) {
+    function plotarGrafico(metrica, resposta, idComponente, nomeMetrica, idMetrica, mes, tipoComponente, isSegundoEixo) {
+        sessionStorage.NOME_METRICA = nomeMetrica
+        sessionStorage.TIPO_COMPONENTE = tipoComponente
+        document.getElementById('section-choose').style.display = 'none';
+        document.getElementById('section-analytics').style.display = 'block';
+
+        listarUltimosCincoMeses(metrica, idComponente, idMetrica, nomeMetrica, mes, tipoComponente, isSegundoEixo)
+        receberMetricas(idMetrica, idComponente, nomeMetrica, tipoComponente)
+
         if(idAtualPlotar != idComponente) {
             idAtualPlotar = idComponente
         }
-        console.log(resposta)
-        myLineChart.destroy()
-        criarGrafico(metrica)
+
         var dadosGrafico = [];
         var labelsGrafico = [];
+        var dados, valorLido
 
-        for (var i = 0; i < resposta.length; i++) {
-            var dados = resposta[i]
-            var valorLido = dados.valorLido;
-            var unidadeMedida = dados.unidadeMedida;
-            var dataHorario = dados.horario.split("T");
-            dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
+        if(isSegundoEixo) {
+            for (var i = 0; i < resposta.length; i++) {
+                dados = resposta[i]
+                valorLido = dados.Media;
 
-            dadosGrafico.push(valorLido)
-            labelsGrafico.push(dataHorario)
+                dadosGrafico.push(valorLido)
+            }
+            myLineChart.data.datasets[1].data = dadosGrafico;
+        } else {
+            myLineChart.destroy()
+            criarGraficoInicial(resposta[0].unidadeMedida)
+
+            for (var i = 0; i < resposta.length; i++) {
+                dados = resposta[i]
+                valorLido = dados.Media;
+                var unidadeMedida = dados.unidadeMedida;
+                var dataHorario = dados.Dia;
+
+                dadosGrafico.push(valorLido)
+                labelsGrafico.push(dataHorario)
+
+                sessionStorage.DADOS_GRAFICO = JSON.stringify(resposta);
+            }
+
+            myLineChart.data.datasets[0].data = dadosGrafico;
+            myLineChart.data.labels = labelsGrafico;
         }
 
-
-        myLineChart.data.datasets[0].data = dadosGrafico;
-        myLineChart.data.labels = labelsGrafico;
         myLineChart.update();
 
-        if (metrica == 'cpuPercent') {
-            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA CPU'
-        } else if (metrica == 'ramPercent') {
-            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DA RAM'
-        } else if (metrica == 'diskPercent') {
-            titulo_grafico_linha.innerHTML = 'PORCENTAGEM DE USO DO DISCO'
-        } else if (metrica == 'cpuTemp') {
-            titulo_grafico_linha.innerHTML = 'TEMPERATURA DA CPU'
-        }
+        titulo_grafico_linha.innerHTML = 'MÉDIA POR DIA DA ' + nomeMetrica.toUpperCase()
         
-        setTimeout(() => {
-            obterDadosGrafico(idMaquina, metrica, false, idComponente);
-        }, tempoCapturaGrafico);
-    }
-
-
-    function atualizarGrafico(metrica, resposta, idComponente) {
-        if(idAtualPlotar == idComponente) {
-            var dados = resposta[0]
-            var valorLido = dados.valorLido;
-            var unidadeMedida = dados.unidadeMedida;
-            var dataHorario = dados.horario.split("T");
-            dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
-
-            myLineChart.data.labels.shift();
-            myLineChart.data.datasets[0].data.shift();
-            myLineChart.data.labels.push(dataHorario);
-            myLineChart.data.datasets[0].data.push(valorLido);
-            myLineChart.update();
-            
-            setTimeout(() => {
-                obterDadosGrafico(idMaquina, metrica, false, idComponente);
-            }, tempoCapturaGrafico);
-        }
     }
 
     function listarTabelaAlertas(listaAlertas) {
         var bodyTable = document.getElementById('corpo-tabela-alertas');
         bodyTable.innerHTML = '';
-
-        console.log("aaaaaaaaaaaa",listaAlertas)
-        console.log(bodyTable)
 
         for (i = 0; i < listaAlertas.length; i++) {
             var mac = listaAlertas[i].idServidor;
@@ -391,19 +358,215 @@
 
             bodyTable.innerHTML += `
             <tr>
-              <td>${listaAlertas[i].idAlerta}</td>
-              <td>${listaAlertas[i].statusAlerta}</td>
-              <td>${listaAlertas[i].tipoComponente}</td>
-              <td>${dataHorario}</td>
+                <td>${listaAlertas[i].idAlerta}</td>
+                <td>${listaAlertas[i].statusAlerta}</td>
+                <td>${listaAlertas[i].tipoComponente}</td>
+                <td>${dataHorario}</td>
             </tr>
-          `
+            `
         }
     }
 
+    const meses = new Array ("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
+    
+    var idMetricaAtual;
+
+    function listarUltimosCincoMeses(metrica, idComponente, idMetrica, nomeMetrica, mes, tipoComponente, isSegundoEixo) {
+        const hoje = new Date();
+        const mesesLabel = [];
+        var datas = dataNosUltimosCincoMeses(hoje)
+
+        const areaSelectMes = document.getElementById('area-select-mes');
+
+        for(let i = 1; i <= 5; i++) {
+            mesesLabel.push(meses [mesAnterior(hoje, i * -1).getMonth()])
+        }
+
+        idMetricaAtual = isSegundoEixo ? idMetricaAtual : idMetrica
+
+        areaSelectMes.innerHTML = `
+        <select class="dropdown-toggle btn btn-sm btn-select" id="selecionar-mes" onchange="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${metrica}', ${idComponente}, '${nomeMetrica}', ${idMetricaAtual}, null, '${tipoComponente}', false)">
+            <option value="null">Selecionar o Mês</option>
+        </select>
+        `
+
+        const selectMes = document.getElementById('selecionar-mes');
+
+        selectMes.innerHTML = '<option value="null">Selecionar o Mês</option>'
+        for(let i = 0; i < 5; i++) {
+            selectMes.innerHTML += `
+                <option value='${datas[i]}'>${mesesLabel[i]}</option>'
+            `
+        }
+        document.getElementById('selecionar-mes').value = mes
+    }
+
+    function mesAnterior(date, diff) {
+        const data = new Date(date);
+        data.setMonth(data.getMonth() + diff);
+        return data;
+    }
+
+    function dataNosUltimosCincoMeses(data) {
+        const datas = [];
+
+        for (let i = 1; i <= 5; i++) {
+            datas.push(mesAnterior(data, i * -1).getMonth() + 1);
+        }
+
+        return datas;
+    }
+
+    function listarMetricasDisponiveis(metricas, idComponente, idMetrica, nomeMetrica, tipoComponente) {
+        console.log(nomeMetrica);
+        const areaSelectMetrica = document.getElementById('area-select-metrica')
+
+        areaSelectMetrica.innerHTML = `
+        <select class="dropdown-toggle btn btn-sm btn-select" id="selecionar-metrica" onchange="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', 'mediaPorDia', ${idComponente}, '${nomeMetrica}', null, null, '${tipoComponente}', true)">
+            <option value="null">Selecionar a Métrica</option>
+        </select>
+        `
+
+        const selectMetrica = document.getElementById('selecionar-metrica');
+
+        for(let i = 0; i < metricas.length; i++) {
+            selectMetrica.innerHTML += `
+                <option value="${metricas[i].idMetrica}">${metricas[i].nomeMetrica}</option>
+            `
+        }
+    }
+
+    async function exibirDadosAnalytics(res, idComponente, idMetrica, mes) {
+
+        sessionStorage.MES_ATUAL = parseInt(mes)
+
+        var spanMediaMes = document.getElementById('span-mediaMes')
+        var spanQtdMetricas = document.getElementById('span-qtdMetricas')
+        var spanMediaMesEstatistica = document.getElementById('span-mediaMesEstatistica')
+        var iconMediaMes = document.getElementById('icon-mediaMes')
+        var spanBadgeMediaMes = document.getElementById('span-badgeMediaMes')
+        var spanStatus = document.getElementById('span-status')
+        var iconStatus = document.getElementById('icon-status')
+        var spanPrevisao = document.getElementById('span-previsao')
+        var spanBadgePrevisao = document.getElementById('span-badgePrevisao')
+        var iconPrevisao = document.getElementById('icon-previsao')
+        var spanPrevisaoEstatistica = document.getElementById('span-previsaoEstatistica')
+        var spanProxMes = document.getElementById('span-proxMes')
+
+        console.log(res)
+
+        spanProxMes.innerText = meses[parseInt(mes)]
+
+        var mediaUso = parseFloat(res[1].media);        
+        var diferencaMediaMes = mediaUso - parseFloat(res[0].media)
+
+        console.log(mediaUso, parseFloat(res[0].media), mediaUso - parseFloat(res[0].media))
+
+        diferencaMediaMes = diferencaMediaMes.toFixed(0) == 0 ? 0 : diferencaMediaMes;
+
+        var classeAtualMediaMes = "";
+
+        if(diferencaMediaMes > 0) {
+            spanBadgeMediaMes.style.color = '#d33'
+            iconMediaMes.className = "fa fa-caret-up me-1"
+            classeAtualMediaMes = "fa fa-caret-up me-1";
+        } 
+        
+        if(diferencaMediaMes == 0) {
+            spanBadgeMediaMes.style.color = '#5A5C69'
+            iconMediaMes.className = "fa-solid fa-minus me-1"
+            classeAtualMediaMes = "fa-solid fa-minus me-1";
+        }
+
+        if(diferencaMediaMes < 0) {
+            spanBadgeMediaMes.style.color = '#0d6efd'
+            iconMediaMes.className = "fa fa-caret-down me-1"
+            classeAtualMediaMes = "fa fa-caret-down me-1";
+        }
+
+        if(mediaUso > 75) {
+            iconStatus.style.color = '#d33';
+            spanStatus.innerText = "Mau estado";
+            iconStatus.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+        } else {
+            iconStatus.style.color = '#0d6efd';
+            spanStatus.innerText = "Bom estado";
+            iconStatus.innerHTML = '<i class="fa-sharp fa-solid fa-check"></i>'
+        }
+
+        spanMediaMes.innerText = mediaUso.toFixed(0) + res[0].unidadeMedida;
+        spanMediaMesEstatistica.innerText = diferencaMediaMes.toFixed(0) + res[0].unidadeMedida;
+        spanQtdMetricas.innerText = res[0].qtdMetricas;
+
+        var previsao = null
+        var diferencaMediaMesPrevisao = null;
+
+        if(parseInt(mes) == new Date().getMonth()) {
+        
+            document.getElementById('card-previsao').style.display = 'block';
+
+            previsao = await preverDadosProximoMes(idComponente, idMetrica, mes)
+            diferencaMediaMesPrevisao = previsao - mediaUso;
+
+            diferencaMediaMesPrevisao = diferencaMediaMesPrevisao.toFixed(0) == 0 ? 0 : diferencaMediaMesPrevisao;
+
+            var classeAtualPrevisao = "";
+
+            if(diferencaMediaMesPrevisao > 0) {
+                spanBadgePrevisao.style.color = '#d33'
+                iconPrevisao.className = "fa fa-caret-up me-1"
+                classeAtualPrevisao = "fa fa-caret-up me-1";
+            } 
+            
+            if(diferencaMediaMesPrevisao == 0) {
+                spanBadgePrevisao.style.color = '#5A5C69'
+                iconPrevisao.className = "fa-solid fa-minus me-1"
+                classeAtualPrevisao = "fa-solid fa-minus me-1";
+            }
+
+            if(diferencaMediaMesPrevisao < 0) {
+                spanBadgePrevisao.style.color = '#0d6efd'
+                iconPrevisao.className = "fa fa-caret-down me-1"
+                classeAtualPrevisao = "fa fa-caret-down me-1";
+            }
+
+            spanPrevisao.innerText = previsao.toFixed(0) + res[0].unidadeMedida
+            spanPrevisaoEstatistica.innerText = diferencaMediaMesPrevisao.toFixed(0) + res[0].unidadeMedida
+
+        } else {
+            document.getElementById('card-previsao').style.display = 'none';
+        }
+
+        console.log(previsao, diferencaMediaMesPrevisao)
+
+        var dadosAnalytics = [
+            {media: mediaUso.toFixed(0), diferenca: diferencaMediaMes.toFixed(0), unidadeMedida: res[0].unidadeMedida},
+            {media: previsao, diferenca: diferencaMediaMesPrevisao, unidadeMedida: res[0].unidadeMedida},
+            {media: res[0].qtdMetricas, diferenca: null, unidadeMedida: null}
+        ]
+
+        sessionStorage.DADOS_ANALYTICS = JSON.stringify(dadosAnalytics);
+
+        console.log(sessionStorage.DADOS_ANALYTICS)
+
+    }
+
+    var tituloMacAdress = document.getElementById('titulo-macAdress')
     var btnGerenciarComponentes = document.getElementById('btn-gerenciarComponentes')
+    var btnGerarRelatorio = document.getElementById('btn-gerarRelatorio')
 
     btnGerenciarComponentes.addEventListener('click', () => {
         window.location = './componentes.html'
+    })
+
+    tituloMacAdress.addEventListener('click', () => {
+        console.log('click');
+        document.getElementById('section-analytics').style.display = 'none';
+        document.getElementById('section-choose').style.display = 'flex';
+    })
+
+    btnGerarRelatorio.addEventListener('click', () => {
+        window.open('./relatorio.html')
     })
 
 </script>

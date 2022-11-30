@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://kit.fontawesome.com/2eecc47c4e.js" crossorigin="anonymous"></script>
+</head>
+    <style>
+
+        .area-logo {
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo-airdata {
+            width: 20%;
+        }
+
+        #card-grafico {
+          width: 100%;
+        }
+
+    </style>
+<body>
+    <div class="container my-4">
+        <div class="area-logo">
+            <img class="logo-airdata" src="../assets/img/LogoAzulEscuro.svg" alt="">
+        </div>
+    
+        <p><strong>Relátorio - <span id="data-relatorio"></span></strong></p>
+    
+        <hr />
+    
+        <h3 id="id-macAddress" class="font-weight-bold mt-5">5C-CD-5B-BF-96-9A</h5>
+        <p></p>
+        <p>Empresa: <strong id="nomeEmpresa">NomeEmpresa</strong></p>
+        <p>Aeroporto: <strong id="nomeAeroporto">NomeAeroporto</strong></p>
+        <p>Torre: <strong id="idTorre">idTorre</strong></p>
+        <div class="border p-5 mb-5">
+          <!-- Copy this code to have a working example -->
+          <!--Section: Design Block-->
+          <section>
+            <div class="row">
+              <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h4 mb-0 text-gray-800" id="titulo-componente">Componente - Mês</h1>
+              </div>
+              <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <p class="text-uppercase small mb-2">
+                      <strong>Média do mês</strong>
+                    </p>
+                    <h5 class="mb-0">
+                      <strong id="spanMediaMes">-</strong>
+                      <small id="badgeMediaMes" class="ms-2">
+                        <span id="iconMediaMes"></span>
+                        <span id="spanMediaMesEstatistica"></span>
+                      </small>
+                    </h5>
+                  </div>
+                </div>
+                <!-- Card -->
+              </div>
+    
+              <div id="card-previsao" class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <p class="text-uppercase small mb-2">
+                      <strong>Previsão (<span id="spanProxMes"></span>)</strong>
+                    </p>
+                    <h5 class="mb-0">
+                      <strong id="spanPrevisao">-</strong>
+                      <small id="badgePrevisao" class="ms-2">
+                        <span id="iconPrevisao"></span>
+                        <span id="spanPrevisaoEstatistica"></span>
+                      </small>
+                    </h5>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <p class="text-uppercase small mb-2">
+                      <strong>Quantidade de métricas</strong>
+                    </p>
+                    <h5 class="mb-0">
+                      <strong id="spanQtdMetrica">-</strong>
+                      <small class="text-primary ms-2">
+                        </i>métrica(s)</small>
+                    </h5>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <p class="text-uppercase small mb-2">
+                      <strong>Status</strong>
+                    </p>
+                    <h5 class="mb-0">
+                      <strong id="spanStatus">-</strong>
+                      <small id="badgeStatus" class="ms-2">
+                        <span id="iconStatus"></span>
+                      </small>
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!--Section: Design Block-->
+    
+          <!--Section: Content-->
+          <section>
+            <div class="row">
+              
+                <div id="card-grafico" class="col-xl-8 col-lg-7">
+                    <div class="card mb-4">
+                        <div
+                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 id="titulo_grafico_linha" class="m-0 font-weight-bold text-primary"></h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <div class="chartjs-size-monitor">
+                                    <div class="chartjs-size-monitor-expand">
+                                        <div class=""></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink">
+                                        <div class=""></div>
+                                    </div>
+                                </div>
+                                <div class="chartjs-size-monitor">
+                                    <div class="chartjs-size-monitor-expand">
+                                        <div class=""></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink">
+                                        <div class=""></div>
+                                    </div>
+                                </div>
+                                <canvas id="myAreaChart" style="display: block; width: 1013px; height: 320px;"
+                                    width="1013" height="320" class="chartjs-render-monitor"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+          </section>
+          <!--Section: Content-->
+          <!--/ Copy this code to have a working example -->
+        </div>
+      </div>
+</body>
+</html>
+<script src="../assets/vendor/chart.js/Chart.min.js"></script>
+<script src="../assets/js/demo/chart-area-demo.js"></script>
+
+<script>
+
+    const meses = new Array ("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
+
+    var now = new Date()
+    document.getElementById('data-relatorio').innerText = `${now.getDate()} de ${meses[now.getMonth()]} de ${now.getFullYear()}`
+
+    document.getElementById('id-macAddress').innerText = (sessionStorage.MAC_SERVIDOR).replace(/:/g, "-").toUpperCase();
+    document.getElementById('nomeEmpresa').innerText = sessionStorage.NOME_EMPRESA;
+    document.getElementById('nomeAeroporto').innerText = sessionStorage.NOME_AEROPORTO;
+    document.getElementById('idTorre').innerText = sessionStorage.ID_TORRE;
+
+    document.getElementById('titulo-componente').innerText = sessionStorage.TIPO_COMPONENTE + " - " + meses[sessionStorage.MES_ATUAL - 1]
+
+    var dadosAnalytics = JSON.parse(sessionStorage.DADOS_ANALYTICS)
+
+    document.getElementById('spanMediaMes').innerText = dadosAnalytics[0].media + dadosAnalytics[0].unidadeMedida
+    document.getElementById('spanMediaMesEstatistica').innerText = dadosAnalytics[0].diferenca + dadosAnalytics[0].unidadeMedida
+    document.getElementById('spanQtdMetrica').innerText = dadosAnalytics[2].media
+
+    if(dadosAnalytics[1].media != null) {
+      document.getElementById('spanProxMes').innerText = meses[now.getMonth()]
+      document.getElementById('spanPrevisao').innerText = (dadosAnalytics[1].media).toFixed(0) + dadosAnalytics[0].unidadeMedida
+      document.getElementById('spanPrevisaoEstatistica').innerText = dadosAnalytics[1].diferenca.toFixed(0) + dadosAnalytics[0].unidadeMedida
+
+      var spanBadgePrevisao = document.getElementById('badgePrevisao')
+      var iconPrevisao = document.getElementById('iconPrevisao')
+
+      var diferencaMediaMesPrevisao = dadosAnalytics[1].diferenca
+
+      if(diferencaMediaMesPrevisao > 0) {
+        spanBadgePrevisao.style.color = '#d33'
+        iconPrevisao.className = "fa fa-caret-up me-1"
+        classeAtualPrevisao = "fa fa-caret-up me-1";
+      } 
+              
+      if(diferencaMediaMesPrevisao == 0) {
+        spanBadgePrevisao.style.color = '#5A5C69'
+        iconPrevisao.className = "fa-solid fa-minus me-1"
+        classeAtualPrevisao = "fa-solid fa-minus me-1";
+      }
+
+      if(diferencaMediaMesPrevisao < 0) {
+        spanBadgePrevisao.style.color = '#0d6efd'
+        iconPrevisao.className = "fa fa-caret-down me-1"
+        classeAtualPrevisao = "fa fa-caret-down me-1";
+      }
+    } else {
+      document.getElementById('card-previsao').style.display = 'none';
+    }
+
+
+    var spanBadgeMediaMes = document.getElementById('badgeMediaMes')
+    var iconMediaMes= document.getElementById('iconMediaMes')
+    var diferencaMediaMes = dadosAnalytics[0].diferenca
+
+    if(diferencaMediaMes > 0) {
+      spanBadgeMediaMes.style.color = '#d33'
+      iconMediaMes.className = "fa fa-caret-up me-1"
+    } 
+        
+    if(diferencaMediaMes == 0) {
+      spanBadgeMediaMes.style.color = '#5A5C69'
+      iconMediaMes.className = "fa-solid fa-minus me-1"
+    }
+
+    if(diferencaMediaMes < 0) {
+      spanBadgeMediaMes.style.color = '#0d6efd'
+      iconMediaMes.className = "fa fa-caret-down me-1"
+    }
+
+    if(dadosAnalytics[0].media > 75) {
+      iconStatus.style.color = '#d33';
+      spanStatus.innerText = "Mau estado";
+      iconStatus.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+    } else {
+      iconStatus.style.color = '#0d6efd';
+      spanStatus.innerText = "Bom estado";
+      iconStatus.innerHTML = '<i class="fa-sharp fa-solid fa-check"></i>'
+    }
+    
+    var resposta = JSON.parse(sessionStorage.DADOS_GRAFICO)
+
+    criarGraficoInicial(resposta[0].unidadeMedida)
+    // myLineChart.destroy()
+
+    var dadosGrafico = [];
+    var labelsGrafico = [];
+    var dados, valorLido
+
+    for (var i = 0; i < resposta.length; i++) {
+        dados = resposta[i]
+        valorLido = dados.Media;
+        var unidadeMedida = dados.unidadeMedida;
+        var dataHorario = dados.Dia;
+
+        dadosGrafico.push(valorLido)
+        labelsGrafico.push(dataHorario)
+
+    }
+
+    myLineChart.data.datasets[0].data = dadosGrafico;
+    myLineChart.data.labels = labelsGrafico;
+
+    myLineChart.update();
+    titulo_grafico_linha.innerHTML = 'MÉDIA POR DIA DA ' + (sessionStorage.NOME_METRICA).toUpperCase()
+
+    print()
+
+</script>

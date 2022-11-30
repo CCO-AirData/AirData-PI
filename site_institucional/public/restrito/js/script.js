@@ -24,7 +24,7 @@ function iniciarSessao(pagina){
         tituloPagina.innerText = `Dashboard | ${mac}`
         tituloDash.innerText = mac;
         criarGrafico()
-        receberDadosAlertas(sessionStorage.ID_TORRE, 3);
+        //receberDadosAlertas(sessionStorage.ID_TORRE, 3);
     } else if(pagina == 'alertas' || pagina == 'painelAlertas'){
         receberDadosAlertas(sessionStorage.ID_TORRE, 4);
         receberOpcoesFiltros(sessionStorage.ID_TORRE);

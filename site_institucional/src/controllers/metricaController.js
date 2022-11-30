@@ -102,9 +102,36 @@ function deletarComponente(req, res) {
 
 }
 
+function listarOptMetricasAnalytics(req, res) {
+    var idServidor = req.params.idServidor;
+    var idComponente = req.params.idComponente;
+    var idMetricaAtual = req.params.idMetricaAtual;
+
+    if(idServidor == undefined || idServidor == null) {
+        res.status(400).send("O idServidor está null ou undefined");
+    } else if(idComponente == undefined || idComponente == null) {
+        res.status(400).send("O idComponente está null ou undefined");
+    } else if(idMetricaAtual == undefined || idMetricaAtual == null) {
+        res.status(400).send("A métricaAtual está null ou undefined");
+    } else {
+
+        metricaModel.listarOptMetricasAnalytics(idServidor, idComponente, idMetricaAtual)
+            .then(function (resposta) {
+                res.json(resposta);
+            }).catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao listar as métricas! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            })
+
+    }
+
+}
+
 module.exports = {
     listar,
     listarOpcoesComponentes,
     cadastrar,
-    deletarComponente
+    deletarComponente,
+    listarOptMetricasAnalytics
 }

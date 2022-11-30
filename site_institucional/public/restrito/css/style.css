@@ -144,3 +144,44 @@
     background-color: #d33;
     box-shadow: none !important;
 }
+
+.col-xl-8 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+
+#section-dashboard {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#section-dashboard .col-xl-8 {
+    width: 49%;
+}
+
+.area-estatisticas {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.area-estatisticas .card-estatistica {
+    width: 49%;
+}
+
+#section-analytics {
+    display: none;
+}
+
+#section-choose {
+    height: 60vh
+}
+
+#titulo-choose {
+    margin: 0 auto;
+}
+
+#titulo-macAdress {
+    cursor: pointer;
+}

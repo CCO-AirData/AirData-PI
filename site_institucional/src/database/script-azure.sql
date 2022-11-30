@@ -157,7 +157,7 @@ CREATE VIEW vw_onlineServers AS
 	GROUP BY fkComponente_fkServidor, fkTorre;
     
 CREATE VIEW vw_componenteMetrica AS
-SELECT TOP 50 idComponente, fkServidor, tipoComponente, componente.nomeComponente, tipoMemoria, nomeMetrica, unidadeMedida, nomeView 
+SELECT TOP 50 idComponente, fkServidor, tipoComponente, componente.nomeComponente, tipoMemoria, nomeMetrica, unidadeMedida, nomeView, idMetrica
 FROM componente 
 JOIN parametro ON fkComponente_idComponente = idComponente 
 AND fkComponente_fkServidor = fkServidor

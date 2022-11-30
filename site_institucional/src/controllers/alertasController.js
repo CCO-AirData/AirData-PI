@@ -90,7 +90,7 @@ function receberDadosFiltro(req, res) {
 
 function listarRecentes(req, res) {
     let fkTorre = req.body.fkTorreServer;
-
+    
     if (fkTorre == undefined) {
         res.status(400).send("A fkTorre da torre está undefined!");
     } else {

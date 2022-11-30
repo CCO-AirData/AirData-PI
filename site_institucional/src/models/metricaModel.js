@@ -31,7 +31,12 @@ function deletar(idComponente) {
     database.executar(instrucao);
     instrucao = `DELETE FROM componente WHERE idComponente = ${idComponente};`
     return database.executar(instrucao);
+}
 
+function listarOptMetricasAnalytics(idServidor, idComponente, idMetricaAtual) {
+    var instrucao = `SELECT * FROM vw_getOptMetricas WHERE idMetrica != '${idMetricaAtual}' AND fkServidor = '${idServidor}' AND idComponente = ${idComponente};`
+    console.log(instrucao);
+    return database.executar(instrucao);
 }
 
 module.exports = {
@@ -39,5 +44,6 @@ module.exports = {
     listarOpcoesComponentes,
     listarOpcoesParametro,
     cadastrar,
-    deletar
+    deletar,
+    listarOptMetricasAnalytics
 };

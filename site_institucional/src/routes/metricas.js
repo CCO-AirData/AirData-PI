@@ -19,4 +19,8 @@ router.post("/deletar", function (req, res) {
     metricaController.deletarComponente(req, res);
 });
 
+router.post("/:idServidor/:idComponente/:idMetricaAtual", function (req, res) {
+    metricaController.listarOptMetricasAnalytics(req, res);
+})
+
 module.exports = router;
