@@ -31,7 +31,7 @@ function medidasGraficoTempoReal(idMaquina, metrica, idComponente, idMetrica, me
 }
 
 function getDadosAnalytics(idTorre, idServidor, idComponente, mesAtual, mesAnterior, idMetrica) {
-    var instrucao = `SELECT mes, media, unidadeMedida, qtdMetricas FROM vw_dadosAnalytics WHERE idTorre = ${idTorre} AND idServidor = '${idServidor}' AND idComponente = ${idComponente} AND fkMetrica = ${idMetrica} AND mes IN (${mesAnterior}, ${mesAtual}) ORDER BY mes;`
+    var instrucao = `SELECT mes, media, unidadeMedida FROM vw_dadosAnalytics WHERE idTorre = ${idTorre} AND idServidor = '${idServidor}' AND idComponente = ${idComponente} AND fkMetrica = ${idMetrica} AND mes IN (${mesAnterior}, ${mesAtual}) ORDER BY mes;`
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
