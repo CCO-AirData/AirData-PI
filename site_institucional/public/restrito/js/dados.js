@@ -41,6 +41,7 @@ function criarCards(vtComponentes){
             nomeComponente = 'CPU'
             nomeMetrica = 'Porcentagem de uso' 
         } else {
+            icone = "fas fa-light fa-microchip fa-2x text-primary"
             nomeComponente = 'CPU'
             nomeMetrica = 'Temperatura'
         }
@@ -51,7 +52,7 @@ function criarCards(vtComponentes){
                 <div class="row align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-uppercase mb-1">${componente.tipoComponente} | ${componente.nomeComponente} (${componente.unidadeMedida})</div>
-                        <div id="${tratarId(componente.nomeView)}${componente.idComponente}" class="h5 mb-0 font-weight-bold text-gray-800">0%
+                        <div id="${tratarId(componente.nomeView)}${componente.idComponente}" class="h5 mb-0 font-weight-bold text-gray-800">-
                         </div>
                         <div class="mt-2 mb-0 text-muted text-xs">
 
