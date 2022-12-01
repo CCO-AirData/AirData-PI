@@ -399,70 +399,69 @@ def matarProcesso(pid):
 def capturarProcessos(mac):
     bdsql, cursor = conectar()
     import psutil
-    while True:
-        lista_processos = []
-        for processos in psutil.process_iter():
-            # print(processos)
-            processos_info = processos.as_dict(['name', 'cpu_percent', 'pid', 'username'])
-            if processos_info['cpu_percent'] > 0 and processos_info['username'] != "root":
-                # print(processos_info)
-                lista_processos.append(processos_info)
-                pid = processos_info['pid']
-                usuario = processos_info['username']
-                nome = processos_info['name']
-                porcentagemProcesso = processos_info['cpu_percent'] 
-                if AMBIENTE_PRODUCAO:
-                    sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, DATEADD(HOUR, -3, CURRENT_TIMESTAMP))"
-                else:
-                    sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, now())"
-                val = (nome, porcentagemProcesso, pid, usuario, mac)
-                cursor.execute(sql, val)
+    lista_processos = []
+    for processos in psutil.process_iter():
+        # print(processos)
+        processos_info = processos.as_dict(['name', 'cpu_percent', 'pid', 'username'])
+        if processos_info['cpu_percent'] > 0 and processos_info['username'] != "root":
+            # print(processos_info)
+            lista_processos.append(processos_info)
+            pid = processos_info['pid']
+            usuario = processos_info['username']
+            nome = processos_info['name']
+            porcentagemProcesso = processos_info['cpu_percent'] 
+            if AMBIENTE_PRODUCAO:
+                sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, DATEADD(HOUR, -3, CURRENT_TIMESTAMP))"
+            else:
+                sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, now())"
+            val = (nome, porcentagemProcesso, pid, usuario, mac)
+            cursor.execute(sql, val)
 
-                bdsql.commit()
-                # sleep(1)
-                    
+            bdsql.commit()
+            # sleep(1)
                 
-        sql = "select pid from deletarPid;"
+            
+    sql = "select pid from deletarPid;"
 
-        cursor.execute(sql)
+    cursor.execute(sql)
 
-        resposta = cursor.fetchall()
-        # print(resposta)
+    resposta = cursor.fetchall()
+    # print(resposta)
 
-        if(len(resposta) > 0):
+    if(len(resposta) > 0):
 
-            for row in resposta:
-                
-                pid = row[0]
-                sql = "select nome from processos where pid = %s;"
-                val = (pid, )
+        for row in resposta:
+            
+            pid = row[0]
+            sql = "select nome from processos where pid = %s;"
+            val = (pid, )
+            cursor.execute(sql,val)
+            nomeProcesso = cursor.fetchall()
+            # print(nomeProcesso)
+            
+            if(len(nomeProcesso) > 0):
+                sql = "select pid from processos where nome = %s AND DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND fkServidor = %s;"
+                val = (nomeProcesso[0][0], mac, )
                 cursor.execute(sql,val)
-                nomeProcesso = cursor.fetchall()
-                # print(nomeProcesso)
-                
-                if(len(nomeProcesso) > 0):
-                    sql = "select pid from processos where nome = %s AND DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND fkServidor = %s;"
-                    val = (nomeProcesso[0][0], mac, )
-                    cursor.execute(sql,val)
-                    processosDeletados = cursor.fetchall()
-                    # print(processosDeletados)
-                
-                if(len(processosDeletados) > 0):
-                    for row2 in processosDeletados:
-                        
-                        pidDeletado = row2[0]
-                        # print("aaaa",pidDeletado)
-                        matarProcesso(pidDeletado)
-                        sql = "delete from processos where pid = %s;"
-                        val = (pidDeletado, )
-                        cursor.execute(sql,val)
-                        bdsql.commit()
-                        
-                
-                    sql = "delete from deletarPid where pid = %s;"
-                    val = (pid, )
+                processosDeletados = cursor.fetchall()
+                # print(processosDeletados)
+            
+            if(len(processosDeletados) > 0):
+                for row2 in processosDeletados:
+                    
+                    pidDeletado = row2[0]
+                    # print("aaaa",pidDeletado)
+                    matarProcesso(pidDeletado)
+                    sql = "delete from processos where pid = %s;"
+                    val = (pidDeletado, )
                     cursor.execute(sql,val)
                     bdsql.commit()
+                    
+            
+                sql = "delete from deletarPid where pid = %s;"
+                val = (pid, )
+                cursor.execute(sql,val)
+                bdsql.commit()
 
 
 def conectar():
