@@ -19,6 +19,10 @@ router.post("/listarComEstado", function (req, res) {
     maquinaController.listarComEstado(req, res);
 });
 
+router.post("/listarPorMacAeroporto", function (req, res) {
+    maquinaController.listarPorMacAeroporto(req, res);
+});
+
 router.post("/listarMaiorUsoCpu", function (req, res) {
     maquinaController.listarMaiorUsoCpu(req, res);
 });

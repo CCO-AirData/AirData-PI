@@ -12,6 +12,12 @@ function listarComEstado(fkTorre) {
     return database.executar(instrucao);
 }
 
+function listarPorMacAeroporto(idMaquina, idAeroporto){
+    const instrucao = `SELECT * FROM vw_maquinaPorMacEAeroporto WHERE idServidor = '${idMaquina}' AND fkAeroporto = '${idAeroporto}';`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 function listarMaiorUsoCpu(fkTorre) {
     let instrucao = `SELECT * FROM vw_maquinasMaiorUsoCpu WHERE fkTorre = ${fkTorre};`
     return database.executar(instrucao);
@@ -47,6 +53,7 @@ module.exports = {
     getComponente,
     listar,
     listarComEstado,
+    listarPorMacAeroporto,
     listarMaiorUsoCpu,
     deletar
 };

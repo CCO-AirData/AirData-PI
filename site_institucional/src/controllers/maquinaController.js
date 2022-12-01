@@ -98,6 +98,31 @@ function listarComEstado(req, res) {
     }
 }
 
+function listarPorMacAeroporto(req, res) {
+    const idMaquina = req.body.idMaquinaServer;
+    const idAeroporto = req.body.idAeroportoServer;
+
+    if (idMaquina == undefined) {
+        res.status(400).send("A idMaquina está undefined!");
+    } else if (idAeroporto == undefined) {
+        res.status(400).send("A idAeroporto está undefined!");
+    } else {
+        maquinaModel.listarPorMacAeroporto(idMaquina, idAeroporto)
+            .then(
+                function (resultado) {
+                    console.log(`\nMáquinas neste aeroporto com o MAC <${idMaquina}> : ${resultado}`);
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao listar as máquinas por MAC e aeroporto! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+    }
+}
+
 function listarMaiorUsoCpu(req, res) {
     var fkTorre = req.body.fkTorreServer;
 
@@ -146,6 +171,7 @@ module.exports = {
     getComponente,
     listar,
     listarComEstado,
+    listarPorMacAeroporto,
     listarMaiorUsoCpu,
     deletar
 }

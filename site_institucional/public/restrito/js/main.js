@@ -98,7 +98,7 @@ class myTopbar extends HTMLElement {
                                 Atividades
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="../sing-in.html" data-toggle="modal" data-target="#logoutModal">
+                            <a class="dropdown-item" href="../sing-in.html" data-toggle="modal" data-target="#logoutModal" onclick="sessionStorage.clear()">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Sair
                             </a>
