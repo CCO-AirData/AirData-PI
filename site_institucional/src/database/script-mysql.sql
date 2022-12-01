@@ -1,5 +1,6 @@
 USE airData;
 
+
 CREATE TABLE empresa (
     idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
     cnpjEmpresa CHAR(18) NOT NULL,
@@ -91,6 +92,22 @@ CREATE TABLE parametro (
     fkComponente_fkServidor VARCHAR(17) NOT NULL,
     FOREIGN KEY(fkMetrica) REFERENCES metrica(idMetrica),
     FOREIGN KEY(fkComponente_idComponente, fkComponente_fkServidor) REFERENCES componente(idComponente, fkServidor)
+);
+
+CREATE TABLE processos(
+idProcesso INT PRIMARY KEY auto_increment,
+nome VARCHAR(50),
+porcentagemCpu DECIMAL(5,2),
+pid VARCHAR(10),
+usuario VARCHAR(50),
+fkServidor VARCHAR(17) NOT NULL,
+horario datetime,
+FOREIGN KEY (fkServidor) references servidor(idServidor)
+);
+
+CREATE TABLE deletarPid(
+id INT PRIMARY KEY AUTO_INCREMENT,
+pid VARCHAR(10)
 );
 
 -- Views

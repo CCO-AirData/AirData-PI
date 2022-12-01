@@ -34,6 +34,7 @@
                     <div class="row">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800" id="titulo-macAdress">MAC</h1>
+                            <input id="btn-gerenciarProcessos" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerenciar Processos">
                             <input id="btn-gerenciarComponentes" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerenciar Componentes">
                         </div>
     
@@ -555,9 +556,14 @@
     var tituloMacAdress = document.getElementById('titulo-macAdress')
     var btnGerenciarComponentes = document.getElementById('btn-gerenciarComponentes')
     var btnGerarRelatorio = document.getElementById('btn-gerarRelatorio')
+    var btnGerenciarProcessos = document.getElementById('btn-gerenciarProcessos')
 
     btnGerenciarComponentes.addEventListener('click', () => {
         window.location = './componentes.html'
+    })
+
+    btnGerenciarProcessos.addEventListener('click', () => {
+        window.location = './processos.html'
     })
 
     tituloMacAdress.addEventListener('click', () => {

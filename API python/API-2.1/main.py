@@ -2,8 +2,8 @@
 from time import sleep
 
 # Váriaveis ambiente
-AMBIENTE_PRODUCAO = True
-# AMBIENTE_PRODUCAO = False
+# AMBIENTE_PRODUCAO = True
+AMBIENTE_PRODUCAO = False
 
 
 def main():
@@ -360,6 +360,7 @@ threading.Thread(target=executar_{i}, args=('{row[2]}', {row[1]}, {row[0]},)).st
         i += 1
         if script != None:
             exec(script)
+            capturarProcessos(mac)
 
         sleep(5)
         print("Executando...")
@@ -386,7 +387,61 @@ def verificarAtualizacaoParametros(mac, qtdParametros):
         return False
     else:
         return True
+    
+def matarProcesso(pid):
+    from sys import platform
+    import os
+    if platform == "linux" or platform == "linux2":
+        os.system('kill '+str(pid))
+    elif platform == "win32":
+        os.system('TASKKILL /PID ' + str(pid) + ' /F')
+        
+def capturarProcessos(mac):
+    bdsql, cursor = conectar()
+    import psutil
+    while True:
+        lista_processos = []
+        for processos in psutil.process_iter():
+            # print(processos)
+            processos_info = processos.as_dict(['name', 'cpu_percent', 'pid', 'username'])
+            if processos_info['cpu_percent'] > 0 and processos_info['username'] != "root":
+                # print(processos_info)
+                lista_processos.append(processos_info)
+                pid = processos_info['pid']
+                usuario = processos_info['username']
+                nome = processos_info['name']
+                porcentagemProcesso = processos_info['cpu_percent'] 
+                if AMBIENTE_PRODUCAO:
+                    sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, DATEADD(HOUR, -3, CURRENT_TIMESTAMP))"
+                else:
+                    sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, now())"
+                val = (nome, porcentagemProcesso, pid, usuario, mac)
+                cursor.execute(sql, val)
 
+                bdsql.commit()
+                sleep(1)
+                print("Executando...")
+                    
+                
+            sql = "select * from deletarPid;"
+
+            cursor.execute(sql)
+
+            resposta = cursor.fetchall()
+
+            if(len(resposta) > 0):
+
+                for row in resposta:
+                    pid = row[1]
+                    matarProcesso(pid)
+                    sql = "delete from deletarPid where pid = %s;"
+                    val = (pid, )
+                    cursor.execute(sql,val)
+                    sql = "delete from processos where pid = %s;"
+                    val = (pid, )
+                    cursor.execute(sql,val)
+                    bdsql.commit()
+                    sleep(1)
 
 
 def conectar():

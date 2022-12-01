@@ -1,5 +1,5 @@
-// process.env.AMBIENTE_PROCESSO = "desenvolvimento";
-process.env.AMBIENTE_PROCESSO = "producao";
+process.env.AMBIENTE_PROCESSO = "desenvolvimento";
+// process.env.AMBIENTE_PROCESSO = "producao";
 
 var express = require("express");
 var cors = require("cors");
@@ -15,6 +15,7 @@ var medidasRouter = require("./src/routes/medidas");
 var maquinasRouter = require("./src/routes/maquinas");
 var alertasRouter = require("./src/routes/alertas");
 var metricasRouter = require("./src/routes/metricas");
+var processosRouter = require("./src/routes/processos");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -29,6 +30,7 @@ app.use("/medidas", medidasRouter);
 app.use("/maquinas", maquinasRouter);
 app.use("/alertas", alertasRouter);
 app.use("/metricas", metricasRouter);
+app.use("/processos", processosRouter);
 
 app.listen(PORTA, function () {
     console.log(`Você está rodando sua aplicação em Ambiente de ${process.env.AMBIENTE_PROCESSO} \n
