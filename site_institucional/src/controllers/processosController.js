@@ -3,7 +3,7 @@ var processosModel = require("../models/processosModel");
 function receberDadosProcessos(req, res) {
     var fkTorre = req.body.fkTorreServer;
     var limite = req.body.limiteServer;
-    var fkServidor = req.body.fkTorreServer
+    var fkServidor = req.body.fkServidorServer
 
     if (fkTorre == undefined) {
         res.status(400).send("A fkTorre do aeroporto está undefined!");

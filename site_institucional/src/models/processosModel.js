@@ -4,7 +4,7 @@ function listarProcessos(fkTorre, limite, fkServidor) {
     if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         var instrucao = `SELECT nome, sum(porcentagemCpu) as 'cpu', pid, usuario FROM processos 
         WHERE DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now())
-        AND fkServidor = ${fkServidor}
+        AND fkServidor = "${fkServidor}"
         GROUP BY nome ORDER BY sum(porcentagemCpu) DESC LIMIT ${limite};`;
         console.log("Executando a instrução SQL: \n" + instrucao);
     } else if(process.env.AMBIENTE_PROCESSO == "producao") {
