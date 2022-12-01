@@ -1,4 +1,49 @@
-function iniciarSessao(pagina){
+setInterval(notificarAcessoPorQrCode, 5000)
+
+function notificarAcessoPorQrCode() {
+    fetch('/acessoQrCode/listarAcessosQrCode', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            idUsuarioServer: sessionStorage.ID_USUARIO
+        })
+    }).then(function (resposta) {
+        resposta.json().then(function (resJson) {
+            //se houver algum acesso para ser notificado
+            if (resJson.length > 0) {
+                Swal.fire({
+                    title: 'Você acessou uma máquina de outro dispositivo',
+                    html: `<p>MAC: <b>${resJson[0].fkMaquina}</b></p> <p>Deseja acessá-la agora?</p>`,
+                    showDenyButton: true,
+                    confirmButtonText: 'Sim',
+                    denyButtonText: `Não`,
+                    position: 'bottom-end',
+                    didOpen: () => {
+                        //dando acesso como notificado
+                        fetch("/acessoQrCode/setNotificado", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                idAcessoServer: resJson[0].idQrCodeAccess
+                            })
+                        })
+                    },
+                }).then((result) => {
+                    //levando para a página da dash
+                    if (result.isConfirmed) {
+                        window.location = `./dashboard.html?idMaquina=${resJson[0].fkMaquina}`
+                    }
+                })
+            }
+        })
+    })
+}
+
+function iniciarSessao(pagina) {
     var span_userName = document.getElementById("username");
     var usuarioLink = document.getElementById("usuario-link");
     var tipoUsuario = sessionStorage.TIPO_USUARIO;
@@ -9,17 +54,17 @@ function iniciarSessao(pagina){
 
     span_userName.innerText = sessionStorage.NOME_USUARIO;
 
-    if(tipoUsuario != 'G' && tipoUsuario != 'S') {
+    if (tipoUsuario != 'G' && tipoUsuario != 'S') {
         usuarioLink.style.display = 'none';
     } else {
         usuarioLink.style.display = 'block';
     }
 
-    if(pagina == 'usuarios') {
+    if (pagina == 'usuarios') {
         receberDadosUsuários(sessionStorage.ID_AEROPORTO);
-    } else if(pagina == 'maquinas') {
+    } else if (pagina == 'maquinas') {
         receberDadosMaquinas(sessionStorage.ID_TORRE);
-    } else if(pagina == 'dashboard') {
+    } else if (pagina == 'dashboard') {
         var mac = macAdress.replace(/:/g, "-").toUpperCase();
         tituloPagina.innerText = `Dashboard | ${mac}`
         tituloDash.innerText = mac;
@@ -28,7 +73,7 @@ function iniciarSessao(pagina){
     } else if(pagina == 'alertas' || pagina == 'painelAlertas'){
         receberDadosAlertas(sessionStorage.ID_TORRE, 4);
         receberOpcoesFiltros(sessionStorage.ID_TORRE);
-    } else if(pagina == 'componentes'){
+    } else if (pagina == 'componentes') {
         receberDadosComponentes(macAdress);
     } else if(pagina == 'processos'){
         receberDadosProcessos(sessionStorage.ID_TORRE, 10);
@@ -41,7 +86,7 @@ var areaUser = document.getElementById("area_user");
 isDropdownUserOpen = false;
 
 areaUser.addEventListener('click', () => {
-    if(isDropdownUserOpen) {
+    if (isDropdownUserOpen) {
         dropdownUser.style.display = 'none';
         isDropdownUserOpen = false;
     } else {
@@ -75,7 +120,7 @@ function receberDadosUsuários(fkAeroporto) {
     });
 }
 
-function receberDadosMaquinas(fkTorre){
+function receberDadosMaquinas(fkTorre) {
     fetch("/maquinas/listar", {
         method: "POST",
         headers: {
@@ -101,7 +146,7 @@ function receberDadosMaquinas(fkTorre){
 
 }
 
-function receberDadosAlertas(fkTorre, limite){
+function receberDadosAlertas(fkTorre, limite) {
     fetch("/alertas/receberDadosAlertas", {
         method: "POST",
         headers: {
@@ -127,7 +172,7 @@ function receberDadosAlertas(fkTorre, limite){
     });
 }
 
-function receberDadosComponentes(fkServidor){
+function receberDadosComponentes(fkServidor) {
     fetch("/metricas/listarComponentes", {
         method: "POST",
         headers: {
@@ -165,7 +210,7 @@ function receberOpcoesComponentes(tipo, componente) {
         if (resposta.ok) {
             resposta.json().then(json => {
                 console.log(json)
-                if(tipo == 'componente') {
+                if (tipo == 'componente') {
                     listarOpcoesComponentes(json)
                 } else {
                     listarOpcoesParametro(json)
@@ -180,7 +225,7 @@ function receberOpcoesComponentes(tipo, componente) {
 
 }
 
-function receberOpcoesFiltros(fkTorre){
+function receberOpcoesFiltros(fkTorre) {
     fetch("/alertas/receberOpcoesFiltros", {
         method: "POST",
         headers: {

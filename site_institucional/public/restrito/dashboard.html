@@ -16,6 +16,8 @@
     <script src="https://kit.fontawesome.com/2eecc47c4e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/main.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body id="page-top" class="" onload="iniciarSessao(pagina)">
@@ -37,11 +39,11 @@
                             <input id="btn-gerenciarProcessos" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerenciar Processos">
                             <input id="btn-gerenciarComponentes" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerenciar Componentes">
                         </div>
-    
+
                         <div class="col-md-12">
                             <div id="container_cards" class="row">
                             </div>
-    
+
                             <!-- Area Chart -->
                             <hr class="sidebar-divider">
                             <div id="section-choose" class="row">
@@ -82,8 +84,9 @@
                                                         <div class=""></div>
                                                     </div>
                                                 </div>
-                                                <canvas id="myAreaChart" style="display: block; width: 1013px; height: 320px;"
-                                                    width="1013" height="320" class="chartjs-render-monitor"></canvas>
+                                                <canvas id="myAreaChart"
+                                                    style="display: block; width: 1013px; height: 320px;" width="1013"
+                                                    height="320" class="chartjs-render-monitor"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -217,7 +220,63 @@
 </html>
 
 <script>
-    const idMaquina = sessionStorage.MAC_SERVIDOR;
+    //pegando os perâmetros da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idMaquina = urlParams.get('idMaquina');
+    //old: const idMaquina = sessionStorage.MAC_SERVIDOR;
+    validarUrlAcesso()
+
+    //TO DO: REGISTRAR O ACESSO
+    function validarUrlAcesso() {
+        //verificando se estou logado
+        if (sessionStorage.ID_USUARIO == undefined) {
+            window.location.href = `../sing-in.html?urlAfterLogin=dashboard.html&idMaquina=${idMaquina}`;
+        }
+        //verificando acesso à máquina
+        validarAcesso().then(acesso => {
+            if (!acesso) {
+                alert("Máquina não encontrada ou acesso negado");
+                window.location.href = "./maquinas.html";
+            }
+        })
+        //registrando o acesso por QR Code
+        if (urlParams.has('origin') && urlParams.get('origin') == 'qrCode') {
+            console.log("vou cadastrar no banco em")
+            fetch('/acessoQrCode/cadastrarAcesso', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idUsuarioServer: sessionStorage.ID_USUARIO,
+                    idMaquinaServer: idMaquina
+                })
+            })
+        }
+    }
+
+
+    //Verificando se o usuário logado tem acesso à maquina
+    async function validarAcesso() {
+        retorno = await fetch('/maquinas/listarPorMacAeroporto', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idMaquinaServer: idMaquina,
+                idAeroportoServer: sessionStorage.ID_AEROPORTO
+            })
+        })
+        retornoJson = await retorno.json();
+        if (retornoJson.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        return retornoJson
+    }
+
     const tempoCapturaCards = 1000;
     var tempoCapturaGrafico = 1000;
 
@@ -270,19 +329,19 @@
 
         idCard.innerHTML = `${Math.round(percent, 0)}${dadosMaquina[0].unidadeMedida}`;
 
-        if(percent < 70) {
+        if (percent < 70) {
             spanStatus.innerText = "ESTÁVEL"
             spanStatus.style.color = "green"
-        } else if(percent <= 75) {
+        } else if (percent <= 75) {
             spanStatus.innerText = "PERIGO"
             spanStatus.style.color = "black"
-        } else if(percent <= 85) {
+        } else if (percent <= 85) {
             spanStatus.innerText = "CRÍTICO"
             spanStatus.style.color = "rgb(223, 201, 2)"
-        } else if(percent <= 95) {
+        } else if (percent <= 95) {
             spanStatus.innerText = "RISCO DE FALHA"
             spanStatus.style.color = "orange"
-        } else if(percent <= 100) {
+        } else if (percent <= 100) {
             spanStatus.innerText = "FALHA"
             spanStatus.style.color = "red"
         }

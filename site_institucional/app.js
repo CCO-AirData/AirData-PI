@@ -15,6 +15,7 @@ var medidasRouter = require("./src/routes/medidas");
 var maquinasRouter = require("./src/routes/maquinas");
 var alertasRouter = require("./src/routes/alertas");
 var metricasRouter = require("./src/routes/metricas");
+var acessoQrCodeRouter = require("./src/routes/acessoQrCode")
 var processosRouter = require("./src/routes/processos");
 
 app.use(express.json());
@@ -31,6 +32,7 @@ app.use("/maquinas", maquinasRouter);
 app.use("/alertas", alertasRouter);
 app.use("/metricas", metricasRouter);
 app.use("/processos", processosRouter);
+app.use("/acessoQrCode", acessoQrCodeRouter);
 
 app.listen(PORTA, function () {
     console.log(`Você está rodando sua aplicação em Ambiente de ${process.env.AMBIENTE_PROCESSO} \n

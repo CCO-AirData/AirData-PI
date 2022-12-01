@@ -165,8 +165,12 @@
 
   <script src="assets/js/main.js"></script>
 </body>
+
 </html>
 <script>
+  const urlString = window.location.search;
+  let paramString = urlString.split('?')[1];
+  let queryString = new URLSearchParams(paramString);
 
   function entrar() {
     var emailPessoalVar = emailPessoal.value;
@@ -216,8 +220,23 @@
               confirmButtonText: 'OK'
             })
 
+            //verificando se a URL está direcionando para alguma outra oágina
+            let redirectTo = ''
+            if (queryString.has('urlAfterLogin')) {
+              redirectTo = `restrito/${queryString.get('urlAfterLogin')}?`;
+              for (let pair of queryString.entries()) {
+                if (pair[0] != 'urlAfterLogin') {
+                  redirectTo += pair[0]
+                  redirectTo += '='
+                  redirectTo += pair[1]
+                }
+              }
+            } else {
+              redirectTo = 'restrito/painel.html'
+            }
+
             setTimeout(() => {
-              window.location = "restrito/painel.html";
+              window.location = redirectTo;
             }, "2000")
           });
 
