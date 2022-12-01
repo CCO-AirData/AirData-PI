@@ -99,45 +99,29 @@ WHERE usuario.fkAeroporto = idAeroporto
 AND torre.fkAeroporto = idAeroporto
 AND fkEmpresa = idEmpresa;
 
-CREATE VIEW vw_cpuPercent AS
-SELECT TOP 12 idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
-FROM leitura
-JOIN componente ON fkComponente_idComponente = idComponente
-AND fkComponente_fkServidor = fkServidor
+CREATE VIEW vw_cpuPercent AS 
+SELECT idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
-WHERE metrica.nomeComponente = 'CPU'
-AND metrica.nomeMetrica = 'Porcentagem de uso'
-ORDER BY horario DESC;
+WHERE idMetrica = 1;
 
-CREATE VIEW vw_ramPercent AS
-SELECT TOP 12 idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
-FROM leitura
-JOIN componente ON fkComponente_idComponente = idComponente
-AND fkComponente_fkServidor = fkServidor
+CREATE VIEW vw_ramPercent AS 
+SELECT idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
-WHERE metrica.nomeComponente = 'RAM'
-AND metrica.nomeMetrica = 'Porcentagem de uso'
-ORDER BY horario DESC;
+WHERE idMetrica = 2;
 
-CREATE VIEW vw_diskPercent AS
-SELECT TOP 12 idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
-FROM leitura
-JOIN componente ON fkComponente_idComponente = idComponente
-AND fkComponente_fkServidor = fkServidor
+CREATE VIEW vw_diskPercent AS 
+SELECT idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
-WHERE metrica.nomeComponente = 'DISCO'
-AND metrica.nomeMetrica = 'Porcentagem de uso'
-ORDER BY horario DESC;
+WHERE idMetrica = 3;
 
-CREATE VIEW vw_cpuTemp AS
-SELECT TOP 50 idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida 
-FROM leitura
-JOIN componente ON fkComponente_idComponente = idComponente
-AND fkComponente_fkServidor = fkServidor
+CREATE VIEW vw_cpuTemp AS 
+SELECT idComponente, fkServidor AS idServidor, leitura.horario, valorLido, unidadeMedida FROM leitura
+JOIN componente ON fkComponente_idComponente = idComponente AND fkComponente_fkServidor = fkServidor
 JOIN metrica ON fkMetrica = idMetrica
-WHERE metrica.nomeComponente = 'CPU'
-AND metrica.nomeMetrica = 'Temperatura'
-ORDER BY horario DESC;
+WHERE idMetrica = 4;
 
 CREATE VIEW vw_alertas as
 SELECT TOP 150 idAlerta, statusAlerta, momentoAlerta, fkTorre, tipoComponente, idServidor
