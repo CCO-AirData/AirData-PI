@@ -69,12 +69,14 @@ function iniciarSessao(pagina) {
         tituloPagina.innerText = `Dashboard | ${mac}`
         tituloDash.innerText = mac;
         criarGrafico()
-        receberDadosAlertas(sessionStorage.ID_TORRE, 3);
-    } else if (pagina == 'alertas' || pagina == 'painelAlertas') {
+        //receberDadosAlertas(sessionStorage.ID_TORRE, 3);
+    } else if(pagina == 'alertas' || pagina == 'painelAlertas'){
         receberDadosAlertas(sessionStorage.ID_TORRE, 4);
         receberOpcoesFiltros(sessionStorage.ID_TORRE);
     } else if (pagina == 'componentes') {
         receberDadosComponentes(macAdress);
+    } else if(pagina == 'processos'){
+        receberDadosProcessos(sessionStorage.ID_TORRE, 10);
     }
 }
 
@@ -242,6 +244,34 @@ function receberOpcoesFiltros(fkTorre) {
             });
         } else {
             console.log('ERRO - não foi possível receber as opções de filtragem')
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+}
+
+function receberDadosProcessos(fkTorre, limite){
+    var fkServidor = sessionStorage.MAC_SERVIDOR;
+    fetch("/processos/receberDadosProcessos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkTorreServer: fkTorre,
+            limiteServer: limite,
+            fkServidorServer: fkServidor
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+            resposta.json().then(json => {
+                console.log(json)
+
+                listarTabelaProcessos(json)
+            });
+        } else {
+            console.log('ERRO - não foi possível receber os dados dos Processos')
         }
     }).catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);

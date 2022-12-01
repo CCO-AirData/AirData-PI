@@ -252,7 +252,8 @@
 
                 if(validarCadastroParametro(tipoParametro)) {
 
-                    cadastrarParametro(tipoParametro, idComponente, fkServidor)
+                    cadastrarParametro(tipoParametro, idComponente, fkServidor, tipoComponente)
+
 
                 } else {
                     Swal.fire({
@@ -280,7 +281,7 @@
         }
     }
 
-    function cadastrarParametro(fkMetrica, idComponente, fkServidor) {
+    function cadastrarParametro(fkMetrica, idComponente, fkServidor, tipoComponente) {
         fetch('/metricas/cadastrar', {
             method: "POST",
             headers: {
@@ -296,9 +297,16 @@
                 Swal.fire({
                     title: 'Parâmetro cadastrado!',
                     icon: 'success',
-                    confirmButtonText: 'OK',
-                }).then((result) => {
-                    location.reload();
+                    text: 'Deseja cadastrar outro parâmetro?',
+                    showCancelButton: true,
+                    confirmButtonText: 'SIM',
+                    cancelButtonText: 'NÃO'
+                }).then((resultado) => {
+                    if(resultado.isConfirmed) {
+                        exibirTelaCadParametro(idComponente, fkServidor, tipoComponente);
+                    } else {
+                        location.reload();
+                    }
                 })                
             }
         })

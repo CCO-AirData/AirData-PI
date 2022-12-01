@@ -122,3 +122,110 @@ function criarGrafico(metrica) {
     }
   });
 }
+
+function criarGraficoInicial(unidadeMedida){
+  myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: "Média de uso",
+        lineTension: 0.3,
+        fill: false,
+        borderColor: "#4E73DF",
+        pointRadius: 3,
+        pointBackgroundColor: "#4E73DF",
+        pointBorderColor: "#4E73DF",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "#4E73DF",
+        pointHoverBorderColor: "#4E73DF",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [],
+      }, {
+        label: "Média de uso",
+        lineTension: 0.3,
+        fill: false,
+        borderColor: "#5A5C69",
+        pointRadius: 3,
+        pointBackgroundColor: "#5A5C69",
+        pointBorderColor: "#5A5C69",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "#5A5C69",
+        pointHoverBorderColor: "#5A5C69",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [],
+      }],
+    },
+    options: {
+      maintainAspectRatio: false,
+      layout: {
+        padding: {
+          left: 10,
+          right: 25,
+          top: 25,
+          bottom: 0
+        }
+      },
+      scales: {
+        xAxes: [{
+          time: {
+            unit: 'date'
+          },
+          gridLines: {
+            display: true,
+            drawBorder: false
+          },
+          ticks: {
+            maxTicksLimit: 31
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            maxTicksLimit: 100,
+            padding: 10,
+            // Include a dollar sign in the ticks
+            callback: function(value, index, values) {
+              return number_format(value) + ' ' + unidadeMedida
+            },
+          suggestedMin: 0,
+          suggestedMax: 100
+          },
+          gridLines: {
+            color: "#EAECF4",
+            zeroLineColor: "#EAECF4",
+            drawBorder: false,
+            borderDash: [2],
+            zeroLineBorderDash: [2]
+          }
+        }],
+      },
+      legend: {
+        display: false
+      },
+      tooltips: {
+        backgroundColor: "#FFFFFF",
+        bodyFontColor: "#858796",
+        titleMarginBottom: 10,
+        titleFontColor: '#6e707e',
+        titleFontSize: 14,
+        borderColor: '#dddfeb',
+        borderWidth: 1,
+        xPadding: 15,
+        yPadding: 15,
+        displayColors: false,
+        intersect: false,
+        mode: 'index',
+        caretPadding: 10,
+        callbacks: {
+          label: function(tooltipItem, chart) {
+            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+            return datasetLabel + ': ' + number_format(tooltipItem.yLabel) + unidadeMedida;
+          }
+        }
+      }
+    }
+  });
+
+}
