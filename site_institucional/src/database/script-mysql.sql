@@ -1,14 +1,14 @@
 USE airData;
 
 CREATE TABLE empresa (
-    idEmpresa INT PRIMARY KEY,
+    idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
     cnpjEmpresa CHAR(18) NOT NULL,
     nomeEmpresa VARCHAR(45) NOT NULL,
     telefoneEmpresa CHAR(14)
 );
 
 CREATE TABLE aeroporto (
-    idAeroporto INT PRIMARY KEY,
+    idAeroporto INT PRIMARY KEY AUTO_INCREMENT,
     fkEmpresa INT NOT NULL,
     nomeAeroporto VARCHAR(45) NOT NULL,
     cepAeroporto CHAR(9) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE aeroporto (
 );
 
 CREATE TABLE usuario (
-	idUsuario INT PRIMARY KEY,
+	idUsuario INT PRIMARY KEY AUTO_INCREMENT,
 	nomeUsuario VARCHAR(45) NOT NULL,
 	emailUsuario VARCHAR(45) NOT NULL,
 	senhaUsuario CHAR(128) NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE torre (
-    idTorre INT PRIMARY KEY,
+    idTorre INT PRIMARY KEY AUTO_INCREMENT,
     fkAeroporto INT NOT NULL,
     FOREIGN KEY(fkAeroporto) REFERENCES aeroporto(idAeroporto)
 );
@@ -48,7 +48,7 @@ CREATE TABLE servidor (
 );
 
 CREATE TABLE componente (
-	idComponente INT,
+	idComponente INT AUTO_INCREMENT,
     fkServidor VARCHAR(17) NOT NULL,
     tipoComponente VARCHAR(45) NOT NULL,
     nomeComponente VARCHAR(50) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE componente (
 );
 
 CREATE TABLE alerta(
-	idAlerta INT PRIMARY KEY,
+	idAlerta INT PRIMARY KEY AUTO_INCREMENT,
 	statusAlerta VARCHAR(45) NOT NULL,
 	momentoAlerta DATETIME NOT NULL,
 	fkComponente INT NOT NULL,
