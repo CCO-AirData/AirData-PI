@@ -419,29 +419,50 @@ def capturarProcessos(mac):
                 cursor.execute(sql, val)
 
                 bdsql.commit()
-                sleep(1)
-                print("Executando...")
+                # sleep(1)
                     
                 
-            sql = "select * from deletarPid;"
+        sql = "select pid from deletarPid;"
 
-            cursor.execute(sql)
+        cursor.execute(sql)
 
-            resposta = cursor.fetchall()
+        resposta = cursor.fetchall()
+        # print(resposta)
 
-            if(len(resposta) > 0):
+        if(len(resposta) > 0):
 
-                for row in resposta:
-                    pid = row[1]
-                    matarProcesso(pid)
+            for row in resposta:
+                
+                pid = row[0]
+                sql = "select nome from processos where pid = %s;"
+                val = (pid, )
+                cursor.execute(sql,val)
+                nomeProcesso = cursor.fetchall()
+                # print(nomeProcesso)
+                
+                if(len(nomeProcesso) > 0):
+                    sql = "select pid from processos where nome = %s AND DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND fkServidor = %s;"
+                    val = (nomeProcesso[0][0], mac, )
+                    cursor.execute(sql,val)
+                    processosDeletados = cursor.fetchall()
+                    # print(processosDeletados)
+                
+                if(len(processosDeletados) > 0):
+                    for row2 in processosDeletados:
+                        
+                        pidDeletado = row2[0]
+                        # print("aaaa",pidDeletado)
+                        matarProcesso(pidDeletado)
+                        sql = "delete from processos where pid = %s;"
+                        val = (pidDeletado, )
+                        cursor.execute(sql,val)
+                        bdsql.commit()
+                        
+                
                     sql = "delete from deletarPid where pid = %s;"
                     val = (pid, )
                     cursor.execute(sql,val)
-                    sql = "delete from processos where pid = %s;"
-                    val = (pid, )
-                    cursor.execute(sql,val)
                     bdsql.commit()
-                    sleep(1)
 
 
 def conectar():
