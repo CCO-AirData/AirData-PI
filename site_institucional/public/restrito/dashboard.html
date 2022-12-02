@@ -223,6 +223,8 @@
     //pegando os perâmetros da URL
     const urlParams = new URLSearchParams(window.location.search);
     const idMaquina = urlParams.get('idMaquina');
+    //sim, a próxima linha é redundante. Se você removê-lá, entretanto, você quebrará todo o sistema
+    sessionStorage.MAC_SERVIDOR = idMaquina;
     //old: const idMaquina = sessionStorage.MAC_SERVIDOR;
     validarUrlAcesso()
 
