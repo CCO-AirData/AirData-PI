@@ -1,18 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package media.projeto.air.data.client;
 
-/**
- *
- * @author Victor
- */
 import javax.swing.*;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import media.projeto.air.data.client.conexao.Banco;
+import media.projeto.air.data.client.rede.Rede;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class AirDataLogin extends javax.swing.JFrame {
@@ -24,7 +15,6 @@ public class AirDataLogin extends javax.swing.JFrame {
         initComponents();
         String email = "";
         String senha = "";
-
     }
 
     @SuppressWarnings("unchecked")
@@ -86,7 +76,7 @@ public class AirDataLogin extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(183, 183, 183)
                         .addComponent(entrar)))
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,56 +101,38 @@ public class AirDataLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void iptEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iptEmailActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_iptEmailActionPerformed
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
-        try {
-            // TODO add your handling code here:
-            AirDataDash dash = new AirDataDash();
-            Banco banco = new Banco();
-            JdbcTemplate connection = banco.getConnection();
-            MacAddress rede = new MacAddress();
-            String MacAddres = rede.Mac();
-            email = iptEmail.getText();
-
-            senha = iptSenha.getText();
-
-            if (banco.select(email, senha)) {
-                if (banco.select()) {
-                    this.setVisible(false);
-                    dash.setVisible(true);
-                } else {
-                    this.setVisible(false);
-                    dash.setVisible(true);
-                    String query = String.format("insert into servidor values ('%s',2);", MacAddres);
-
-                    connection.update(query);
-                }
+        AirDataMenu menu = new AirDataMenu();
+        Banco banco = new Banco();
+        JdbcTemplate connection = banco.getConnection();
+        Rede rede = new Rede();
+        String MacAddres = rede.Mac();
+        email = iptEmail.getText();
+        senha = iptSenha.getText();
+        if (banco.select(email, senha)) {
+            if (banco.select()) {
+                this.setVisible(false);
+                menu.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(null, "Erro ao realizar Login");
+                this.setVisible(false);
+                menu.setVisible(true);
+                
+                String query = String.format("insert into servidor values ('%s',2);", MacAddres);
+                
+                connection.update(query);
             }
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(AirDataLogin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SocketException ex) {
-            Logger.getLogger(AirDataLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao realizar Login");
         }
     }//GEN-LAST:event_entrarActionPerformed
 
     private void iptSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iptSenhaActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_iptSenhaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
 
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -177,11 +149,6 @@ public class AirDataLogin extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AirDataLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new AirDataLogin().setVisible(true);
