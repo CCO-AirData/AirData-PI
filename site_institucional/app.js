@@ -17,7 +17,7 @@ var alertasRouter = require("./src/routes/alertas");
 var metricasRouter = require("./src/routes/metricas");
 var acessoQrCodeRouter = require("./src/routes/acessoQrCode")
 var processosRouter = require("./src/routes/processos");
-var pythonRouter = require(".src/routes/python");
+var pythonRouter = require("./src/routes/python");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
