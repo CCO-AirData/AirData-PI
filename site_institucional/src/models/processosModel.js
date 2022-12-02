@@ -15,8 +15,14 @@ function listarProcessos(fkTorre, limite, fkServidor) {
 }
 
 function deletarProcesso(pid) {
-    var instrucao = `INSERT INTO deletarPid(pid) values (${pid});`
-    return database.executar(instrucao);
+    if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+        var instrucao = `INSERT INTO deletarPid(pid) values (${pid});`
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    } else if(process.env.AMBIENTE_PROCESSO == "producao"){
+        var instrucao = `INSERT INTO deletarPid(pid) values (${pid});`
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    }
+        return database.executar(instrucao);
 }
 
 module.exports = {
