@@ -17,6 +17,7 @@ var alertasRouter = require("./src/routes/alertas");
 var metricasRouter = require("./src/routes/metricas");
 var acessoQrCodeRouter = require("./src/routes/acessoQrCode")
 var processosRouter = require("./src/routes/processos");
+var regressaoRouter = require("./src/routes/regressao");
 var pythonRouter = require("./src/routes/python");
 
 app.use(express.json());
@@ -34,6 +35,7 @@ app.use("/alertas", alertasRouter);
 app.use("/metricas", metricasRouter);
 app.use("/processos", processosRouter);
 app.use("/acessoQrCode", acessoQrCodeRouter);
+app.use("/regressao", regressaoRouter);
 app.use("/python", pythonRouter);
 
 app.listen(PORTA, function () {

@@ -37,7 +37,7 @@ function medidasCardsTempoReal(req, res) {
         medidasModel.medidasCardsTempoReal(idMaquina, metrica, nomeComponente, nomeMetrica, limite).then(function (resultado) {
             if (resultado.length > 0) {
                 // console.log('resposta',resultado)
-                res.status(200).json(resultado);
+                res.json(resultado);
             } else {
                 res.status(204).send("Nenhum resultado encontrado!")
             }
@@ -166,7 +166,20 @@ function getPredict(req, res) {
                 res.status(500).json(error.sqlMessage)
             })
     }
+}
 
+function pegarDadosGrafico(req, res) {
+    medidasModel.pegarDadosGrafico().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("\nHouve um erro ao coletar as medidas! Erro: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
 }
 
 
@@ -175,5 +188,6 @@ module.exports = {
     medidasCardsTempoReal,
     medidasGraficoTempoReal,
     getDadosAnalytics,
-    getPredict
+    getPredict,
+    pegarDadosGrafico
 }

@@ -55,9 +55,21 @@ function cadastrar(req, res) {
             var fkEmpresa = process.env.AMBIENTE_PROCESSO == "desenvolvimento" ? resultado.insertId : resultado[0].ID;
             aeroportoModel.cadastrarAeroporto(fkEmpresa, nomeAeroporto, cepAeroporto, numeroAeroporto, ufAeroporto, cidadeAeroporto, bairroAeroporto, ruaAeroporto).then(function (resultado) {
                 var fkAeropoto = process.env.AMBIENTE_PROCESSO == "desenvolvimento" ? resultado.insertId : resultado[0].ID;
-                aeroportoModel.cadastrarTorre(fkAeropoto).then(function (resultado) {
-                    usuarioModel.cadastrar(nomePessoal, emailPessoal, sha512(password), cpfPessoal, tipoUsuario, fkAeropoto).then(function (resultado) {
-                        res.json(resultado);
+                aeroportoModel.cadastrarTorre(fkAeropoto).then(function () {
+                    usuarioModel.cadastrar(nomePessoal, emailPessoal, sha512(password), cpfPessoal, tipoUsuario, fkAeropoto).then(function () {
+                        empresaModel.selecionarUltimoIdEmpresa().then(function (resultado) {
+                            JSON.stringify(resultado);
+                            var idEmpresa = resultado[0].id;
+                            empresaModel.cadastrarEmpresaDimensional(idEmpresa, nomeEmpresa, cnpjEmpresa).then(function (resultado) {
+                                aeroportoModel.selecionarUltimoIdAeroporto().then(function (resultado) {
+                                    JSON.stringify(resultado);
+                                    var idAeroporto = resultado[0].id;
+                                    aeroportoModel.cadastrarAeroportoDimensional(idAeroporto, nomeAeroporto, cepAeroporto, numeroAeroporto, ufAeroporto, cidadeAeroporto, bairroAeroporto, ruaAeroporto).then(function (resultado) {
+                                        res.json(resultado);
+                                    })
+                                })
+                            })
+                        })
                     })
                 })
             })
@@ -71,5 +83,5 @@ function cadastrar(req, res) {
 }
 
 module.exports = {
-    cadastrar
+    cadastrar,
 }

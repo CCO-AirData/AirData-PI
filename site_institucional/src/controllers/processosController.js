@@ -47,7 +47,31 @@ function deletarProcesso(req, res) {
 
 }
 
+function obterProcessos(req, res) {
+    var horarioInicio = req.params.horarioInicio;
+    var horarioFim = req.params.horarioFim;
+  
+    if (horarioFim == 'undefined') {
+      horarioFim = horarioInicio;
+    }
+  
+    console.log("Obtendo processos entre " + horarioInicio + " e " + horarioFim);
+  
+    processosModel.obterProcessos(horarioInicio, horarioFim).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+      console.log(erro);
+      console.log("\nHouve um erro ao coletar as medidas! Erro: ", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+    });
+  }
+
 module.exports = {
     receberDadosProcessos,
-    deletarProcesso
+    deletarProcesso,
+    obterProcessos
 }

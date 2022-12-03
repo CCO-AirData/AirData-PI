@@ -20,26 +20,26 @@ function obterComponentes(idMaquina) {
         });
 }
 
-function criarCards(vtComponentes){
-    var cards = document.getElementById("container_cards") 
+function criarCards(vtComponentes) {
+    var cards = document.getElementById("container_cards")
     console.log('vt: ', vtComponentes)
-    for(var i = 0; i < vtComponentes.length; i++){
+    for (var i = 0; i < vtComponentes.length; i++) {
         var componente = vtComponentes[i]
         var icone;
         var viewName = "mediaPorDia"
 
-        if(componente.nomeView.startsWith("disk")){
+        if (componente.nomeView.startsWith("disk")) {
             icone = "fas fa-solid fa-hard-drive fa-2x text-warning"
             nomeComponente = 'DISCO'
             nomeMetrica = 'Porcentagem de uso'
-        } else if (componente.nomeView.startsWith("ram")){
+        } else if (componente.nomeView.startsWith("ram")) {
             icone = "fas fa-memory fa-2x text-info"
             nomeComponente = 'RAM'
-            nomeMetrica = 'Porcentagem de uso' 
-        } else if (componente.nomeView.startsWith("cpu")){
+            nomeMetrica = 'Porcentagem de uso'
+        } else if (componente.nomeView.startsWith("cpu")) {
             icone = "fas fa-light fa-microchip fa-2x text-primary"
             nomeComponente = 'CPU'
-            nomeMetrica = 'Porcentagem de uso' 
+            nomeMetrica = 'Porcentagem de uso'
         } else {
             icone = "fas fa-light fa-microchip fa-2x text-primary"
             nomeComponente = 'CPU'
@@ -95,30 +95,37 @@ function obterDadosCards(idMaquina, metrica, nomeComponente, nomeMetrica) {
 }
 
 // Obtendo dados grafico
-function obterDadosGrafico(idMaquina, metrica, idComponente, nomeMetrica, idMetrica, mes, tipoComponente, isSegundoEixo) {    
-    if(mes == null) { mes = document.getElementById('selecionar-mes').value }
-    if(idMetrica == null) { idMetrica = document.getElementById('selecionar-metrica').value; }
-    console.log(idMaquina, metrica, idComponente, nomeMetrica, idMetrica, mes)
-    fetch(`/medidas/grafico-tempo-real/${idMaquina}/${metrica}/${idComponente}/${idMetrica}/${mes}`)
-        .then(response => {
-            if (response.ok) {
-                response.json().then(resposta => {
+function obterDadosGrafico(idMaquina, metrica, idComponente, nomeMetrica, idMetrica, mes, tipoComponente, isSegundoEixo) {
 
-                    // console.log(`Dados recebidos Gráfico: ${JSON.stringify(resposta)}`);
-                    // console.log(typeof resposta)
-                    console.log(resposta)
-                    
-                    plotarGrafico(metrica, resposta, idComponente, nomeMetrica, idMetrica, mes, tipoComponente, isSegundoEixo)
-                    if(!isSegundoEixo) { obterDadosAnalytics(idComponente, idMetrica, mes) }
-                });
-            } else {
-                console.error('Nenhum dado encontrado ou erro na API');
-            }
-        })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-        });
+    if (idMetrica == 5) {
+        // bibliotecasJs.innerHTML = '<script src="https://cdn.jsdelivr.net/npm/chart.js">';
+        obterDadosGraficoFan()
+    } else {
+        // bibliotecasJs.innerHTML = "<script src='../assets/vendor/chart.js/Chart.min.js'>";
+        // bibliotecasJs.innerHTML += '<script src="../assets/js/demo/chart-area-demo.js">';
+        if (mes == null) { mes = document.getElementById('selecionar-mes').value }
+        if (idMetrica == null) { idMetrica = document.getElementById('selecionar-metrica').value; }
+        console.log(idMaquina, metrica, idComponente, nomeMetrica, idMetrica, mes)
+        fetch(`/medidas/grafico-tempo-real/${idMaquina}&${metrica}&${idComponente}&${idMetrica}&${mes}`)
+            .then(response => {
+                if (response.ok) {
+                    response.json().then(resposta => {
 
+                        // console.log(`Dados recebidos Gráfico: ${JSON.stringify(resposta)}`);
+                        // console.log(typeof resposta)
+                        console.log(resposta)
+
+                        plotarGrafico(metrica, resposta, idComponente, nomeMetrica, idMetrica, mes, tipoComponente, isSegundoEixo)
+                        if (!isSegundoEixo) { obterDadosAnalytics(idComponente, idMetrica, mes) }
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
 }
 
 function receberMetricas(idMetricaAtual, idComponente, nomeMetrica, tipoComponente) {
@@ -129,29 +136,29 @@ function receberMetricas(idMetricaAtual, idComponente, nomeMetrica, tipoComponen
             "Content-Type": "application/json"
         }
     }).then(response => {
-            if(response.ok) {
-                response.json().then(resposta => {
-                    listarMetricasDisponiveis(resposta, idComponente, idMetricaAtual, nomeMetrica, tipoComponente)
-                })
-            } else {
-                console.error('Nenhum dado encontrado ou erro na API');
-            }
-        }).catch(function(error) {
-            console.error(`Erro na obtenção das métricas: ${error.message}`);
-        });
+        if (response.ok) {
+            response.json().then(resposta => {
+                listarMetricasDisponiveis(resposta, idComponente, idMetricaAtual, nomeMetrica, tipoComponente)
+            })
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    }).catch(function (error) {
+        console.error(`Erro na obtenção das métricas: ${error.message}`);
+    });
 }
 
 function obterDadosAnalytics(idComponente, idMetrica, mes) {
     fetch(`/medidas/getDadosAnalytics/${sessionStorage.ID_TORRE}/${sessionStorage.MAC_SERVIDOR}/${idComponente}/${idMetrica}/${mes}`)
         .then(response => {
-            if(response.ok) {
+            if (response.ok) {
                 response.json().then(res => {
                     exibirDadosAnalytics(res, idComponente, idMetrica, mes)
                 })
             } else {
                 console.error('Nenhum dado encontrado ou erro na API');
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console.error(`Erro na obtenção das métricas: ${error.message}`);
         })
 }
@@ -164,10 +171,10 @@ async function preverDadosProximoMes(idComponente, idMetrica, mes) {
     // const resConvert = await response.json()
 
     return response[0];
-        
+
 
 }
 
-function tratarId(metrica){
-    return "card_" + metrica.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`); 
+function tratarId(metrica) {
+    return "card_" + metrica.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
 }

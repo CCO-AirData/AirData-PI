@@ -185,3 +185,7 @@
 #titulo-macAdress {
     cursor: pointer;
 }
+
+#section-analytics-fan{
+    display: none;
+}
