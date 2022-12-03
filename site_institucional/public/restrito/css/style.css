@@ -156,20 +156,6 @@
     justify-content: space-between;
 }
 
-#section-dashboard .col-xl-8 {
-    width: 49%;
-}
-
-.area-estatisticas {
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.area-estatisticas .card-estatistica {
-    width: 49%;
-}
-
 #section-analytics {
     display: none;
 }
@@ -188,4 +174,8 @@
 
 #section-analytics-fan{
     display: none;
+}
+
+.col-sm-6, .row>* {
+    margin-bottom: 0.7rem !important;
 }
