@@ -12,12 +12,6 @@ function listarComEstado(fkTorre) {
     return database.executar(instrucao);
 }
 
-function listarPorMacAeroporto(idMaquina, idAeroporto){
-    const instrucao = `SELECT * FROM vw_maquinaPorMacEAeroporto WHERE idServidor = '${idMaquina}' AND fkAeroporto = '${idAeroporto}';`;
-    console.log("Executando a instrução SQL: \n" + instrucao);
-    return database.executar(instrucao);
-}
-
 function listarMaiorUsoCpu(fkTorre) {
     let instrucao = `SELECT * FROM vw_maquinasMaiorUsoCpu WHERE fkTorre = ${fkTorre};`
     return database.executar(instrucao);
@@ -36,8 +30,19 @@ function cadastrarComponente(fkServidor, tipoComponente, nomeComponente, memoria
     return database.executar(instrucao);
 }
 
+function selecionarUltimoIdComponente() {
+    let instrucao = `SELECT MAX(idComponente) AS id FROM componente;`;
+    return database.executar(instrucao);
+}
+
 function getComponente(idComponente, fkServidor) {
     let instrucao = `SELECT * FROM componente WHERE idComponente = ${idComponente} && fkServidor = '${fkServidor}'`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function cadastrarComponenteDimensional(id, nome, tipo, memoria, tipoMemoria) {
+    let instrucao = `INSERT INTO dim_componente (id, nome, tipo, memoria, tipo_memoria) VALUES (${id}, '${nome}', '${tipo}', '${memoria}', '${tipoMemoria}');`;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -48,12 +53,20 @@ function deletar(mac) {
     return database.executar(instrucao);
 }
 
+function listarPorMacAeroporto(idMaquina, idAeroporto){
+    const instrucao = `SELECT * FROM vw_maquinaPorMacEAeroporto WHERE idServidor = '${idMaquina}' AND fkAeroporto = '${idAeroporto}';`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 module.exports = {
     cadastrarComponente,
     getComponente,
     listar,
     listarComEstado,
-    listarPorMacAeroporto,
     listarMaiorUsoCpu,
-    deletar
+    deletar,
+    selecionarUltimoIdComponente,
+    cadastrarComponenteDimensional,
+    listarPorMacAeroporto
 };

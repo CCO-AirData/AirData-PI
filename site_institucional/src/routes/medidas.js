@@ -8,7 +8,7 @@ router.get("/cards-tempo-real/:idMaquina&:metrica&:nomeComponente&:nomeMetrica",
     medidasController.medidasCardsTempoReal(req, res);
 })
 
-router.get("/grafico-tempo-real/:idMaquina/:metrica/:idComponente/:idMetrica/:mes", function (req, res) {
+router.get("/grafico-tempo-real/:idMaquina&:metrica&:idComponente&:idMetrica&:mes", function (req, res) {
     medidasController.medidasGraficoTempoReal(req, res);
 })
 
@@ -22,6 +22,10 @@ router.get("/getDadosAnalytics/:idTorre/:idServidor/:idComponente/:idMetrica/:me
 
 router.get("/predict/:idTorre&:idServidor&:idComponente&:idMetrica&:mes", function (req, res) {
     medidasController.getPredict(req, res);
+})
+
+router.get("/pegarDadosGrafico/", function (req, res) {
+    medidasController.pegarDadosGrafico(req, res);
 })
 
 module.exports = router;

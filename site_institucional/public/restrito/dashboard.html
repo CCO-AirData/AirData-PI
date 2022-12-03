@@ -36,8 +36,10 @@
                     <div class="row">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800" id="titulo-macAdress">MAC</h1>
-                            <input id="btn-gerenciarProcessos" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerenciar Processos">
-                            <input id="btn-gerenciarComponentes" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerenciar Componentes">
+                            <input id="btn-gerenciarProcessos" class="dropdown-toggle btn btn-primary btn-sm"
+                                type="button" value="Gerenciar Processos">
+                            <input id="btn-gerenciarComponentes" class="dropdown-toggle btn btn-primary btn-sm"
+                                type="button" value="Gerenciar Componentes">
                         </div>
 
                         <div class="col-md-12">
@@ -54,13 +56,15 @@
                             <div id="section-analytics" class="row">
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800" id="titulo-macAdress">Analytics</h1>
-                                    <input id="btn-gerarRelatorio" class="dropdown-toggle btn btn-primary btn-sm" type="button" value="Gerar Relatório">
+                                    <input id="btn-gerarRelatorio" class="dropdown-toggle btn btn-primary btn-sm"
+                                        type="button" value="Gerar Relatório">
                                 </div>
                                 <div class="col-xl-8 col-lg-7">
                                     <div class="card mb-4">
                                         <div
                                             class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                            <h6 id="titulo_grafico_linha" class="m-0 font-weight-bold text-primary"></h6>
+                                            <h6 id="titulo_grafico_linha" class="m-0 font-weight-bold text-primary">
+                                            </h6>
                                             <div>
                                                 <span id="area-select-mes"></span>
                                                 <span id="area-select-metrica"></span>
@@ -91,90 +95,118 @@
                                         </div>
                                     </div>
                                 </div>
-                            <div id="section-dashboard">
-                                <div class="col-xl-8 col-lg-7 mb-4">
-                                    <div class="card">
-                                        <div
-                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                            <h6 class="m-0 font-weight-bold text-primary">TITULO</h6>
+                                <div id="section-dashboard">
+                                    <div class="col-xl-8 col-lg-7 mb-4">
+                                        <div class="card">
+                                            <div
+                                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                                <h6 class="m-0 font-weight-bold text-primary">TITULO</h6>
+                                            </div>
+                                            <div class="grafico">
+
+                                            </div>
                                         </div>
-                                        <div class="grafico">
-                                            
+                                    </div>
+                                    <div class="row g-3 mb-3 area-estatisticas">
+                                        <div class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
+                                            <div class="card h-md-100">
+                                                <div class="card-header pb-0">
+                                                    <h6 class="mb-0 mt-2">Média do Mês</h6>
+                                                </div>
+                                                <div class="card-body d-flex flex-column justify-content-end">
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-auto align-self-end">
+                                                            <div id="span-mediaMes"
+                                                                class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
+                                                            <span id="span-badgeMediaMes" class="badge">
+                                                                <span id="icon-mediaMes" class=""></span>
+                                                                <span id="span-mediaMesEstatistica">0%</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-auto ps-0 mt-n4"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
+                                            <div class="card h-md-100">
+                                                <div class="card-header pb-0">
+                                                    <h6 class="mb-0 mt-2">Quantidade de Métricas</h6>
+                                                </div>
+                                                <div class="card-body d-flex flex-column justify-content-end">
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-auto align-self-end">
+                                                            <div id="span-qtdMetricas"
+                                                                class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
+                                                            <span class="fs--2 bg-200 text-primary">
+                                                                métrica(s)
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-auto ps-0 mt-n4"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="card-previsao" class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
+                                            <div class="card h-md-100">
+                                                <div class="card-header pb-0">
+                                                    <h6 class="mb-0 mt-2">Previsão (<span
+                                                            id="span-proxMes">Novembro</span>)</h6>
+                                                </div>
+                                                <div class="card-body d-flex flex-column justify-content-end">
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-auto align-self-end">
+                                                            <div id="span-previsao"
+                                                                class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
+                                                            <span id="span-badgePrevisao" class="badge">
+                                                                <span id="icon-previsao"></span>
+                                                                <span id="span-previsaoEstatistica">-</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-auto ps-0 mt-n4"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
+                                            <div class="card h-md-100">
+                                                <div class="card-header pb-0">
+                                                    <h6 class="mb-0 mt-2">Status</h6>
+                                                </div>
+                                                <div class="card-body d-flex flex-column justify-content-end">
+                                                    <div class="row justify-content-between">
+                                                        <div class="col-auto align-self-end">
+                                                            <div id="span-status"
+                                                                class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
+                                                            <span id="icon-status" class="badge">
+
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-auto ps-0 mt-n4"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row g-3 mb-3 area-estatisticas">
-                                    <div class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
-                                        <div class="card h-md-100">
-                                            <div class="card-header pb-0">
-                                                <h6 class="mb-0 mt-2">Média do Mês</h6>
-                                            </div>
-                                            <div class="card-body d-flex flex-column justify-content-end">
-                                                <div class="row justify-content-between">
-                                                    <div class="col-auto align-self-end">
-                                                        <div id="span-mediaMes" class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
-                                                        <span id="span-badgeMediaMes" class="badge">
-                                                            <span id="icon-mediaMes" class=""></span>
-                                                            <span id="span-mediaMesEstatistica">0%</span> 
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-auto ps-0 mt-n4"></div>
-                                                </div>
-                                            </div>
+                            </div>
+                            <div id="section-analytics-fan" class="row">
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800" id="titulo-macAdress">Analytics</h1>
+                                </div>
+                                <div class="col-xl-8 col-lg-7">
+                                    <div class="card mb-4">
+                                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">
+                                                Gráfico de correlação entre RPM e Temperatura
+                                            </h6>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
-                                        <div class="card h-md-100">
-                                            <div class="card-header pb-0">
-                                                <h6 class="mb-0 mt-2">Quantidade de Métricas</h6>
-                                            </div>
-                                            <div class="card-body d-flex flex-column justify-content-end">
-                                                <div class="row justify-content-between">
-                                                    <div class="col-auto align-self-end">
-                                                        <div id="span-qtdMetricas" class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
-                                                        <span class="fs--2 bg-200 text-primary">
-                                                            métrica(s)
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-auto ps-0 mt-n4"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="card-previsao" class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
-                                        <div class="card h-md-100">
-                                            <div class="card-header pb-0">
-                                                <h6 class="mb-0 mt-2">Previsão (<span id="span-proxMes">Novembro</span>)</h6>
-                                            </div>
-                                            <div class="card-body d-flex flex-column justify-content-end">
-                                                <div class="row justify-content-between">
-                                                    <div class="col-auto align-self-end">
-                                                        <div id="span-previsao" class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
-                                                        <span id="span-badgePrevisao" class="badge">
-                                                            <span id="icon-previsao"></span>
-                                                            <span id="span-previsaoEstatistica">-</span>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-auto ps-0 mt-n4"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-md-6 col-xxl-3 card-estatistica">
-                                        <div class="card h-md-100">
-                                            <div class="card-header pb-0">
-                                                <h6 class="mb-0 mt-2">Status</h6>
-                                            </div>
-                                            <div class="card-body d-flex flex-column justify-content-end">
-                                                <div class="row justify-content-between">
-                                                    <div class="col-auto align-self-end">
-                                                        <div id="span-status" class="fs-4 fw-normal text-700 lh-1 mb-1">-</div>
-                                                        <span id="icon-status" class="badge">
-                                                            
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-auto ps-0 mt-n4"></div>
-                                                </div>
+                                        <div class="card-body" style="height: 420px;">
+                                            <div class="chart-area-fan" style="height: 100%; position: relative; width: 100%;">
+                                                <canvas id="myChart"
+                                                    style="display: block; width: 100%; height: 100%;" width="1614"
+                                                    height="400" class="chartjs-render-monitor">
+                                                </canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -211,8 +243,13 @@
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="../assets/js/ruang-admin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const chartPedro = Chart;
+    </script>
     <script src="../assets/vendor/chart.js/Chart.min.js"></script>
     <script src="../assets/js/demo/chart-area-demo.js"></script>
+    <script src="js/fan.js"></script>
     <script src="./js/script.js"></script>
     <script src="./js/dados.js"></script>
 </body>
@@ -288,7 +325,7 @@
         criarTela();
         setTimeout(() => {
             iniciar();
-            console.log('chamou iniciar()')
+            //console.log('chamou iniciar()')
         }, 100);
     }, 100)
 
@@ -326,7 +363,7 @@
         var spanStatus = `status_${idToSnakeCase}`
         spanStatus = document.getElementById(spanStatus)
         // console.log(spanStatus)
-        
+
         var percent = dadosMaquina[0].valorLido;
 
         idCard.innerHTML = `${Math.round(percent, 0)}${dadosMaquina[0].unidadeMedida}`;
@@ -362,11 +399,12 @@
         sessionStorage.TIPO_COMPONENTE = tipoComponente
         document.getElementById('section-choose').style.display = 'none';
         document.getElementById('section-analytics').style.display = 'block';
+        document.getElementById('section-analytics-fan').style.display = 'none';
 
         listarUltimosCincoMeses(metrica, idComponente, idMetrica, nomeMetrica, mes, tipoComponente, isSegundoEixo)
         receberMetricas(idMetrica, idComponente, nomeMetrica, tipoComponente)
 
-        if(idAtualPlotar != idComponente) {
+        if (idAtualPlotar != idComponente) {
             idAtualPlotar = idComponente
         }
 
@@ -374,7 +412,7 @@
         var labelsGrafico = [];
         var dados, valorLido
 
-        if(isSegundoEixo) {
+        if (isSegundoEixo) {
             for (var i = 0; i < resposta.length; i++) {
                 dados = resposta[i]
                 valorLido = dados.Media;
@@ -405,7 +443,7 @@
         myLineChart.update();
 
         titulo_grafico_linha.innerHTML = 'MÉDIA POR DIA DA ' + nomeMetrica.toUpperCase()
-        
+
     }
 
     function listarTabelaAlertas(listaAlertas) {
@@ -430,8 +468,8 @@
         }
     }
 
-    const meses = new Array ("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
-    
+    const meses = new Array("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
+
     var idMetricaAtual;
 
     function listarUltimosCincoMeses(metrica, idComponente, idMetrica, nomeMetrica, mes, tipoComponente, isSegundoEixo) {
@@ -441,8 +479,8 @@
 
         const areaSelectMes = document.getElementById('area-select-mes');
 
-        for(let i = 1; i <= 5; i++) {
-            mesesLabel.push(meses [mesAnterior(hoje, i * -1).getMonth()])
+        for (let i = 1; i <= 5; i++) {
+            mesesLabel.push(meses[mesAnterior(hoje, i * -1).getMonth()])
         }
 
         idMetricaAtual = isSegundoEixo ? idMetricaAtual : idMetrica
@@ -456,7 +494,7 @@
         const selectMes = document.getElementById('selecionar-mes');
 
         selectMes.innerHTML = '<option value="null">Selecionar o Mês</option>'
-        for(let i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
             selectMes.innerHTML += `
                 <option value='${datas[i]}'>${mesesLabel[i]}</option>'
             `
@@ -492,7 +530,7 @@
 
         const selectMetrica = document.getElementById('selecionar-metrica');
 
-        for(let i = 0; i < metricas.length; i++) {
+        for (let i = 0; i < metricas.length; i++) {
             selectMetrica.innerHTML += `
                 <option value="${metricas[i].idMetrica}">${metricas[i].nomeMetrica}</option>
             `
@@ -520,7 +558,7 @@
 
         spanProxMes.innerText = meses[parseInt(mes)]
 
-        var mediaUso = parseFloat(res[1].media);        
+        var mediaUso = parseFloat(res[1].media);
         var diferencaMediaMes = mediaUso - parseFloat(res[0].media)
 
         console.log(mediaUso, parseFloat(res[0].media), mediaUso - parseFloat(res[0].media))
@@ -529,25 +567,25 @@
 
         var classeAtualMediaMes = "";
 
-        if(diferencaMediaMes > 0) {
+        if (diferencaMediaMes > 0) {
             spanBadgeMediaMes.style.color = '#d33'
             iconMediaMes.className = "fa fa-caret-up me-1"
             classeAtualMediaMes = "fa fa-caret-up me-1";
-        } 
-        
-        if(diferencaMediaMes == 0) {
+        }
+
+        if (diferencaMediaMes == 0) {
             spanBadgeMediaMes.style.color = '#5A5C69'
             iconMediaMes.className = "fa-solid fa-minus me-1"
             classeAtualMediaMes = "fa-solid fa-minus me-1";
         }
 
-        if(diferencaMediaMes < 0) {
+        if (diferencaMediaMes < 0) {
             spanBadgeMediaMes.style.color = '#0d6efd'
             iconMediaMes.className = "fa fa-caret-down me-1"
             classeAtualMediaMes = "fa fa-caret-down me-1";
         }
 
-        if(mediaUso > 75) {
+        if (mediaUso > 75) {
             iconStatus.style.color = '#d33';
             spanStatus.innerText = "Mau estado";
             iconStatus.innerHTML = '<i class="fa-solid fa-xmark"></i>'
@@ -564,8 +602,8 @@
         var previsao = null
         var diferencaMediaMesPrevisao = null;
 
-        if(parseInt(mes) == new Date().getMonth()) {
-        
+        if (parseInt(mes) == new Date().getMonth()) {
+
             document.getElementById('card-previsao').style.display = 'block';
 
             previsao = await preverDadosProximoMes(idComponente, idMetrica, mes)
@@ -575,19 +613,19 @@
 
             var classeAtualPrevisao = "";
 
-            if(diferencaMediaMesPrevisao > 0) {
+            if (diferencaMediaMesPrevisao > 0) {
                 spanBadgePrevisao.style.color = '#d33'
                 iconPrevisao.className = "fa fa-caret-up me-1"
                 classeAtualPrevisao = "fa fa-caret-up me-1";
-            } 
-            
-            if(diferencaMediaMesPrevisao == 0) {
+            }
+
+            if (diferencaMediaMesPrevisao == 0) {
                 spanBadgePrevisao.style.color = '#5A5C69'
                 iconPrevisao.className = "fa-solid fa-minus me-1"
                 classeAtualPrevisao = "fa-solid fa-minus me-1";
             }
 
-            if(diferencaMediaMesPrevisao < 0) {
+            if (diferencaMediaMesPrevisao < 0) {
                 spanBadgePrevisao.style.color = '#0d6efd'
                 iconPrevisao.className = "fa fa-caret-down me-1"
                 classeAtualPrevisao = "fa fa-caret-down me-1";
@@ -603,9 +641,9 @@
         console.log(previsao, diferencaMediaMesPrevisao)
 
         var dadosAnalytics = [
-            {media: mediaUso.toFixed(0), diferenca: diferencaMediaMes.toFixed(0), unidadeMedida: res[0].unidadeMedida},
-            {media: previsao, diferenca: diferencaMediaMesPrevisao, unidadeMedida: res[0].unidadeMedida},
-            {media: res.length, diferenca: null, unidadeMedida: null}
+            { media: mediaUso.toFixed(0), diferenca: diferencaMediaMes.toFixed(0), unidadeMedida: res[0].unidadeMedida },
+            { media: previsao, diferenca: diferencaMediaMesPrevisao, unidadeMedida: res[0].unidadeMedida },
+            { media: res.length, diferenca: null, unidadeMedida: null }
         ]
 
         sessionStorage.DADOS_ANALYTICS = JSON.stringify(dadosAnalytics);

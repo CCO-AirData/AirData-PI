@@ -1,31 +1,42 @@
 var database = require("../database/config")
 
 function listarProcessos(fkTorre, limite, fkServidor) {
-    if(process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+    if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         var instrucao = `SELECT nome, sum(porcentagemCpu) as 'cpu', pid, usuario FROM processos 
         WHERE DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND SECOND(horario) >= SECOND(now()-3)
         AND fkServidor = "${fkServidor}"
         GROUP BY nome ORDER BY sum(porcentagemCpu) DESC LIMIT ${limite};`;
         console.log("Executando a instrução SQL: \n" + instrucao);
-    } else if(process.env.AMBIENTE_PROCESSO == "producao") {
+    } else if (process.env.AMBIENTE_PROCESSO == "producao") {
         var instrucao = `SELECT TOP ${limite} * FROM vw_Processos WHERE fkTorre = ${fkTorre};`;
-        console.log("Executando a instrução SQL: \n" + instrucao);    
+        console.log("Executando a instrução SQL: \n" + instrucao);
     }
     return database.executar(instrucao);
 }
 
 function deletarProcesso(pid) {
-    if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
+    if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         var instrucao = `INSERT INTO deletarPid(pid) values (${pid});`
-        console.log("Executando a instrução SQL: \n" + instrucao);    
-    } else if(process.env.AMBIENTE_PROCESSO == "producao"){
+        console.log("Executando a instrução SQL: \n" + instrucao);
+    } else if (process.env.AMBIENTE_PROCESSO == "producao") {
         var instrucao = `INSERT INTO deletarPid(pid) values (${pid});`
-        console.log("Executando a instrução SQL: \n" + instrucao);    
+        console.log("Executando a instrução SQL: \n" + instrucao);
     }
-        return database.executar(instrucao);
+    return database.executar(instrucao);
+}
+
+function obterProcessos(horarioInicio, horarioFim) {
+    var instrucao = `SELECT TOP 3 nome, MAX(porcentagemCpu) as usoCpu FROM [dbo].[processos]
+	WHERE fkServidor = '02:42:ac:11:00:03'
+	AND horario BETWEEN '${horarioInicio}' AND '${horarioFim}'
+	GROUP BY nome
+	ORDER BY MAX(porcentagemCpu) DESC;`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
 }
 
 module.exports = {
     listarProcessos,
-    deletarProcesso
+    deletarProcesso,
+    obterProcessos,
 };

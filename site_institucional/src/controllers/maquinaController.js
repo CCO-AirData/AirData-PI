@@ -21,8 +21,14 @@ function cadastrarComponente(req, res) {
         memoria = memoria == "" ? "null" : memoria;
         tipoMemoria = tipoMemoria == "" ? "null" : tipoMemoria;
 
-        maquinaModel.cadastrarComponente(fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria).then(function (resposta) {
-            process.env.AMBIENTE_PROCESSO == 'producao' ? res.json(resposta[0].ID) : res.json(resposta.insertId)
+        maquinaModel.cadastrarComponente(fkServidor, tipoComponente, nomeComponente, memoria, tipoMemoria).then(function () {
+            maquinaModel.selecionarUltimoIdComponente().then(function (resposta) {
+              JSON.stringify(resposta);
+              id = resposta[0].id;
+              maquinaModel.cadastrarComponenteDimensional(id, nomeComponente, tipoComponente, memoria, tipoMemoria).then(function () {
+                res.json(id);
+              })
+            })
         }).catch(
             function (erro) {
                 console.log(erro);
@@ -98,6 +104,28 @@ function listarComEstado(req, res) {
     }
 }
 
+function listarMaiorUsoCpu(req, res) {
+    var fkTorre = req.body.fkTorreServer;
+
+    if (fkTorre == undefined) {
+        res.status(400).send("A fkTorre do aeroporto está undefined!");
+    } else {
+        maquinaModel.listarMaiorUsoCpu(fkTorre)
+            .then(
+                function (resultado) {
+                    console.log(`\nMáquinas com uso de CPU: ${resultado}`);
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao listar as máquinas com os usos de CPU! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+    }
+}
+
 function listarPorMacAeroporto(req, res) {
     const idMaquina = req.body.idMaquinaServer;
     const idAeroporto = req.body.idAeroportoServer;
@@ -117,28 +145,6 @@ function listarPorMacAeroporto(req, res) {
                 function (erro) {
                     console.log(erro);
                     console.log("\nHouve um erro ao listar as máquinas por MAC e aeroporto! Erro: ", erro.sqlMessage);
-                    res.status(500).json(erro.sqlMessage);
-                }
-            )
-    }
-}
-
-function listarMaiorUsoCpu(req, res) {
-    var fkTorre = req.body.fkTorreServer;
-
-    if (fkTorre == undefined) {
-        res.status(400).send("A fkTorre do aeroporto está undefined!");
-    } else {
-        maquinaModel.listarMaiorUsoCpu(fkTorre)
-            .then(
-                function (resultado) {
-                    console.log(`\nMáquinas com uso de CPU: ${resultado}`);
-                    res.json(resultado)
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log("\nHouve um erro ao listar as máquinas com os usos de CPU! Erro: ", erro.sqlMessage);
                     res.status(500).json(erro.sqlMessage);
                 }
             )
@@ -171,7 +177,7 @@ module.exports = {
     getComponente,
     listar,
     listarComEstado,
-    listarPorMacAeroporto,
     listarMaiorUsoCpu,
-    deletar
+    listarPorMacAeroporto,
+    deletar,
 }

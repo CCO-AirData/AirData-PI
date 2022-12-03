@@ -42,11 +42,23 @@ function getTodasAsMediasPorMes(idTorre, idServidor, idComponente, idMetrica, me
     return database.executar(instrucao);
 }
 
+function pegarDadosGrafico(){
+    var instrucao = `SELECT fkMetrica, MIN(horario) as horario, valorLido FROM leitura
+	WHERE fkComponente_fkServidor = '02:42:ac:11:00:03'
+	AND fkMetrica = 5
+	AND horario >= '2022-11-27 15:29:40'
+	GROUP BY valorLido, fkMetrica
+	ORDER BY MIN(horario), valorLido DESC;`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 
 module.exports = {
     getComponentesServidor,
     medidasCardsTempoReal,
     medidasGraficoTempoReal,
     getDadosAnalytics,
-    getTodasAsMediasPorMes
+    getTodasAsMediasPorMes,
+    pegarDadosGrafico
 };
