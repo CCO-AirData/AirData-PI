@@ -3,8 +3,8 @@ import requests
 import datetime
 from time import sleep
 # Váriaveis ambiente
-AMBIENTE_PRODUCAO = True
-# AMBIENTE_PRODUCAO = False
+# AMBIENTE_PRODUCAO = True
+AMBIENTE_PRODUCAO = False
 
 
 def main():
@@ -270,6 +270,7 @@ def matarProcesso(pid):
 def capturarProcessos(mac):
     bdsql, cursor = conectar()
     import psutil
+    import threading
     lista_processos = []
     for processos in psutil.process_iter():
         # print(processos)
@@ -333,10 +334,10 @@ def capturarProcessos(mac):
                     # print("aaaa",pidDeletado)
                     matarProcesso(pidDeletado)
                     if AMBIENTE_PRODUCAO:
-                        sql = "delete from processos where pid = %s;"
+                        sql = "delete from processos where pid = %s AND fkServidor = %s;"
                     else:
-                        sql = "delete from processos where pid = %s;"
-                    val = (pidDeletado, )
+                        sql = "delete from processos where pid = %s AND fkServidor = %s;"
+                    val = (pidDeletado, mac, )
                     cursor.execute(sql,val)
                     bdsql.commit()
                     
@@ -347,6 +348,8 @@ def capturarProcessos(mac):
                 val = (pid, )
                 cursor.execute(sql,val)
                 bdsql.commit()
+                
+    threading.Thread(target=capturarProcessos, args=(mac,)).start()
 
 
 def reportarAlerta(mac, mensagem, horario):
