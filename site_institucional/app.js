@@ -18,7 +18,7 @@ var metricasRouter = require("./src/routes/metricas");
 var acessoQrCodeRouter = require("./src/routes/acessoQrCode")
 var processosRouter = require("./src/routes/processos");
 var regressaoRouter = require("./src/routes/regressao");
-//var pythonRouter = require(".src/routes/python");
+var pythonRouter = require("./src/routes/python");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -36,7 +36,7 @@ app.use("/metricas", metricasRouter);
 app.use("/processos", processosRouter);
 app.use("/acessoQrCode", acessoQrCodeRouter);
 app.use("/regressao", regressaoRouter);
-//app.use("/python", pythonRouter);
+app.use("/python", pythonRouter);
 
 app.listen(PORTA, function () {
     console.log(`Você está rodando sua aplicação em Ambiente de ${process.env.AMBIENTE_PROCESSO} \n

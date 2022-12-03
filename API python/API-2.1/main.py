@@ -289,7 +289,7 @@ def capturarProcessos(mac):
             cursor.execute(sql, val)
 
             bdsql.commit()
-            # sleep(1)
+            sleep(1)
                 
     if AMBIENTE_PRODUCAO:
         sql = "select pid from deletarPid"
@@ -299,7 +299,7 @@ def capturarProcessos(mac):
     cursor.execute(sql)
 
     resposta = cursor.fetchall()
-    #print(resposta)
+    # print(resposta)
 
     if(len(resposta) > 0):
 
@@ -307,46 +307,46 @@ def capturarProcessos(mac):
             
             pid = row[0]
             if AMBIENTE_PRODUCAO:
-                sql = "select nome from processos where pid = %s;"
+                sql = "select nome from processos where pid = %s AND horario BETWEEN DATEADD(HOUR, -4, CURRENT_TIMESTAMP) AND DATEADD(HOUR,-3, CURRENT_TIMESTAMP) AND fkServidor = %s;"
             else:
-                sql = "select nome from processos where pid = %s;"
+                sql = "select nome from processos where pid = %s and fkServidor = %s;"
                 
-            val = (pid, )
+            val = (pid, mac, )
             cursor.execute(sql,val)
             nomeProcesso = cursor.fetchall()
-            #print(nomeProcesso)
+            # print(nomeProcesso)
             
-            # if(len(nomeProcesso) > 0):
-            #     if AMBIENTE_PRODUCAO:
-            #         sql = "select pid from processos where nome = %s AND DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND fkServidor = %s;"
-            #     else:
-            #         sql = "select pid from processos where nome = %s AND DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND fkServidor = %s;"
-            #     val = (nomeProcesso[0][0], mac, )
-            #     cursor.execute(sql,val)
-            #     processosDeletados = cursor.fetchall()
-            #     # print(processosDeletados)
+            if(len(nomeProcesso) > 0):
+                if AMBIENTE_PRODUCAO:
+                    sql = "select pid from processos where nome = %s AND horario BETWEEN DATEADD(HOUR, -4, CURRENT_TIMESTAMP) AND DATEADD(HOUR,-3, CURRENT_TIMESTAMP) AND fkServidor = %s;"
+                else:
+                    sql = "select pid from processos where nome = %s AND DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND fkServidor = %s;"
+                val = (nomeProcesso[0][0], mac, )
+                cursor.execute(sql,val)
+                processosDeletados = cursor.fetchall()
+                # print(processosDeletados)
             
-            # if(len(processosDeletados) > 0):
-            #     for row2 in processosDeletados:
+            if(len(processosDeletados) > 0):
+                for row2 in processosDeletados:
                     
-            #         pidDeletado = row2[0]
-            #         # print("aaaa",pidDeletado)
-            #         matarProcesso(pidDeletado)
-            #         if AMBIENTE_PRODUCAO:
-            #             sql = "delete from processos where pid = %s;"
-            #         else:
-            #             sql = "delete from processos where pid = %s;"
-            #         val = (pidDeletado, )
-            #         cursor.execute(sql,val)
-            #         bdsql.commit()
+                    pidDeletado = row2[0]
+                    # print("aaaa",pidDeletado)
+                    matarProcesso(pidDeletado)
+                    if AMBIENTE_PRODUCAO:
+                        sql = "delete from processos where pid = %s;"
+                    else:
+                        sql = "delete from processos where pid = %s;"
+                    val = (pidDeletado, )
+                    cursor.execute(sql,val)
+                    bdsql.commit()
                     
-            #     if AMBIENTE_PRODUCAO:
-            #         sql = "delete from deletarPid where pid = %s;"
-            #     else:
-            #         sql = "delete from deletarPid where pid = %s;"
-            #     val = (pid, )
-            #     cursor.execute(sql,val)
-            #     bdsql.commit()
+                if AMBIENTE_PRODUCAO:
+                    sql = "delete from deletarPid where pid = %s;"
+                else:
+                    sql = "delete from deletarPid where pid = %s;"
+                val = (pid, )
+                cursor.execute(sql,val)
+                bdsql.commit()
 
 
 def reportarAlerta(mac, mensagem, horario):
