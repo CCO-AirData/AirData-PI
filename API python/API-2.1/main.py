@@ -233,7 +233,7 @@ threading.Thread(target=executar_{i}, args=('{row[2]}', {row[1]}, {row[0]},)).st
             exec(script)
             capturarProcessos(mac)
 
-        sleep(5)
+        # sleep(5)
         print("Executando...")
 
         isWorking = verificarAtualizacaoParametros(mac, qtdParametros)
@@ -271,6 +271,7 @@ def capturarProcessos(mac):
     bdsql, cursor = conectar()
     import psutil
     import threading
+    from operator import itemgetter
     lista_processos = []
     for processos in psutil.process_iter():
         # print(processos)
@@ -278,19 +279,24 @@ def capturarProcessos(mac):
         if processos_info['cpu_percent'] > 0 and processos_info['username'] != "root":
             # print(processos_info)
             lista_processos.append(processos_info)
-            pid = processos_info['pid']
-            usuario = processos_info['username']
-            nome = processos_info['name']
-            porcentagemProcesso = processos_info['cpu_percent'] 
-            if AMBIENTE_PRODUCAO:
-                sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, DATEADD(HOUR, -3, CURRENT_TIMESTAMP))"
-            else:
-                sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, now())"
-            val = (nome, porcentagemProcesso, pid, usuario, mac)
-            cursor.execute(sql, val)
+            lista_processos.sort(key=itemgetter('cpu_percent'), reverse=True)
 
-            bdsql.commit()
-            sleep(1)
+            for p in lista_processos[0:20]:
+                # print(p)
+            
+                pid = p['pid']
+                usuario = p['username']
+                nome = p['name']
+                porcentagemProcesso = p['cpu_percent'] 
+                if AMBIENTE_PRODUCAO:
+                    sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, DATEADD(HOUR, -3, CURRENT_TIMESTAMP))"
+                else:
+                    sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, now())"
+                val = (nome, porcentagemProcesso, pid, usuario, mac)
+                cursor.execute(sql, val)
+
+                bdsql.commit()
+                # sleep(1)
                 
     if AMBIENTE_PRODUCAO:
         sql = "select pid from deletarPid"
@@ -310,7 +316,7 @@ def capturarProcessos(mac):
             if AMBIENTE_PRODUCAO:
                 sql = "select nome from processos where pid = %s AND horario BETWEEN DATEADD(HOUR, -4, CURRENT_TIMESTAMP) AND DATEADD(HOUR,-3, CURRENT_TIMESTAMP) AND fkServidor = %s;"
             else:
-                sql = "select nome from processos where pid = %s and fkServidor = %s;"
+                sql = "select nome from processos where pid = %s AND DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND fkServidor = %s;"
                 
             val = (pid, mac, )
             cursor.execute(sql,val)
