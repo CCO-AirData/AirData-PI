@@ -288,12 +288,13 @@ def executar_{i}(servidor, componente, metrica):
                 cursores.execute(sql,val)
                 processosDeletados = cursores.fetchall()
                 # print(processosDeletados)
+
+            print(processosDeletados)
             
             if(len(processosDeletados) > 0):
                 for row2 in processosDeletados:
                     
                     pidDeletado = row2[0]
-                    # print("aaaa",pidDeletado)
                     matarProcesso(pidDeletado)
                     if AMBIENTE_PRODUCAO:
                         sql = "delete from processos where pid = %s AND fkServidor = %s;"
@@ -302,14 +303,14 @@ def executar_{i}(servidor, componente, metrica):
                     val = (pidDeletado, servidor, )
                     cursores.execute(sql,val)
                     bdsql.commit()
-                    
-                if AMBIENTE_PRODUCAO:
-                    sql = "delete from deletarPid where pid = %s;"
-                else:
-                    sql = "delete from deletarPid where pid = %s;"
-                val = (pid, )
-                cursores.execute(sql,val)
-                bdsql.commit()
+                
+                    if AMBIENTE_PRODUCAO:
+                        sql = "delete from deletarPid where pid = %s;"
+                    else:
+                        sql = "delete from deletarPid where pid = %s;"
+                    val = (pid, )
+                    cursores.execute(sql,val)
+                    bdsql.commit()
             
 threading.Thread(target=executar_{i}, args=('{row[2]}', {row[1]}, {row[0]},)).start()
     """
