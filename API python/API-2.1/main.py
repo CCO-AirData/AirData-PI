@@ -58,17 +58,26 @@ def selecionarServidor(torre):
         cadastrarServidor(bdsql, mycursor, mac(), torre)
 
 def cadastrarServidor(bdsql, cursor, mac, torre):
+    import platform
     print("Cadastrando servidor...")
 
     if AMBIENTE_PRODUCAO:
         query = ("INSERT INTO servidor(idServidor, fkTorre) VALUES (%s, %s)")
+        query2 = ("INSERT INTO dim_servidor(mac, modelo, SO, status_servidor) VALUES (%s, %s, %s, %s)")
     else:
         query = ("INSERT INTO servidor(idServidor, fkTorre) VALUES (%s, %s)")
     
+    dadosMaquina = platform.uname()
+    modelo = dadosMaquina[1]
+    so = dadosMaquina[0]
+    
     params = (mac, torre, )
+    params2 = (mac, modelo, so, "Ativo", )
     cursor.execute(query, params)
-
     bdsql.commit()
+    cursor.execute(query2, params2)
+    bdsql.commit()
+    
     sleep(2)
     print(f"Servidor cadastrado com sucesso!\n MAC: {mac}\n Torre: {torre}")
     selecionarParametro(mac)
@@ -144,6 +153,10 @@ def executar_{i}(servidor, componente, metrica):
                 sleep(1)
     else:
         leitura = eval(comando)    
+
+    if metrica == 5:
+        nome = list(leitura.keys())[0]
+        leitura = leitura[nome][0][0]
 
     if isTupla == 0:
         if AMBIENTE_PRODUCAO:
