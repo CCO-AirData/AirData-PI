@@ -11,7 +11,7 @@ router.post("/deletarProcesso", function (req, res) {
     processosController.deletarProcesso(req, res);
 });
 
-router.get('/obter-processos/:horarioInicio&:horarioFim', function (req, res) {
+router.get('/obter-processos/:horarioInicio&:horarioFim&:mac', function (req, res) {
     processosController.obterProcessos(req, res);
 });
 

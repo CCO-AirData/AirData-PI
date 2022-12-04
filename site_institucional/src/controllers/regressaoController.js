@@ -20,6 +20,8 @@ function lm(req, res) {
 
   const model = new SLR(temp, rpm);
 
+  console.log("lm: " + model.coefficients);
+
   res.json(model.coefficients);
 }
 

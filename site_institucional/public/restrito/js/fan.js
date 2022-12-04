@@ -1,15 +1,22 @@
 function obterDadosGraficoFan() {
-  fetch(`/medidas/pegarDadosGrafico/`, {
+  fetch(`/medidas/pegarDadosGrafico/${idMaquina}`, {
     cache: 'no-store',
   }).then(
     function (response) {
+      console.log(response);
       if (response.ok) {
         response.json().then(
           function (resultado) {
             configurarDados(resultado);
           })
       } else {
-        console.error('Não foi possível obter os dados do gráfico');
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Está maquina não possui dados suficientes para gerar o gráfico!',
+          showConfirmButton: false,
+          timer: 3000
+        })
       }
     }).catch(
       function (error) {
@@ -24,13 +31,13 @@ function configurarDados(resultado) {
   var valoresRPM = [];
   var horarios = [];
   for (let i = 0; i < resultado.length; i++) {
-    if (resultado[i].valorLido >= 2000) {
+    if (resultado[i].metrica === 5) {
       for (let j = i + 1; j < resultado.length; j++) {
-        if (resultado[j].valorLido < 2000) {
-          dadosScatter.push({ x: resultado[j].valorLido, y: resultado[i].valorLido });
+        if (resultado[j].metrica === 4) {
+          dadosScatter.push({ x: resultado[j].valor, y: resultado[i].valor });
           horarios.push(resultado[j].horario);
-          valoresTemp.push(parseFloat(resultado[j].valorLido));
-          valoresRPM.push(parseFloat(resultado[i].valorLido));
+          valoresTemp.push(parseFloat(resultado[j].valor));
+          valoresRPM.push(parseFloat(resultado[i].valor));
         } else {
           break;
         }
@@ -44,6 +51,9 @@ function configurarDados(resultado) {
 }
 
 function obterRegressao(temp, rpm, dadosScatter, horarios) {
+  console.log('Obtendo regressão linear...');
+  console.log('Temp: ' + temp);
+  console.log('RPM: ' + rpm);
   fetch(`/regressao/get-rls/${temp}&${rpm}`, {
     cache: 'no-store',
   }).then(
@@ -73,7 +83,7 @@ function renderizarGraficoFan(dadosScatter, lm, horarios) {
   var slope = lm[1];
 
   function obterProcessosFan(horarioInicio, horarioFim) {
-    fetch(`/processos/obter-processos/${horarioInicio}&${horarioFim}`, {
+    fetch(`/processos/obter-processos/${horarioInicio}&${horarioFim}&${idMaquina}`, {
       cache: 'no-store',
       method: "GET",
       headers: {
