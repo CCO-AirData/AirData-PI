@@ -30,9 +30,9 @@ function deletarProcesso(pid) {
     return database.executar(instrucao);
 }
 
-function obterProcessos(horarioInicio, horarioFim) {
+function obterProcessos(horarioInicio, horarioFim, mac) {
     var instrucao = `SELECT TOP 3 nome, MAX(porcentagemCpu) as usoCpu FROM [dbo].[processos]
-	WHERE fkServidor = '02:42:ac:11:00:03'
+	WHERE fkServidor = '${mac}'
 	AND horario BETWEEN '${horarioInicio}' AND '${horarioFim}'
 	GROUP BY nome
 	ORDER BY MAX(porcentagemCpu) DESC;`;

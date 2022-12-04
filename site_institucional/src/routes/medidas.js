@@ -24,7 +24,7 @@ router.get("/predict/:idTorre&:idServidor&:idComponente&:idMetrica&:mes", functi
     medidasController.getPredict(req, res);
 })
 
-router.get("/pegarDadosGrafico/", function (req, res) {
+router.get("/pegarDadosGrafico/:mac", function (req, res) {
     medidasController.pegarDadosGrafico(req, res);
 })
 

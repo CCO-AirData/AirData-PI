@@ -169,11 +169,13 @@ function getPredict(req, res) {
 }
 
 function pegarDadosGrafico(req, res) {
-    medidasModel.pegarDadosGrafico().then(function (resultado) {
+    mac = req.params.mac;
+
+    medidasModel.pegarDadosGrafico(mac).then(function (resultado) {
         if (resultado.length > 0) {
             res.json(resultado);
         } else {
-            res.status(204).send("Nenhum resultado encontrado!")
+            res.status(404).send("Nenhum resultado encontrado!")
         }
     }).catch(function (erro) {
         console.log(erro);

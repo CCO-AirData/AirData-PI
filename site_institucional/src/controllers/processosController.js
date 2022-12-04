@@ -50,6 +50,7 @@ function deletarProcesso(req, res) {
 function obterProcessos(req, res) {
     var horarioInicio = req.params.horarioInicio;
     var horarioFim = req.params.horarioFim;
+    var mac = req.params.mac;
   
     if (horarioFim == 'undefined') {
       horarioFim = horarioInicio;
@@ -57,7 +58,7 @@ function obterProcessos(req, res) {
   
     console.log("Obtendo processos entre " + horarioInicio + " e " + horarioFim);
   
-    processosModel.obterProcessos(horarioInicio, horarioFim).then(function (resultado) {
+    processosModel.obterProcessos(horarioInicio, horarioFim, mac).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
