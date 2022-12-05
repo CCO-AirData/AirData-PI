@@ -45,6 +45,7 @@ CREATE TABLE torre (
 CREATE TABLE servidor (
 	idServidor VARCHAR(17) PRIMARY KEY,
     fkTorre INT NOT NULL,
+    apelido VARCHAR(20),
     FOREIGN KEY(fkTorre) REFERENCES torre(idTorre)
 );
 
@@ -95,20 +96,32 @@ CREATE TABLE parametro (
 );
 
 CREATE TABLE processos(
-idProcesso INT PRIMARY KEY auto_increment,
-nome VARCHAR(50),
-porcentagemCpu DECIMAL(5,2),
-pid VARCHAR(10),
-usuario VARCHAR(50),
-fkServidor VARCHAR(17) NOT NULL,
-horario datetime,
-FOREIGN KEY (fkServidor) references servidor(idServidor)
+    idProcesso INT PRIMARY KEY auto_increment,
+    nome VARCHAR(50),
+    porcentagemCpu DECIMAL(5,2),
+    pid VARCHAR(10),
+    usuario VARCHAR(50),
+    fkServidor VARCHAR(17) NOT NULL,
+    horario datetime,
+    FOREIGN KEY (fkServidor) references servidor(idServidor)
 );
 
 CREATE TABLE deletarPid(
-id INT PRIMARY KEY AUTO_INCREMENT,
-pid VARCHAR(10)
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    pid VARCHAR(10)
 );
+
+CREATE TABLE logQrCode (
+	idQrCodeAccess INT PRIMARY KEY AUTO_INCREMENT,
+	fkUsuario INT NOT NULL,
+	fkMaquina VARCHAR(17) NOT NULL,
+	momentoAcesso DATETIME NOT NULL,
+	foiNotificado BIT NOT NULL,
+	FOREIGN KEY (fkMaquina) REFERENCES servidor(idServidor),
+	FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
+);
+
+
 
 -- Views
 CREATE VIEW vw_iniciarSessao AS

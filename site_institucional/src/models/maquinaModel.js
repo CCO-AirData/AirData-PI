@@ -48,13 +48,19 @@ function cadastrarComponenteDimensional(id, nome, tipo, memoria, tipoMemoria) {
 }
 
 function deletar(mac) {
-    var instrucao = `DELETE FROM servidor WHERE idServidor = "${mac}";`;
+    let instrucao = `DELETE FROM servidor WHERE idServidor = "${mac}";`;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
 
 function listarPorMacAeroporto(idMaquina, idAeroporto){
     const instrucao = `SELECT * FROM vw_maquinaPorMacEAeroporto WHERE idServidor = '${idMaquina}' AND fkAeroporto = '${idAeroporto}';`;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function editarNome(idServidor, apelidoServidor) {
+    let instrucao = `UPDATE servidor SET apelido = '${apelidoServidor}' WHERE idServidor = '${idServidor}';`;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
@@ -68,5 +74,6 @@ module.exports = {
     deletar,
     selecionarUltimoIdComponente,
     cadastrarComponenteDimensional,
-    listarPorMacAeroporto
+    listarPorMacAeroporto,
+    editarNome
 };

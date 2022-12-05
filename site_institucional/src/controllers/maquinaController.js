@@ -172,6 +172,30 @@ function deletar(req, res) {
     }
 }
 
+function editarNome(req, res) {
+    idServidor = req.params.idServidor;
+    apelidoServidor = req.params.apelidoServidor;
+
+    if (idServidor == undefined || idServidor == null) {
+        res.status(400).send("O mac da máquina está undefined!");
+    } else if (apelidoServidor == undefined || apelidoServidor == null) {
+        res.status(400).send("O apelido da máquina está undefined!");
+    } else {
+        maquinaModel.editarNome(idServidor, apelidoServidor)
+            .then(
+                function (resultado) {
+                    res.status(200).json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao deletar a máquina! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+    }
+}
+
 module.exports = {
     cadastrarComponente,
     getComponente,
@@ -180,4 +204,5 @@ module.exports = {
     listarMaiorUsoCpu,
     listarPorMacAeroporto,
     deletar,
+    editarNome,
 }

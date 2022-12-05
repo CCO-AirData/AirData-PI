@@ -33,42 +33,66 @@
         <my-sidebar></my-sidebar>
         <!-- Sidebar -->
         <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
+            <div id="row">
                 <!-- TopBar -->
                 <my-topbar></my-topbar>
 
                 <!-- Container Fluid-->
-                <div class="container-fluid" id="container-wrapper">
+                <div class="container-fluid px-lg-4" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Painel Geral</h1>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-3 mb-3 card text-center">
-                            <div class="card-body mt-0">
-                                <div class="row">
-                                    <h4 class="card-title">Máquinas offline</h4>
+                    
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card h-100">
+                                        <div id="card_componentes" class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col mr-2">
+                                                    <h4 class="card-title">Máquinas offline</h4>
+                                                    <h3><span id="spnServidoresOffline">0</span></h3>
+                                                    <button type="button" class="btn btn-sm btn-primary" id="btnVerMaquinasOffline" disabled
+                                                        onclick="mostrarModal('off')">Ver máquinas offline</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <h3><span id="spnServidoresOffline">0</span></h3>
+                                
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card h-100">
+                                        <div id="card_componentes" class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col mr-2">
+                                                    <h4>Máquinas online</h4>
+                                                    <h3><span id="spnServidoresOnline">0</span></h3>
+                                                    <button type="button" class="btn btn-sm btn-primary" id="btnVerMaquinasOnline" disabled
+                                                        onclick="mostrarModal('on')">Ver máquinas online</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    <button type="button" class="btn btn-link" id="btnVerMaquinasOffline" disabled
-                                        onclick="mostrarModal()">Ver máquinas offline</button>
+                                
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card h-100">
+                                        <div id="card_componentes" class="card-body">
+                                            <div class="row align-items-center">
+                                                <div class="col mr-2">
+                                                    <h4>Alertas recentes:</h4>
+                                                    <h3><span id="spnAlertasRecentes">0</span></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                
                             </div>
+                            
                         </div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-3 mb-3 card text-center d-flex justify-content-center">
-                            <h4>Servidores online</h4>
-                            <h3><span id="spnServidoresOnline">0</span></h3>
-                        </div>
-                        <div class="col-md-1"></div>
-                        <div class="col-md-3 mb-3 card text-center d-flex justify-content-center">
-                            <h4>Alertas recentes:</h4>
-                            <h3><span id="spnAlertasRecentes">0</span></h3>
-                        </div>
-                    </div>
+                    
 
                     <div class="row">
                         <div class="col-xl-8 col-lg-7 mb-4">
@@ -132,7 +156,14 @@
                     </div>
 
                     <div class="row">
-                        <div id="map"></div>
+                        <div class="col-xl-8 col-lg-7 mb-4">
+                            <div class="card">
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">MAPA</h6>
+                                </div>
+                                <div id="map"></div>
+                            </div>
+                        </div>
                     </div>
                     <script>
                         function initMap() {
@@ -209,7 +240,7 @@
                     </script>
                     <script async
                         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFgalD2gdnIe0jQEnYsHTAqdY8-XECQrI&callback=initMap">
-                        </script>
+                    </script>
                 </div>
                 <!---Container Fluid-->
             </div>
@@ -249,8 +280,8 @@
     var pagina = "painelAlertas";
 
     //listando as máquinas com o estado
-    let maquinasOffline = [];
-    let maquinasOnline = [];
+    var maquinasOffline = [];
+    var maquinasOnline = [];
     fetch('/maquinas/listarComEstado', {
         method: "POST",
         headers: {
@@ -271,8 +302,8 @@
             });
             document.getElementById('spnServidoresOffline').innerHTML = maquinasOffline.length;
             document.getElementById('spnServidoresOnline').innerHTML = maquinasOnline.length;
-            listarMaquinasOffline();
             document.getElementById('btnVerMaquinasOffline').disabled = false;
+            document.getElementById('btnVerMaquinasOnline').disabled = false;
         });
     });
 
@@ -306,17 +337,18 @@
             resJson.forEach((maquina) => {
                 tabelaUsoCpu.innerHTML += `<tr>
                                                 <td>${maquina.nomeComponente}</td>
-                                                <td>${maquina.idServidor}</td>
+                                                <td>${formatarMac(maquina.idServidor)}</td>
                                                 <td>${maquina.valorLido}</td>
-                                                <td>${maquina.ultimoHorario}</td>
+                                                <td>${formatarData(maquina.ultimoHorario)}</td>
                                             </tr>`
             })
         })
     })
 
-    let tabelaOffline = "";
-    function listarMaquinasOffline() {
-        tabelaOffline =
+    let tabela = "";
+    function listarMaquinas(status) {
+        console.log(maquinasOffline, maquinasOnline)
+        tabela =
             '<div class="col-12">' +
             '<div class="card">' +
             '<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">' +
@@ -332,16 +364,29 @@
             '</tr>' +
             '</thead>' +
             '<tbody id="corpo-tabela-offline">';
-        maquinasOffline.forEach(function (maquina) {
-            tabelaOffline += `
-            <tr>
-                <td>${maquina.fkTorre}</td>
-                <td>${maquina.idServidor}</td>
-                <td>${maquina.ultimaLeitura}</td>
-            </tr>
-            `
-        });
-        tabelaOffline +=
+        
+        if(status == "off") {
+            maquinasOffline.forEach(function (maquina) {
+            tabela += `
+                <tr>
+                    <td>${maquina.fkTorre}</td>
+                    <td>${formatarMac(maquina.idServidor)}</td>
+                    <td>${formatarData(maquina.ultimaLeitura)}</td>
+                </tr>
+                `
+            });
+        } else {
+            maquinasOnline.forEach(function (maquina) {
+            tabela += `
+                <tr>
+                    <td>${maquina.fkTorre}</td>
+                    <td>${formatarMac(maquina.idServidor)}</td>
+                    <td>${formatarData(maquina.ultimaLeitura)}</td>
+                </tr>
+                `
+            });
+        }
+        tabela +=
             '</tbody>' +
             '</table>' +
             '</div>' +
@@ -350,9 +395,11 @@
             '</div>';
     }
 
-    function mostrarModal() {
+    function mostrarModal(status) {
+        listarMaquinas(status)
         Swal.fire({
-            html: tabelaOffline
+            html: tabela,
+            customClass: 'swal-wide'
         })
     }
 
@@ -362,7 +409,7 @@
 
         for (i = 0; i < listaAlertas.length; i++) {
             var mac = listaAlertas[i].idServidor;
-            mac = mac.replace(/:/g, "-").toUpperCase();
+            mac = formatarMac(mac);
 
             var dataHorario = listaAlertas[i].momentoAlerta.split("T");
             dataHorario = [dataHorario[0].replace(/-/g, "/"), dataHorario[1].slice(0, 8)];
@@ -376,6 +423,15 @@
             </tr>
           `
         }
+    }
+
+    function formatarMac(mac) {
+        return mac.replace(/:/g, "-").toUpperCase();
+    }
+
+    function formatarData(data) {
+        data = data.split("T")
+        return [data[0].replace(/-/g, "/"), data[1].slice(0, 8)];
     }
 
     document.querySelector("#painel-link").classList.add("active")

@@ -31,4 +31,8 @@ router.post("/deletar", function (req, res) {
     maquinaController.deletar(req, res);
 });
 
+router.post("/editarNome/:idServidor&:apelidoServidor", function (req, res) {
+    maquinaController.editarNome(req, res);
+});
+
 module.exports = router;
