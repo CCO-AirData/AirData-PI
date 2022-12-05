@@ -18,6 +18,7 @@ function medidasCardsTempoReal(idMaquina, metrica, nomeComponente, nomeMetrica, 
         WHERE metrica.nomeComponente = '${nomeComponente}'
         AND metrica.nomeMetrica = '${nomeMetrica}'
         AND fkServidor = '${idMaquina}'
+        AND horario >= DATEADD(MINUTE, -3, GETDATE())
         ORDER BY horario DESC;`;
         console.log("Executando a instrução SQL: \n" + instrucao);
     }
