@@ -1,181 +1,254 @@
 .navbar-edit {
-    justify-content: space-between !important;
+  justify-content: space-between !important;
 }
 
 .sidebar {
-    height: 100%;
+  height: 100%;
 }
 
 .sidebar li a nav-link:hover {
-    border-left: 5px solid #106EEA;
+  border-left: 5px solid #106eea;
 }
 
 .active {
-    border-left: 5px solid #106EEA; 
+  border-left: 5px solid #106eea;
 }
 
 .span_userName {
-    margin-left: 8px;
+  margin-left: 8px;
 }
 
 #btn-verMais {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #btn-verMenos {
-    cursor: pointer;
-    display: none;
+  cursor: pointer;
+  display: none;
 }
 
 .btn-select {
-    background-color: #fff;
-    border: 1px solid #106EEA !important;
+  background-color: #fff;
+  border: 1px solid #106eea !important;
 }
 
 .titulo-componentes {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .titulo-componentes i {
-    cursor: pointer;
-    font-size: 20px;
-    margin-right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 10px;
 }
 
 #card_componentes {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 /* CHART.JS*/
 
 .chartjs-render-monitor {
-    animation: chartjs-render-animation 1ms
+  animation: chartjs-render-animation 1ms;
 }
 
 .chartjs-size-monitor,
 .chartjs-size-monitor-expand,
 .chartjs-size-monitor-shrink {
-    position: absolute;
-    direction: ltr;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    pointer-events: none;
-    visibility: hidden;
-    z-index: -1
+  position: absolute;
+  direction: ltr;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: -1;
 }
 
-.chartjs-size-monitor-expand>div {
-    position: absolute;
-    width: 1000000px;
-    height: 1000000px;
-    left: 0;
-    top: 0
+.chartjs-size-monitor-expand > div {
+  position: absolute;
+  width: 1000000px;
+  height: 1000000px;
+  left: 0;
+  top: 0;
 }
 
-.chartjs-size-monitor-shrink>div {
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    left: 0;
-    top: 0
+.chartjs-size-monitor-shrink > div {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  left: 0;
+  top: 0;
 }
 
-.legenda{
-    width: 30%;
-    height: 150px;
-    border: 2px solid #5a5a5a;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
+.legenda {
+  width: 30%;
+  height: 150px;
+  border: 2px solid #5a5a5a;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
 
 @keyframes chartjs-render-animation {
-    from {
-        opacity: .99
-    }
+  from {
+    opacity: 0.99;
+  }
 
-    to {
-        opacity: 1
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 .chartjs-render-monitor {
-    animation: chartjs-render-animation 1ms
+  animation: chartjs-render-animation 1ms;
 }
 
 .chartjs-size-monitor,
 .chartjs-size-monitor-expand,
 .chartjs-size-monitor-shrink {
-    position: absolute;
-    direction: ltr;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    pointer-events: none;
-    visibility: hidden;
-    z-index: -1
+  position: absolute;
+  direction: ltr;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: -1;
 }
 
-.chartjs-size-monitor-expand>div {
-    position: absolute;
-    width: 1000000px;
-    height: 1000000px;
-    left: 0;
-    top: 0
+.chartjs-size-monitor-expand > div {
+  position: absolute;
+  width: 1000000px;
+  height: 1000000px;
+  left: 0;
+  top: 0;
 }
 
-.chartjs-size-monitor-shrink>div {
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    left: 0;
-    top: 0
+.chartjs-size-monitor-shrink > div {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  left: 0;
+  top: 0;
 }
 
-.btn-deletar, .btn-deletar:hover, .btn-deletar:visited {
-    border: #d33;
-    background-color: #d33;
-    box-shadow: none !important;
+.btn-deletar,
+.btn-deletar:hover,
+.btn-deletar:visited {
+  border: #d33;
+  background-color: #d33;
+  box-shadow: none !important;
 }
 
 .col-xl-8 {
-    flex: 0 0 auto;
-    width: 100%;
+  flex: 0 0 auto;
+  width: 100%;
 }
 
 #section-dashboard {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 #section-analytics {
-    display: none;
+  display: none;
 }
 
 #section-choose {
-    height: 60vh
+  height: 60vh;
 }
 
 #titulo-choose {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 #titulo-macAdress {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-#section-analytics-fan{
-    display: none;
+#section-analytics-fan {
+  display: none;
 }
 
-.col-sm-6, .row>* {
-    margin-bottom: 0.7rem !important;
+.col-sm-6,
+.row > * {
+  margin-bottom: 0.7rem !important;
+}
+
+.btn-tertiary {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000;
+}
+
+.btn-tertiary:hover {
+  background-color: #000;
+  color: #ffffff;
+}
+
+#qrCodeSpace img {
+  max-width: 90%;
+  margin: auto;
+}
+#qrCodeContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+#modalQrCode {
+  width: 20em;
+  height: 20em;
+  z-index: 999;
+  border: 1px solid black;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: none;
+  border-radius: 0.5em;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+#modalQrCodeContent {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+  border-radius: 0.5em;
+}
+#btnCloseModal {
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  right: 0;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  color: red;
+  background-color: white;
+  border-top-right-radius: 1.5em;
+  cursor: pointer;
+}
+#modalTitle {
+  text-align: center;
+}
+#modalImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0.5em;
+}
+#modalImageContainer img {
+  max-width: 100%;
+  max-height: 100%;
 }

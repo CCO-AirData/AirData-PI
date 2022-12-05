@@ -18,68 +18,7 @@
   <script src="./js/main.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
-    #qrCodeSpace img{
-      max-width: 90%;
-      margin: auto;
-    }
-    #qrCodeContainer {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-    #modalQrCode {
-      width: 20em; 
-      height: 20em; 
-      z-index: 999; 
-      border: 1px solid black;
-      left: 0; 
-      right: 0; 
-      top: 0; 
-      bottom: 0; 
-      margin: auto; 
-      display: none;
-      border-radius: 0.5em;
-      flex-direction: column;
-      justify-content: space-between;
-      box-sizing: border-box;
-    }
-    #modalQrCodeContent {
-      width: 100%;
-      height: 100%;
-      background-color: rgb(255, 255, 255);
-      position: relative;
-      border-radius: 0.5em;
-    }
-    #btnCloseModal {
-      position: absolute;
-      width: 2em;
-      height: 2em;
-      right: 0;
-      border-bottom: 1px solid black;
-      border-left: 1px solid black;
-      color: red;
-      background-color: white;
-      border-top-right-radius: 1.5em;
-      cursor: pointer;
-    }
-    #modalTitle {
-      text-align: center;
-    }
-    #modalImageContainer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-      padding: 0.5em;
-    }
-    #modalImageContainer img{
-      max-width: 100%;
-      max-height: 100%;
-    }
-  </style>
 </head>
-
 <body id="page-top" class="position-relative" onload="iniciarSessao(pagina)">
   <div id="modalQrCode" class="position-absolute">
     <!-- <div class="d-flex justify-content-end" onclick="fecharModalQrCode()"><i class="bi bi-x"></i></div>
@@ -127,7 +66,7 @@
                       <tr>
                         <th>MAC Andress</th>
                         <th>Torre de Controle</th>
-                        <th>Ação</th>
+                        <th>Ações</th>
                       </tr>
                     </thead>
                     <tbody id="body-table">
@@ -171,16 +110,26 @@
 
       function listarTabelaMaquinas(listaMaquinas) {
         var bodyTable = document.getElementById('body-table');
-        
+        var exibicaoMaquina;
         for(i = 0; i < listaMaquinas.length; i++) {
           var mac = listaMaquinas[i].idServidor;
           mac = mac.replace(/:/g, "-").toUpperCase();
+
+          if(listaMaquinas[i].apelido != null) {
+            exibicaoMaquina = `<td><a href="#">${listaMaquinas[i].apelido}(${mac})</a></td>`
+          } else {
+            exibicaoMaquina = `<td><a href="#">${mac}</a></td>`
+          }
+
           bodyTable.innerHTML += `
           <tr>
-            <td><a href="#">${mac}</a></td>
+            ${exibicaoMaquina}
             <td>${listaMaquinas[i].fkTorre}</td>
-            <td><a href="#" onclick="entrarMonitoramento('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-primary">Monitorar</a></td>
-            <td><a href="#" onclick="mostrarModalQrCode('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-secondary">Gerar QR Code</a></td>
+            <td>
+              <a href="#" onclick="entrarMonitoramento('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-primary">Monitorar</a>
+              <a href="#" onclick="editarNomeMaquina('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-secondary">Adicionar Apelido</a>
+              <a href="#" onclick="mostrarModalQrCode('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-tertiary">Gerar QR Code</a>
+            </td>
           </tr>
           `
         }
@@ -203,13 +152,53 @@
             window.location = `./dashboard.html?idMaquina=${mac}`;
             Swal.close();
         }, "2000")
+      }
 
-        
+      async function editarNomeMaquina(mac) {
+        const { value: apelido } = await Swal.fire({
+          title: 'Escreva um apelido',
+          input: 'text',
+          inputLabel: 'Apelido',
+          inputPlaceholder: 'Escreva o apelido da máquina'
+        })
+
+        if (apelido.length > 20) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Você ultrapassou o limite de 20 caracteres!',
+          })
+
+          setTimeout(() => {
+            editarNomeMaquina(mac)
+          }, "2000")
+        } else {
+          fetch(`/maquinas/editarNome/${mac}&${apelido}`, { method: "POST"})
+            .then(() => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Apelido alterado com sucesso!',
+              })
+
+              setTimeout(() => {
+                location.reload();
+              }, "2000")
+            })
+            .catch((err) => {
+              console.log(err);
+
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Não foi possivel apelidar essa máquina!',
+              })
+            })
+        }
       }
 
       function mostrarModalQrCode(mac){
         document.getElementById('modalQrCode').style.display = "flex";
-        document.getElementById('modalTitle').textContent = mac;
+        document.getElementById('modalTitle').textContent = mac.replace(/:/g, "-").toUpperCase();
         gerarQrCode(mac);
       }
       
