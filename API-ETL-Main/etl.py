@@ -8,7 +8,7 @@ mac = mac()
 
 def extract():
   bdsql = conectar()
-  os.system('cls')
+  os.system('clear')
   print('Iniciando processo de ETL')
 
   try:
@@ -25,7 +25,7 @@ def extract():
     
 
 def transform(table):
-  os.system('cls')
+  os.system('clear')
   table_rename = etl.setheader(table, ['fk_servidor', 'fk_componente', 'fk_empresa', 'fk_aeroporto', 'fk_metrica', 'horario', 'valor_leitura'])
 
   table2 = etl.convertnumbers(table_rename)
@@ -37,13 +37,13 @@ def transform(table):
 def load(table):
   bdsql = conectar()
 
-  os.system('cls')
+  os.system('clear')
   print("Iniciando processo de carregamento")
 
   try:
     etl.appenddb(table, bdsql, 'fact_historico_leitura', commit=True)
     print("Dados carregados com sucesso!")
-    bdsql.cursor().execute("DELETE FROM leitura WHERE fkComponente_fkServidor = '%s'" % mac)
+    bdsql.cursor().execute("DELETE FROM leitura WHERE fkComponente_fkServidor = '%s'", mac)
   except:
     print("Erro ao carregar dados!")
 

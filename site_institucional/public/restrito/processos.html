@@ -101,6 +101,10 @@
   
     var pagina = "processos";
 
+    setInterval(() => {
+      iniciarSessao(pagina)
+    }, 10000);
+
     function listarTabelaProcessos(listaProcessos) {
       var bodyTable = document.getElementById('body-table');
       bodyTable.innerHTML = '';
