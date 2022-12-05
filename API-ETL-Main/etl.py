@@ -43,7 +43,8 @@ def load(table):
   try:
     etl.appenddb(table, bdsql, 'fact_historico_leitura', commit=True)
     print("Dados carregados com sucesso!")
-    bdsql.cursor().execute("DELETE FROM leitura WHERE fkComponente_fkServidor = '%s'", mac)
+    bdsql.cursor().execute("DELETE FROM leitura WHERE fkComponente_fkServidor = '%s'" % mac)
+    bdsql.commit()
   except:
     print("Erro ao carregar dados!")
 
