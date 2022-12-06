@@ -11,7 +11,7 @@ function listarProcessos(fkTorre, limite, fkServidor) {
     } else if(process.env.AMBIENTE_PROCESSO == "producao") {
         var instrucao = `SELECT TOP ${limite} nome, SUM(porcentagemCpu) as 'cpu', pid, usuario FROM [dbo].[processos]
         WHERE fkServidor = '${fkServidor}'
-        AND horario BETWEEN DATEADD(HOUR, -3, DATEADD(SECOND, -10, CURRENT_TIMESTAMP)) AND DATEADD(HOUR, -3, DATEADD(SECOND, 0, CURRENT_TIMESTAMP))
+        AND horario BETWEEN DATEADD(HOUR, -3, DATEADD(SECOND, -1, CURRENT_TIMESTAMP)) AND DATEADD(HOUR, -3, DATEADD(SECOND, 0, CURRENT_TIMESTAMP))
         GROUP BY nome, pid, usuario
         ORDER BY SUM(porcentagemCpu) DESC;`;
         console.log("Executando a instrução SQL: \n" + instrucao);    

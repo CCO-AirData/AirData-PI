@@ -28,7 +28,8 @@ function receberDadosProcessos(req, res) {
 }
 
 function deletarProcesso(req, res) {
-    let pid = req.body.pidServer;
+    var pid = req.body.pidServer;
+    var fkServidor = req.body.fkServidorServer
     console.log(`Meu amigo pid ${pid}`)
     if (pid == undefined) {
         res.status(400).send("O pid está undefined!");

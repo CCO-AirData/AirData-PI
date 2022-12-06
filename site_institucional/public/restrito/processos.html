@@ -128,7 +128,8 @@
             <td>${listaProcessos[i].nome}</td>
             <td>${listaProcessos[i].usuario}</td>
             <td>${listaProcessos[i].cpu}</td>
-            <td><a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-deletar">Deletar</a></td>
+            <td><a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-deletar">Deletar</a>
+            <a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-proibir">Proibir</a></td>
           </tr>
         `
       }
@@ -168,7 +169,7 @@
     }
 
     function deletarProcesso(pid) {
-
+      var fkServidor = sessionStorage.MAC_SERVIDOR;
 
         fetch("/processos/deletarProcesso", {
 
@@ -177,7 +178,8 @@
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                pidServer: pid
+                pidServer: pid,
+                fkServidorServer: fkServidor
             })
             }).then(function (resposta) {
             console.log("resposta: ", resposta);
@@ -208,7 +210,40 @@
     }
 
     function wordcloud(){
-      
+      var fkServidor = sessionStorage.MAC_SERVIDOR;
+
+        fetch("/python/wordcloudProcessos", {
+
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fkServidorServer: fkServidor
+            })
+            }).then(function (resposta) {
+            console.log("resposta: ", resposta);
+            <!-- if (resposta.ok) {
+             
+                Swal.fire(
+                    'Gerando WordCloud.',
+                    'success'
+                )
+                setTimeout(() => {
+                location.reload();
+                }, "2000")
+            } else {
+                throw (
+                Swal.fire(
+                    'Erro!',
+                    'Não foi possível gerar a wordcloud.',
+                    'error'
+                )
+                );
+            } -->
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
     }
 
   </script>

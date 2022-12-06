@@ -265,14 +265,15 @@ def executar_{i}(servidor, componente, metrica):
         cursores.execute(sql, val)
 
         bdsql.commit()
-        # sleep(1)
+        sleep(1)
                 
     if AMBIENTE_PRODUCAO:
-        sql = "select pid from deletarPid"
+        sql = "select pid from deletarPid AND fkServidor = %s"
     else:
-        sql = "select pid from deletarPid;"
+        sql = "select pid from deletarPid AND fkServidor = %s;"
 
-    cursores.execute(sql)
+    val = (servidor, )
+    cursores.execute(sql,val)
 
     resposta = cursores.fetchall()
     # print(resposta)
@@ -283,7 +284,7 @@ def executar_{i}(servidor, componente, metrica):
             
             pid = row[0]
             if AMBIENTE_PRODUCAO:
-                sql = "select nome from processos where pid = %s AND horario BETWEEN DATEADD(HOUR, -4, CURRENT_TIMESTAMP) AND DATEADD(HOUR,-3, CURRENT_TIMESTAMP) AND fkServidor = %s;"
+                sql = "select nome from processos where pid = %s AND horario BETWEEN DATEADD(HOUR, -3, DATEADD(SECOND, -10, CURRENT_TIMESTAMP)) AND DATEADD(HOUR, -3, DATEADD(SECOND, 0, CURRENT_TIMESTAMP)) AND fkServidor = %s;"
             else:
                 sql = "select nome from processos where pid = %s AND DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND fkServidor = %s;"
                 
@@ -294,21 +295,20 @@ def executar_{i}(servidor, componente, metrica):
             
             if(len(nomeProcesso) > 0):
                 if AMBIENTE_PRODUCAO:
-                    sql = "select pid from processos where nome = %s AND horario BETWEEN DATEADD(HOUR, -4, CURRENT_TIMESTAMP) AND DATEADD(HOUR,-3, CURRENT_TIMESTAMP) AND fkServidor = %s;"
+                    sql = "select pid from processos where nome = %s AND horario BETWEEN DATEADD(HOUR, -3, DATEADD(SECOND, -3, CURRENT_TIMESTAMP)) AND DATEADD(HOUR, -3, DATEADD(SECOND, 0, CURRENT_TIMESTAMP)) AND fkServidor = %s;"
                 else:
                     sql = "select pid from processos where nome = %s AND DAY(horario) >= DAY(now()) AND HOUR(horario) >= HOUR(now()) AND MINUTE(horario) >= MINUTE(now()) AND fkServidor = %s;"
                 val = (nomeProcesso[0][0], servidor, )
                 cursores.execute(sql,val)
                 processosDeletados = cursores.fetchall()
-                # print(processosDeletados)
+                print(processosDeletados)
 
-            print(processosDeletados)
-            
             if(len(processosDeletados) > 0):
                 for row2 in processosDeletados:
                     
                     pidDeletado = row2[0]
                     matarProcesso(pidDeletado)
+                    
                     if AMBIENTE_PRODUCAO:
                         sql = "delete from processos where pid = %s AND fkServidor = %s;"
                     else:
@@ -318,10 +318,10 @@ def executar_{i}(servidor, componente, metrica):
                     bdsql.commit()
                 
                     if AMBIENTE_PRODUCAO:
-                        sql = "delete from deletarPid where pid = %s;"
+                        sql = "delete from deletarPid where pid = %s AND fkServidor = %s;"
                     else:
-                        sql = "delete from deletarPid where pid = %s;"
-                    val = (pid, )
+                        sql = "delete from deletarPid where pid = %s AND fkServidor = %s;"
+                    val = (pid, servidor, )
                     cursores.execute(sql,val)
                     bdsql.commit()
             
