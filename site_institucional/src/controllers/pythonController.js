@@ -10,14 +10,19 @@ const pyVersao = 310;
 var pythonPath;
 
 var dict = {
+    "metrica": "cpuPercent",
+    "idServidor": "16:a6:95:10:ef:9f",
+    "idTorre": 2,
+    "componente": 125,
+    "mes": 11
 };
 
 function iniciar(req, res){
-    dict["metrica"] = req.body.metrica;
-    dict["idTorre"] = req.body.idTorre;
-    dict["idServidor"] = req.body.idServidor;
-    dict["componente"] = req.body.componente;
-    dict["mes"] = req.body.mes;
+    // dict["metrica"] = req.body.metrica;
+    // dict["idTorre"] = req.body.idTorre;
+    // dict["idServidor"] = req.body.idServidor;
+    // dict["componente"] = req.body.componente;
+    // dict["mes"] = req.body.mes;
 
     acharPython();
     setTimeout(()=>{
@@ -54,7 +59,7 @@ function ativarPython(){
     console.log("pythonPath atual:", pythonPath);
 
     setTimeout(()=>{
-        spawn(pythonPath, ["src/python_r/main.py", dict.metrica, dict.idTorre, dict.idServidor, dict.componente, dict.ano, dict.mes]);
+        spawn(pythonPath, ["src/python_r/main.py", dict.metrica, dict.componente, dict.idTorre, dict.idServidor, dict.ano, dict.mes]);
         apagarImagens();
     }, 1000);
 }
@@ -110,6 +115,8 @@ function apagarImagens(){
             });
         });
 }
+
+iniciar()
 
 module.exports = {
     iniciar
