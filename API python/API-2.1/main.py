@@ -301,7 +301,7 @@ def executar_{i}(servidor, componente, metrica):
                 val = (nomeProcesso[0][0], servidor, )
                 cursores.execute(sql % val)
                 processosDeletados = cursores.fetchall()
-                print(processosDeletados)
+                # print(processosDeletados)
 
             if(len(processosDeletados) > 0):
                 for row2 in processosDeletados:

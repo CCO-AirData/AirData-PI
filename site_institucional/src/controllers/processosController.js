@@ -29,12 +29,15 @@ function receberDadosProcessos(req, res) {
 
 function deletarProcesso(req, res) {
     var pid = req.body.pidServer;
-    var fkServidor = req.body.fkServidorServer
+    var fkServidor = req.body.fkServidorServer;
     console.log(`Meu amigo pid ${pid}`)
+    console.log(`Meu amigo pid ${fkServidor}`)
     if (pid == undefined) {
         res.status(400).send("O pid está undefined!");
+    } else if (fkServidor == undefined) {
+        res.status(400).send("O fkServidor está undefined!");
     } else {
-        processosModel.deletarProcesso(pid).then(function (resposta) {
+        processosModel.deletarProcesso(pid, fkServidor).then(function (resposta) {
             res.json(resposta);
         }).catch(
             function (erro) {

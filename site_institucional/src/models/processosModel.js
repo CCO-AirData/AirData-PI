@@ -11,7 +11,7 @@ function listarProcessos(fkTorre, limite, fkServidor) {
     } else if(process.env.AMBIENTE_PROCESSO == "producao") {
         var instrucao = `SELECT TOP ${limite} nome, SUM(porcentagemCpu) as 'cpu', pid, usuario FROM [dbo].[processos]
         WHERE fkServidor = '${fkServidor}'
-        AND horario BETWEEN DATEADD(HOUR, -3, DATEADD(SECOND, -1, CURRENT_TIMESTAMP)) AND DATEADD(HOUR, -3, DATEADD(SECOND, 0, CURRENT_TIMESTAMP))
+        AND horario BETWEEN DATEADD(HOUR, -3, DATEADD(SECOND, -3, CURRENT_TIMESTAMP)) AND DATEADD(HOUR, -3, DATEADD(SECOND, 0, CURRENT_TIMESTAMP))
         GROUP BY nome, pid, usuario
         ORDER BY SUM(porcentagemCpu) DESC;`;
         console.log("Executando a instrução SQL: \n" + instrucao);    
@@ -19,12 +19,12 @@ function listarProcessos(fkTorre, limite, fkServidor) {
     return database.executar(instrucao);
 }
 
-function deletarProcesso(pid) {
+function deletarProcesso(pid, fkServidor) {
     if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        var instrucao = `INSERT INTO deletarPid(pid) values (${pid});`
+        var instrucao = `INSERT INTO deletarPid(pid, fkServidor) values (${pid}, ${fkServidor});`
         console.log("Executando a instrução SQL: \n" + instrucao);
     } else if (process.env.AMBIENTE_PROCESSO == "producao") {
-        var instrucao = `INSERT INTO deletarPid(pid) values (${pid});`
+        var instrucao = `INSERT INTO deletarPid(pid, fkServidor) values (${pid}, '${fkServidor}');`
         console.log("Executando a instrução SQL: \n" + instrucao);
     }
     return database.executar(instrucao);

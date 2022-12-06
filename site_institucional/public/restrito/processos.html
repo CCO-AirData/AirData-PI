@@ -105,12 +105,13 @@
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/js/ruang-admin.min.js"></script>
     <script src="./js/script.js"></script>
-  
+    
   </body>
   </html>
   <script>
-  
+    
     var pagina = "processos";
+    var fkServidor = sessionStorage.MAC_SERVIDOR;
 
     setInterval(() => {
       iniciarSessao(pagina)
@@ -169,7 +170,6 @@
     }
 
     function deletarProcesso(pid) {
-      var fkServidor = sessionStorage.MAC_SERVIDOR;
 
         fetch("/processos/deletarProcesso", {
 
@@ -204,13 +204,14 @@
             }
             }).catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
+                console.log(`#ERRO: ${pid}`);
+                console.log(`#ERRO: ${fkServidor}`);
             });
 
 
     }
 
     function wordcloud(){
-      var fkServidor = sessionStorage.MAC_SERVIDOR;
 
         fetch("/python/wordcloudProcessos", {
 
