@@ -10,6 +10,14 @@ import media.projeto.air.data.client.monitoramento.AirDataProcessos;
 import media.projeto.air.data.client.monitoramento.CPUxMEMORIA;
 import media.projeto.air.data.client.monitoramento.CPUxTEMPERATURA;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import java.io.File;
+import java.nio.file.Paths;
+import media.projeto.air.data.client.rede.Rede;
+
 public class AirDataMenu extends javax.swing.JFrame {
 
     Looca looca = new Looca();
@@ -38,6 +46,7 @@ public class AirDataMenu extends javax.swing.JFrame {
         CPUxTEMPERATURA = new javax.swing.JButton();
         processos = new javax.swing.JButton();
         sair = new javax.swing.JButton();
+        jLabelQrCode = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,11 +89,31 @@ public class AirDataMenu extends javax.swing.JFrame {
             }
         });
 
+        final String BASE_URL = "airdata.onrender.com";
+        File file = new File("./qrCode.jpg");
+        if (!file.exists()) {
+            Rede rede = new Rede();
+            String qrCodeUrl = BASE_URL + "/restrito/dashboard.html?idMaquina=" + rede.Mac() + "&origin=qrCode";
+            String path = "./qrCode.jpg";
+            try {
+                BitMatrix matrix = new MultiFormatWriter().encode(qrCodeUrl, BarcodeFormat.QR_CODE, 58, 58);
+                MatrixToImageWriter.writeToPath(matrix, "jpg", Paths.get(path));
+            } catch (Exception e) {
+                System.out.println("Um erro ocorreu:");
+                System.out.println(e);
+            }
+        }
+        jLabelQrCode.setIcon(new javax.swing.ImageIcon("./qrCode.jpg"));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(47, 47, 47)
+                .addComponent(jLabelQrCode, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(cpu)
@@ -103,7 +132,11 @@ public class AirDataMenu extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabelQrCode, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cpu)
@@ -177,6 +210,7 @@ public class AirDataMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CPUxTEMPERATURA;
     private javax.swing.JButton cpu;
+    private javax.swing.JLabel jLabelQrCode;
     private javax.swing.JButton processos;
     private javax.swing.JButton sair;
     private javax.swing.JButton sistema;

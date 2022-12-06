@@ -119,7 +119,7 @@ public class AirDataLogin extends javax.swing.JFrame {
                 this.setVisible(false);
                 menu.setVisible(true);
                 
-                String query = String.format("insert into servidor values ('%s',2);", MacAddres);
+                String query = String.format("insert into servidor(idServidor, fkTorre) values ('%s',2);", MacAddres);
                 
                 connection.update(query);
             }

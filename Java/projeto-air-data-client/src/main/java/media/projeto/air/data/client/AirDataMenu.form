@@ -23,7 +23,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="titulo" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="titulo" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+              <Component id="jLabelQrCode" min="-2" pref="58" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+          </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               <Component id="cpu" min="-2" max="-2" attributes="0"/>
@@ -45,7 +50,13 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="titulo" min="-2" pref="70" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="titulo" min="-2" pref="70" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabelQrCode" min="-2" pref="58" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="cpu" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -108,6 +119,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sairActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabelQrCode">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="final String BASE_URL = &quot;airdata.onrender.com&quot;;&#xa;File file = new File(&quot;./qrCode.jpg&quot;);&#xa;if (!file.exists()) {&#xa;    Rede rede = new Rede();&#xa;    String qrCodeUrl = BASE_URL + &quot;/restrito/dashboard.html?idMaquina=&quot; + rede.Mac() + &quot;&amp;origin=qrCode&quot;;&#xa;    String path = &quot;./qrCode.jpg&quot;;&#xa;    try {&#xa;        BitMatrix matrix = new MultiFormatWriter().encode(qrCodeUrl, BarcodeFormat.QR_CODE, 58, 58);&#xa;        MatrixToImageWriter.writeToPath(matrix, &quot;jpg&quot;, Paths.get(path));&#xa;    } catch (Exception e) {&#xa;        System.out.println(&quot;Um erro ocorreu:&quot;);&#xa;        System.out.println(e);&#xa;    }&#xa;}&#xa;jLabelQrCode.setIcon(new javax.swing.ImageIcon(&quot;./qrCode.jpg&quot;));"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
