@@ -30,6 +30,17 @@ function deletarProcesso(pid, fkServidor) {
     return database.executar(instrucao);
 }
 
+function proibirProcesso(nomeProcesso, fkServidor) {
+    if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        var instrucao = `INSERT INTO processosProibidos(pid, fkServidor) values ('${nomeProcesso}', ${fkServidor});`
+        console.log("Executando a instrução SQL: \n" + instrucao);
+    } else if (process.env.AMBIENTE_PROCESSO == "producao") {
+        var instrucao = `INSERT INTO processosProibidos(pid, fkServidor) values ('${nomeProcesso}', '${fkServidor}');`
+        console.log("Executando a instrução SQL: \n" + instrucao);
+    }
+    return database.executar(instrucao);
+}
+
 function obterProcessos(horarioInicio, horarioFim, mac) {
     var instrucao = `SELECT TOP 3 nome, MAX(porcentagemCpu) as usoCpu FROM [dbo].[processos]
 	WHERE fkServidor = '${mac}'

@@ -133,8 +133,8 @@
             <td>${listaProcessos[i].nome}</td>
             <td>${listaProcessos[i].usuario}</td>
             <td>${listaProcessos[i].cpu}</td>
-            <td><a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-deletar">Deletar</a>
-              <a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-proibir">Proibir</a></td>
+            <td><a href="#" onclick="exibirTelaConfirmacaoProibir(${listaProcessos[i].nome})" class="btn btn-sm btn-primary btn-proibir">Proibir</a>
+                <a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-deletar">Encerrar</a></td>
               </tr>
               `
             }
@@ -214,6 +214,65 @@
 
 
     }
+
+    function exibirTelaConfirmacaoProibir(nomeProcesso) {
+        Swal.fire({
+            title: 'Você tem certeza?',
+            text: "Essa ação pode ser revertida!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, tenho certeza!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                proibirProcesso(nomeProcesso);
+            }
+        })
+    }
+
+    function proibirProcesso(nomeProcesso) {
+
+      fetch("/processos/proibirProcesso", {
+
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nomeProcessoServer: nomeProcesso,
+            fkServidorServer: fkServidor
+        })
+        }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+          
+            Swal.fire(
+                'Deletado!',
+                'O processo foi proibido.',
+                'success'
+            )
+            setTimeout(() => {
+            location.reload();
+            }, "2000")
+        } else {
+            throw (
+            Swal.fire(
+                'Erro!',
+                'Não foi possível proibir esse processo.',
+                'error'
+            )
+            );
+        }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            console.log(`#ERRO: ${nomeProcesso}`);
+            console.log(`#ERRO: ${fkServidor}`);
+        });
+
+
+}
 
     function wordcloud(wcProcessos){
 
