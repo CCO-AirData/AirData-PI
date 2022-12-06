@@ -33,13 +33,13 @@
             </div>
 
             <div id="fade" class="hide"></div>
-            <div id="modal" class="hide">
+            <div id="modal" class="hide" style="height: 80%;">
               <div class="modal-header">
                 <h2>WordCloud</h2>
                 <button id="close-modal">Fechar</button>
               </div>
               <div class="modal-body">
-                <img id="imagem" src="../assets/img/wordcloudProcessos.png" width="100%" height="100%">
+                <div id="wordcloud" style="width: 100%; height: 80%;"></div>
               </div>
             </div>
 
@@ -54,7 +54,7 @@
                     <!-- <select class="dropdown-toggle btn btn-sm btn-select" id="selecionar-hardware">
                       <option value="null">Selecionar Hardware</option>
                     </select> -->
-                    <button onclick="wordcloud()" id="open-modal" class="dropdown-toggle btn btn-primary btn-sm" type="button">WordCloud</button>                                                        
+                    <button onclick="modal()" id="open-modal" class="dropdown-toggle btn btn-primary btn-sm" type="button">WordCloud</button>                                                        
                   </div>
                   <div class="table-responsive">
                     <table class="table align-items-center table-flush">
@@ -105,6 +105,8 @@
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/js/ruang-admin.min.js"></script>
     <script src="./js/script.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
     
   </body>
   </html>
@@ -121,19 +123,21 @@
       var bodyTable = document.getElementById('body-table');
       bodyTable.innerHTML = '';
       
+      wordcloud(listaProcessos);
+      
       for(i = 0; i < listaProcessos.length; i++) {
-  
+        
         bodyTable.innerHTML += `
           <tr>
             <td>${listaProcessos[i].pid}</td>
             <td>${listaProcessos[i].nome}</td>
             <td>${listaProcessos[i].usuario}</td>
             <td>${listaProcessos[i].cpu}</td>
-            <td><a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-deletar">Deletar</a>
-            <a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-proibir">Proibir</a></td>
-          </tr>
-        `
-      }
+            <td><a href="#" onclick="exibirTelaConfirmacaoProibir(${listaProcessos[i].nome})" class="btn btn-sm btn-primary btn-proibir">Proibir</a>
+                <a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-deletar">Encerrar</a></td>
+              </tr>
+              `
+            }
     }
 
     var btnVerMais = document.getElementById('btn-verMais');
@@ -211,41 +215,97 @@
 
     }
 
-    function wordcloud(){
-
-        fetch("/python/wordcloudProcessos", {
-
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                fkServidorServer: fkServidor
-            })
-            }).then(function (resposta) {
-            console.log("resposta: ", resposta);
-            if (resposta.ok) {
-             
-                Swal.fire(
-                    'Gerada!',
-                    'A wordcloud foi gerada.',
-                    'success'
-                )
-                setTimeout(() => {
-                location.reload();
-                }, "2000")
-            } else {
-                throw (
-                Swal.fire(
-                    'Erro!',
-                    'Não foi possível gerar wordcloud.',
-                    'error'
-                )
-                );
+    function exibirTelaConfirmacaoProibir(nomeProcesso) {
+        Swal.fire({
+            title: 'Você tem certeza?',
+            text: "Essa ação pode ser revertida!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, tenho certeza!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                proibirProcesso(nomeProcesso);
             }
-            }).catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-            });
+        })
     }
 
-  </script>
+    function proibirProcesso(nomeProcesso) {
+
+      fetch("/processos/proibirProcesso", {
+
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nomeProcessoServer: nomeProcesso,
+            fkServidorServer: fkServidor
+        })
+        }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+          
+            Swal.fire(
+                'Deletado!',
+                'O processo foi proibido.',
+                'success'
+            )
+            setTimeout(() => {
+            location.reload();
+            }, "2000")
+        } else {
+            throw (
+            Swal.fire(
+                'Erro!',
+                'Não foi possível proibir esse processo.',
+                'error'
+            )
+            );
+        }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            console.log(`#ERRO: ${nomeProcesso}`);
+            console.log(`#ERRO: ${fkServidor}`);
+        });
+
+
+}
+
+    function wordcloud(wcProcessos){
+
+        if(wcProcessos.length > 0){
+      var data = [
+    {"x": wcProcessos[0].nome, "value": wcProcessos[0].cpu},
+    {"x": wcProcessos[1].nome, "value": wcProcessos[1].cpu},
+    {"x": wcProcessos[2].nome, "value": wcProcessos[2].cpu},
+    {"x": wcProcessos[3].nome, "value": wcProcessos[3].cpu},
+    {"x": wcProcessos[4].nome, "value": wcProcessos[4].cpu},
+    {"x": wcProcessos[5].nome, "value": wcProcessos[5].cpu},
+    {"x": wcProcessos[6].nome, "value": wcProcessos[6].cpu},
+    {"x": wcProcessos[7].nome, "value": wcProcessos[7].cpu},
+    {"x": wcProcessos[8].nome, "value": wcProcessos[8].cpu},
+    {"x": wcProcessos[9].nome, "value": wcProcessos[9].cpu}
+  ];
+
+ // create a tag (word) cloud chart
+  var chart = anychart.tagCloud(data);
+
+   // set a chart title
+  // set an array of angles at which the words will be laid out
+  chart.angles([0])
+  // enable a color range
+  chart.colorRange(false);
+  // set the color range length
+  chart.colorRange().length('80%');
+
+  // display the word cloud chart
+  var wc = document.getElementById("wordcloud");
+  wc.innerHTML = '';
+  chart.container("wordcloud");
+  chart.draw();
+        }
+}
+</script>
