@@ -32,10 +32,10 @@ function deletarProcesso(pid, fkServidor) {
 
 function proibirProcesso(nomeProcesso, fkServidor) {
     if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        var instrucao = `INSERT INTO processosProibidos(pid, fkServidor) values ('${nomeProcesso}', ${fkServidor});`
+        var instrucao = `INSERT INTO processos_proibidos(nome, fkServidor) values ('${nomeProcesso}', '${fkServidor}');`
         console.log("Executando a instrução SQL: \n" + instrucao);
     } else if (process.env.AMBIENTE_PROCESSO == "producao") {
-        var instrucao = `INSERT INTO processosProibidos(pid, fkServidor) values ('${nomeProcesso}', '${fkServidor}');`
+        var instrucao = `INSERT INTO processos_proibidos(nome, fkServidor) values ('${nomeProcesso}', '${fkServidor}');`
         console.log("Executando a instrução SQL: \n" + instrucao);
     }
     return database.executar(instrucao);
