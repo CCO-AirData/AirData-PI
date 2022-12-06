@@ -223,10 +223,11 @@
             })
             }).then(function (resposta) {
             console.log("resposta: ", resposta);
-            <!-- if (resposta.ok) {
+            if (resposta.ok) {
              
                 Swal.fire(
-                    'Gerando WordCloud.',
+                    'Gerada!',
+                    'A wordcloud foi gerada.',
                     'success'
                 )
                 setTimeout(() => {
@@ -236,11 +237,11 @@
                 throw (
                 Swal.fire(
                     'Erro!',
-                    'Não foi possível gerar a wordcloud.',
+                    'Não foi possível gerar wordcloud.',
                     'error'
                 )
                 );
-            } -->
+            }
             }).catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
