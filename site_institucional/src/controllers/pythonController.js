@@ -17,7 +17,6 @@ function iniciar(req, res){
     dict["idTorre"] = req.body.idTorre;
     dict["idServidor"] = req.body.idServidor;
     dict["componente"] = req.body.componente;
-    dict["ano"] = req.body.ano;
     dict["mes"] = req.body.mes;
 
     acharPython();
@@ -55,7 +54,7 @@ function ativarPython(){
     console.log("pythonPath atual:", pythonPath);
 
     setTimeout(()=>{
-        spawn(pythonPath, ["../python/main.py", dict.metrica, dict.idTorre, dict.idServidor, dict.componente, dict.ano, dict.mes]);
+        spawn(pythonPath, ["src/python_r/main.py", dict.metrica, dict.idTorre, dict.idServidor, dict.componente, dict.ano, dict.mes]);
         apagarImagens();
     }, 1000);
 }
@@ -92,7 +91,7 @@ function definirSeparador(pathAtual){
 
 function apagarImagens(){
 
-    const diretorioGraficos = "../../public/assets/img/graficos"
+    const diretorioGraficos = "public/assets/img/graficos"
 
     fs.readdir(diretorioGraficos, function (err, files) {
         if (err) {

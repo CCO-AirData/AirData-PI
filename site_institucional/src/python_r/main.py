@@ -45,7 +45,7 @@ import rpy2.robjects.lib.ggplot2 as ggplot2
 AMBIENTE_PRODUCAO = True
 
 # Limite de dados da query do banco de dados
-# LIMITE = 1000 
+LIMITE = 100 
 
 def main():
 
@@ -53,7 +53,7 @@ def main():
   capturarDados(sys.argv[1], sys.argv[2])
 
 
-def capturarDados(metrica, componente, ano, mes):
+def capturarDados(metrica, componente):
 
   bdsql, cursor = conectar()
 
@@ -70,9 +70,9 @@ def capturarDados(metrica, componente, ano, mes):
   # Captura de dados de máquina
 
   if AMBIENTE_PRODUCAO:
-    query =  (f"SELECT * FROM vw_{metrica} WHERE idComponente = {componente} AND YEAR(horario) = {ano} AND MONTH(horario) = {mes} ORDER BY horario;")
+    query =  (f"SELECT TOP ({LIMITE}) * FROM vw_{metrica} WHERE idComponente = {componente} ORDER BY horario;")
   else:
-    query = (f"SELECT * FROM vw_{metrica} WHERE idComponente = {componente} AND YEAR(horario) = {ano} AND MONTH(horario) = {mes} ORDER BY horario;")
+    query = (f"SELECT * FROM vw_{metrica} WHERE idComponente = {componente} ORDER BY horario LIMIT = {LIMITE};")
 
   
   cursor.execute(query)
@@ -126,7 +126,7 @@ def plotarGrafico(dadosMaquina, componente, metrica):
   # Gera um .png vazio
   grdevices = importr('grDevices')
   print("IMPORTANDO GR DEVICES")
-  grdevices.png(filename=f"../../public/assets/img/graficos/{componente}-{metrica}.png", width=1024, height=512)
+  grdevices.png(filename=f"public/assets/img/graficos/{componente}-{metrica}.png", width=1024, height=512)
 
   print(dadosMaquina)
 

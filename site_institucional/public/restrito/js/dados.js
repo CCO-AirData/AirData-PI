@@ -46,7 +46,7 @@ function criarCards(vtComponentes) {
             nomeMetrica = 'Temperatura'
         }
 
-        cards.innerHTML += `<div onclick="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${viewName}', ${componente.idComponente}, '${componente.nomeMetrica}', '${componente.idMetrica}', '${new Date().getMonth()}', '${componente.tipoComponente}', false)" class="col-xl-3 col-md-6 mb-4">
+        cards.innerHTML += `<div onclick="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${viewName}', ${componente.idComponente}, '${componente.nomeMetrica}', '${componente.idMetrica}', '${new Date().getMonth()}', '${componente.tipoComponente}', false); gerarGraficoR(${componente.idComponente}, ${componente.nomeView}, ${new Date().getMonth()});" class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
             <div id="card_componentes" class="card-body">
                 <div class="row align-items-center">
@@ -177,4 +177,22 @@ async function preverDadosProximoMes(idComponente, idMetrica, mes) {
 
 function tratarId(metrica) {
     return "card_" + metrica.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+}
+
+function gerarGraficoR(idComponente, metrica, mes){
+    console.log("Encaminhando para rota para gerar grafico em R")
+
+    fetch(`python/graficoR`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            metrica: metrica,
+            idTorre: sessionStorage.ID_TORRE,
+            idServidor: sessionStorage.MAC_SERVIDOR,
+            componente: idComponente,
+            mes: mes
+        })
+    })
 }
