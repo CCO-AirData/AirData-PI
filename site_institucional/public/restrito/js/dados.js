@@ -182,17 +182,23 @@ function tratarId(metrica) {
 function gerarGraficoR(idComponente, metrica, mes){
     console.log("Encaminhando para rota para gerar grafico em R")
 
-    fetch(`python/graficoR`, {
+    console.log("idComponente:", idComponente)
+    console.log("metrica:", metrica)
+    console.log("mes:", mes)
+
+    fetch(`/python/graficoR`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
             metrica: metrica,
-            idTorre: sessionStorage.ID_TORRE,
-            idServidor: sessionStorage.MAC_SERVIDOR,
+            // idTorre: sessionStorage.ID_TORRE,
+            // idServidor: sessionStorage.MAC_SERVIDOR,
             componente: idComponente,
             mes: mes
         })
+    }).then(() => {
+        console.log("Foi")
     })
 }

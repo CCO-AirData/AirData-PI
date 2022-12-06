@@ -1,7 +1,6 @@
 
 // Importando dependências do node
 const fs = require('fs');
-const path = require('path');
 const spawn = require("child_process").spawn;
 const exec = require("child_process").exec;
 
@@ -10,19 +9,21 @@ const pyVersao = 310;
 var pythonPath;
 
 var dict = {
-    "metrica": "cpuPercent",
-    "idServidor": "16:a6:95:10:ef:9f",
-    "idTorre": 2,
-    "componente": 125,
-    "mes": 11
+    // "metrica": "cpuPercent",
+    // "idServidor": "16:a6:95:10:ef:9f",
+    // "idTorre": 2,
+    // "componente": 125,
+    // "mes": 11
 };
 
 function iniciar(req, res){
-    // dict["metrica"] = req.body.metrica;
+
+    console.log(req.body)
+    dict["metrica"] = req.body.metrica;
     // dict["idTorre"] = req.body.idTorre;
     // dict["idServidor"] = req.body.idServidor;
-    // dict["componente"] = req.body.componente;
-    // dict["mes"] = req.body.mes;
+    dict["componente"] = req.body.componente;
+    dict["mes"] = req.body.mes;
 
     acharPython();
     setTimeout(()=>{
@@ -116,7 +117,6 @@ function apagarImagens(){
         });
 }
 
-iniciar()
 
 function wordcloudProcessos(req,res){
     var fkServidor = req.body.fkServidorServer
