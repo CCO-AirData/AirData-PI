@@ -42,12 +42,6 @@ class mySidebar extends HTMLElement {
                     <span style="font-size:1rem">Usuários</span></a>
                     
             </li>
-
-            <hr class="sidebar-divider">
-            
-            <a href="./teste.html">
-            teste
-            </a>
             
         </ul>
         

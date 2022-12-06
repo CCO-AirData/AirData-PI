@@ -320,3 +320,16 @@
 #map {
   width: 100% !important;
 }
+
+.graficoR {
+  width:100%;
+}
+
+#imgGraficoR {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: 33 vh;
+}

@@ -8,6 +8,9 @@ const exec = require("child_process").exec;
 const pyVersao = 310;
 var pythonPath;
 
+// Diretório armazenando os graficos
+const diretorioGraficos = "public/assets/img/graficos"
+
 var dict = {
     // "metrica": "cpuPercent",
     // "idServidor": "16:a6:95:10:ef:9f",
@@ -28,7 +31,8 @@ function iniciar(req, res){
     acharPython();
     setTimeout(()=>{
         ativarPython();
-    }, 1000);
+    },1000)
+    
 }
 
 function acharPython(){
@@ -44,9 +48,7 @@ function acharPython(){
             pythonPath += separador + executavel;
             console.log("pythonPath:", pythonPath);
         }
-    });
-
-    
+    });   
 }
 
 // Executando python com parâmetros
@@ -63,6 +65,7 @@ function ativarPython(){
         spawn(pythonPath, ["src/python_r/main.py", dict.metrica, dict.componente, dict.idTorre, dict.idServidor, dict.ano, dict.mes]);
         apagarImagens();
     }, 1000);
+
 }
 
 function mudarVersaoPython(versao){
@@ -96,8 +99,6 @@ function definirSeparador(pathAtual){
 // Apagando imagens desnecessárias 
 
 function apagarImagens(){
-
-    const diretorioGraficos = "public/assets/img/graficos"
 
     fs.readdir(diretorioGraficos, function (err, files) {
         if (err) {
