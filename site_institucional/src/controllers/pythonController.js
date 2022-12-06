@@ -36,7 +36,7 @@ function iniciar(req, res){
 }
 
 function acharPython(){
-    exec('python -c "import os, sys; print(os.path.dirname(sys.executable))"', function(error, stdout, stderr){
+    exec('python3 -c "import os, sys; print(os.path.dirname(sys.executable))"', function(error, stdout, stderr){
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         if (error != null) {
