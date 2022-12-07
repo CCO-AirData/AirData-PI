@@ -13,8 +13,18 @@ class mySidebar extends HTMLElement {
                 <a id="painel-link" class="nav-link" href="./painel.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Painel Geral</span></a>
-                    <hr class="sidebar-divider">
             </li>
+
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                <a id="baixar-link" class="nav-link" href="./download.html">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                    <span>Baixar</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+
             <li class="nav-item">
                 
                 <a id="alerta-link" class="nav-link" href="./alertas.html">
@@ -79,7 +89,7 @@ class myTopbar extends HTMLElement {
 
                 </li>
                 <div class="topbar-divider d-none d-sm-block"></div>
-                    <li class="nav-item dropdown no-arrow">
+                    <li class="nav-item dropdown no-arrow menu-navBar">
                         <a id="area_user" class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <img class="img-profile rounded-circle" src="../assets/img/boy.jpg" style="max-width: 60px">
                             <span class="ml-2 d-none d-lg-inline text-white small span_userName" id="username"> USUARIO </span>
