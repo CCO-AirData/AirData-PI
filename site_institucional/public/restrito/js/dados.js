@@ -181,6 +181,10 @@ function tratarId(metrica) {
 
 function gerarGraficoR(idComponente, metrica, mes){
     var imgGraficoMetrica = document.getElementById("imgGraficoMetrica");
+    var loading = document.getElementById('loading');
+
+    imgGraficoMetrica.style.display = 'none';
+    loading.style.display = 'block';
     
     imgGraficoMetrica.src = '';
     console.log("Encaminhando para rota para gerar grafico em R")
@@ -214,8 +218,10 @@ function gerarGraficoR(idComponente, metrica, mes){
         var nomeGrafico = idComponente + "-" + metrica + ".png"
         
         console.log(diretorioGraficos + "/" + nomeGrafico)
-         
+        
+        loading.style.display = 'none';
         imgGraficoMetrica.src = `${diretorioGraficos}/${nomeGrafico}`
+        imgGraficoMetrica.style.display = 'block';
         
     }, 15000)
 

@@ -385,4 +385,13 @@
   justify-content: center;
   width: fit-content;
   height: 33 vh;
+  width: 100%;
+}
+
+#imgGraficoR .loading {
+  width: 20%;
+}
+
+.grafico .graficoR {
+  display: none;
 }
