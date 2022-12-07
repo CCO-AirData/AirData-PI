@@ -180,6 +180,9 @@ function tratarId(metrica) {
 }
 
 function gerarGraficoR(idComponente, metrica, mes){
+    var imgGraficoMetrica = document.getElementById("imgGraficoMetrica");
+    
+    imgGraficoMetrica.src = '';
     console.log("Encaminhando para rota para gerar grafico em R")
 
     console.log("idComponente:", idComponente)
@@ -212,7 +215,6 @@ function gerarGraficoR(idComponente, metrica, mes){
         
         console.log(diretorioGraficos + "/" + nomeGrafico)
          
-        var imgGraficoMetrica = document.getElementById("imgGraficoMetrica");
         imgGraficoMetrica.src = `${diretorioGraficos}/${nomeGrafico}`
         
     }, 15000)
