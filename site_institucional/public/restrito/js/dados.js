@@ -180,7 +180,6 @@ function tratarId(metrica) {
 }
 
 function gerarGraficoR(idComponente, metrica, mes){
-    Loading();
     console.log("Encaminhando para rota para gerar grafico em R")
 
     console.log("idComponente:", idComponente)
