@@ -207,7 +207,7 @@ function gerarGraficoR(idComponente, metrica, mes){
         console.log("Tentando exibir imagem")
         console.log(metrica);
 
-        const diretorioGraficos = "../assets/img/graficos"  
+        const diretorioGraficos = "/home/ubuntu/AirData-PI/site_institucional/public/assets/img/graficos"  
         
         var nomeGrafico = idComponente + "-" + metrica + ".png"
         
