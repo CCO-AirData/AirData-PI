@@ -215,14 +215,13 @@ function gerarGraficoR(idComponente, metrica, mes){
         
         document.getElementById("imgGraficoR").innerHTMl = `<img id="imgGraficoMetrica" class="graficoR" src="" onerror="this.error=null; this.src='https://gifimage.net/wp-content/uploads/2017/09/blue-loading-gif-transparent-9.gif'">`
          
-        document.getElementById("imgGraficoMetrica").src = diretorioGraficos + "/" + nomeGrafico 
+        document.getElementById("imgGraficoMetrica").src = `${diretorioGraficos}/${nomeGrafico}`
         
     }, 15000)
 
 }
 
 function Loading(){
-    document.getElementById("imgGraficoR").innerHTML = `<div class="spinner-border text-primary" role="status">
-    <span class="sr-only">Loading...</span>
+    document.getElementById("imgGraficoMetrica").src = 'https://media.tenor.com/whis5JX19ycAAAAC/loading-load.gif' 
   </div>`
 }
