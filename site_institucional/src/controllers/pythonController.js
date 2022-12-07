@@ -9,7 +9,7 @@ const pyVersao = 310;
 var pythonPath;
 
 // Diretório armazenando os graficos
-const diretorioGraficos = "public/assets/img/graficos"
+const diretorioGraficos = "/home/ubuntu/AirData-PI/site_institucional/public/assets/img/graficos"
 
 var dict = {
     // "metrica": "cpuPercent",
@@ -28,28 +28,28 @@ function iniciar(req, res){
     dict["componente"] = req.body.componente;
     dict["mes"] = req.body.mes;
 
-    acharPython();
+    //acharPython();
     setTimeout(()=>{
         ativarPython();
     },1000)
     
 }
 
-function acharPython(){
-    exec('python3 -c "import os, sys; print(os.path.dirname(sys.executable))"', function(error, stdout, stderr){
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if (error != null) {
-            console.log('exec error: ' + error);
-        } else {
-            pythonPath = stdout.replace(/(\r\n|\n|\r)/gm,"");
-            separador = definirSeparador(pythonPath);
-            executavel = pythonPath.indexOf("bin") < 0 ? "python.exe" : "python"
-            pythonPath += separador + executavel;
-            console.log("pythonPath:", pythonPath);
-        }
-    });   
-}
+//function acharPython(){
+  //  exec('python3 -c "import os, sys; print(os.path.dirname(sys.executable))"', function(error, stdout, stderr){
+  //      console.log('stdout: ' + stdout);
+   //     console.log('stderr: ' + stderr);
+   //     if (error != null) {
+   //         console.log('exec error: ' + error);
+   //     } else {
+   //         pythonPath = stdout.replace(/(\r\n|\n|\r)/gm,"");
+    //        separador = definirSeparador(pythonPath);
+    //        executavel = pythonPath.indexOf("bin") < 0 ? "python.exe" : "python"
+    //        pythonPath += separador + executavel;
+     //       console.log("pythonPath:", pythonPath);
+     //   }
+//    });   
+//}
 
 // Executando python com parâmetros
 
@@ -57,12 +57,12 @@ function ativarPython(){
 
     console.log("ATIVANDO O PYTHON");
 
-    if(pythonPath.indexOf("bin") < 0) mudarVersaoPython(pyVersao);
+    //if(pythonPath.indexOf("bin") < 0) mudarVersaoPython(pyVersao);
 
     console.log("pythonPath atual:", pythonPath);
 
     setTimeout(()=>{
-        spawn(pythonPath, ["src/python_r/main.py", dict.metrica, dict.componente, dict.idTorre, dict.idServidor, dict.ano, dict.mes]);
+        spawn('python3', ['/home/ubuntu/AirData-PI/site_institucional/src/python_r/main.py', dict.metrica, dict.componente, dict.idTorre, dict.idServidor, dict.ano, dict.mes]);
         apagarImagens();
     }, 1000);
 
