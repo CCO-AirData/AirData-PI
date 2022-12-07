@@ -19,6 +19,10 @@ router.post("/proibirProcesso", function (req, res) {
     processosController.proibirProcesso(req, res);
 });
 
+router.post("/normalizarProcesso", function (req, res) {
+    processosController.normalizarProcesso(req, res);
+});
+
 router.get('/obter-processos/:horarioInicio&:horarioFim&:mac', function (req, res) {
     processosController.obterProcessos(req, res);
 });

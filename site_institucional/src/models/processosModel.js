@@ -53,6 +53,17 @@ function proibirProcesso(nomeProcesso, fkServidor) {
     return database.executar(instrucao);
 }
 
+function normalizarProcesso(nomeProcesso, fkServidor) {
+    if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        var instrucao = `DELETE processos_proibidos WHERE nome = '${nomeProcesso}' AND fkServidor = '${fkServidor}');`
+        console.log("Executando a instrução SQL: \n" + instrucao);
+    } else if (process.env.AMBIENTE_PROCESSO == "producao") {
+        var instrucao = `DELETE processos_proibidos WHERE nome = '${nomeProcesso}' AND fkServidor = '${fkServidor}');`
+        console.log("Executando a instrução SQL: \n" + instrucao);
+    }
+    return database.executar(instrucao);
+}
+
 function obterProcessos(horarioInicio, horarioFim, mac) {
     var instrucao = `SELECT TOP 3 nome, MAX(porcentagemCpu) as usoCpu FROM [dbo].[processos]
 	WHERE fkServidor = '${mac}'
@@ -68,5 +79,6 @@ module.exports = {
     listarProcessosProibidos,
     deletarProcesso,
     obterProcessos,
-    proibirProcesso
+    proibirProcesso,
+    normalizarProcesso
 };
