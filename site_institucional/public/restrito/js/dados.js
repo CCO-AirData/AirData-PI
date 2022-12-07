@@ -213,7 +213,7 @@ function gerarGraficoR(idComponente, metrica, mes){
         
         console.log(diretorioGraficos + "/" + nomeGrafico)
         
-        document.getElementById("imgGraficoMetrica").src = diretorioGraficos + "/" + nomeGrafico 
+        document.getElementById("imgGraficoR").src = diretorioGraficos + "/" + nomeGrafico 
         
     }, 20000)
 
