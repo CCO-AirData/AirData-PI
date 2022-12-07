@@ -213,13 +213,9 @@ function gerarGraficoR(idComponente, metrica, mes){
         
         console.log(diretorioGraficos + "/" + nomeGrafico)
          
-        document.getElementById("imgGraficoMetrica").src = `${diretorioGraficos}/${nomeGrafico}`
+        var imgGraficoMetrica = document.getElementById("imgGraficoMetrica");
+        imgGraficoMetrica.src = `${diretorioGraficos}/${nomeGrafico}`
         
     }, 15000)
 
-}
-
-function Loading(){
-    document.getElementById("imgGraficoMetrica").src = 'https://media.tenor.com/whis5JX19ycAAAAC/loading-load.gif' 
-  </div>`
 }
