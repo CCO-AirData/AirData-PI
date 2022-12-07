@@ -55,4 +55,5 @@ module.exports = {
     listarProcessos,
     deletarProcesso,
     obterProcessos,
+    proibirProcesso
 };
