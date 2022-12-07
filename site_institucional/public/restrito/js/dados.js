@@ -211,9 +211,11 @@ function gerarGraficoR(idComponente, metrica, mes){
         
         var nomeGrafico = idComponente + "-" + metrica + ".png"
         
+        console.log(diretorioGraficos + "/" + nomeGrafico)
+        
         document.getElementById("imgGraficoMetrica").src = diretorioGraficos + "/" + nomeGrafico 
         
-    }, 15000)
+    }, 20000)
 
 }
 
