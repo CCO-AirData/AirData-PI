@@ -245,7 +245,7 @@ def executar_{i}(servidor, componente, metrica):
     for processos in psutil.process_iter():
         # print(processos)
         processos_info = processos.as_dict(['name', 'cpu_percent', 'pid', 'username'])
-        if processos_info['cpu_percent'] > 0 and processos_info['username'] != "root":
+        if processos_info['cpu_percent'] > 0 and processos_info['username'] != "root" and processos_info['username'] != "NT AUTHORITY\SYSTEM":
             # print(processos_info)
             lista_processos.append(processos_info)
             

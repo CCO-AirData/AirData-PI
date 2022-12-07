@@ -43,6 +43,17 @@
               </div>
             </div>
 
+            <div id="fade2" class="hide2"></div>
+            <div id="modal2" class="hide2" style="height: 80%;">
+              <div class="modal-header2">
+                <h2>Processos Proibidos</h2>
+                <button id="close-modal2">Fechar</button>
+              </div>
+              <div class="modal-body2">
+                <div id="processos_proibidos"></div>
+              </div>
+            </div>
+
             <div class="row">
               <div class="col-lg-12 mb-4">
                 <!-- Simple Tables -->
@@ -55,6 +66,7 @@
                       <option value="null">Selecionar Hardware</option>
                     </select> -->
                     <button onclick="modal()" id="open-modal" class="dropdown-toggle btn btn-primary btn-sm" type="button">WordCloud</button>                                                        
+                    <button onclick="modal2()" id="open-modal2" class="dropdown-toggle btn btn-primary btn-sm" type="button">Processos Proibidos</button>                                                        
                   </div>
                   <div class="table-responsive">
                     <table class="table align-items-center table-flush">
@@ -277,18 +289,11 @@
     function wordcloud(wcProcessos){
 
         if(wcProcessos.length > 0){
-      var data = [
-    {"x": wcProcessos[0].nome, "value": wcProcessos[0].cpu},
-    {"x": wcProcessos[1].nome, "value": wcProcessos[1].cpu},
-    {"x": wcProcessos[2].nome, "value": wcProcessos[2].cpu},
-    {"x": wcProcessos[3].nome, "value": wcProcessos[3].cpu},
-    {"x": wcProcessos[4].nome, "value": wcProcessos[4].cpu},
-    {"x": wcProcessos[5].nome, "value": wcProcessos[5].cpu},
-    {"x": wcProcessos[6].nome, "value": wcProcessos[6].cpu},
-    {"x": wcProcessos[7].nome, "value": wcProcessos[7].cpu},
-    {"x": wcProcessos[8].nome, "value": wcProcessos[8].cpu},
-    {"x": wcProcessos[9].nome, "value": wcProcessos[9].cpu}
-  ];
+
+          var data = []
+        for(var i = 0; i < 10; i++){
+          data.push({"x": wcProcessos[i].nome, "value": wcProcessos[i].cpu});
+        }
 
  // create a tag (word) cloud chart
   var chart = anychart.tagCloud(data);
