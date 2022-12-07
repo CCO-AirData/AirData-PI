@@ -55,10 +55,10 @@ function proibirProcesso(nomeProcesso, fkServidor) {
 
 function normalizarProcesso(nomeProcesso, fkServidor) {
     if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        var instrucao = `DELETE processos_proibidos WHERE nome = '${nomeProcesso}' AND fkServidor = '${fkServidor}');`
+        var instrucao = `DELETE FROM processos_proibidos WHERE nome = '${nomeProcesso}' AND fkServidor = '${fkServidor}';`
         console.log("Executando a instrução SQL: \n" + instrucao);
     } else if (process.env.AMBIENTE_PROCESSO == "producao") {
-        var instrucao = `DELETE processos_proibidos WHERE nome = '${nomeProcesso}' AND fkServidor = '${fkServidor}');`
+        var instrucao = `DELETE FROM processos_proibidos WHERE nome = '${nomeProcesso}' AND fkServidor = '${fkServidor}';`
         console.log("Executando a instrução SQL: \n" + instrucao);
     }
     return database.executar(instrucao);
