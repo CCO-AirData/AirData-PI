@@ -213,9 +213,11 @@ function gerarGraficoR(idComponente, metrica, mes){
         
         console.log(diretorioGraficos + "/" + nomeGrafico)
         
-        document.getElementById("imgGraficoR").src = diretorioGraficos + "/" + nomeGrafico 
+        document.getElementById("imgGraficoR").innerHTMl = `<img id="imgGraficoMetrica" class="graficoR" src="" onerror="this.error=null; this.src='https://gifimage.net/wp-content/uploads/2017/09/blue-loading-gif-transparent-9.gif'">`
+         
+        document.getElementById("imgGraficoMetrica").src = diretorioGraficos + "/" + nomeGrafico 
         
-    }, 20000)
+    }, 15000)
 
 }
 
