@@ -19,6 +19,18 @@ function listarProcessos(fkTorre, limite, fkServidor) {
     return database.executar(instrucao);
 }
 
+function listarProcessosProibidos(fkServidor) {
+    if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        var instrucao = `SELECT * FROM processos_proibidos WHERE fkServidor = '${fkServidor}';`;
+        console.log("Executando a instrução SQL: \n" + instrucao);
+      
+    } else if(process.env.AMBIENTE_PROCESSO == "producao") {
+        var instrucao = `SELECT * FROM processos_proibidos WHERE fkServidor = '${fkServidor}';`;
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    }
+    return database.executar(instrucao);
+}
+
 function deletarProcesso(pid, fkServidor) {
     if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         var instrucao = `INSERT INTO deletarPid(pid, fkServidor) values (${pid}, ${fkServidor});`
@@ -53,6 +65,7 @@ function obterProcessos(horarioInicio, horarioFim, mac) {
 
 module.exports = {
     listarProcessos,
+    listarProcessosProibidos,
     deletarProcesso,
     obterProcessos,
     proibirProcesso

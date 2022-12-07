@@ -7,6 +7,10 @@ router.post("/receberDadosProcessos", function (req, res) {
     processosController.receberDadosProcessos(req, res);
 });
 
+router.post("/receberDadosProcessosProibidos", function (req, res) {
+    processosController.receberDadosProcessosProibidos(req, res);
+});
+
 router.post("/deletarProcesso", function (req, res) {
     processosController.deletarProcesso(req, res);
 });

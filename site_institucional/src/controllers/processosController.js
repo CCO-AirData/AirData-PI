@@ -27,6 +27,28 @@ function receberDadosProcessos(req, res) {
     }
 }
 
+function receberDadosProcessosProibidos(req, res) {
+    var fkServidor = req.body.fkServidorServer
+
+    if(fkServidor == undefined){
+        res.status(400).send("O fkServidor está undefined!");
+    } else {
+        processosModel.listarProcessosProibidos(fkServidor)
+            .then(
+                function (resultado) {
+                    console.log(`\nProcessos: ${resultado}`);
+                    res.json(resultado)
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao receber os processos proibidos! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+    }
+}
+
 function deletarProcesso(req, res) {
     var pid = req.body.pidServer;
     var fkServidor = req.body.fkServidorServer;
@@ -99,6 +121,7 @@ function obterProcessos(req, res) {
 
 module.exports = {
     receberDadosProcessos,
+    receberDadosProcessosProibidos,
     deletarProcesso,
     proibirProcesso,
     obterProcessos

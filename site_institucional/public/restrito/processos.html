@@ -58,7 +58,7 @@
                   <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                       <tr>
-                        <th>Nome</th>
+                        <th>Nome do Processo</th>
                         <th>Ação</th>
                       </tr>
                     </thead>
@@ -170,6 +170,19 @@
             </tr>
             `
         
+    }
+  }
+
+  function listarProcessosProibidos(ProcessosProibidos) {
+    var bodyTable = document.getElementById('body-table2');
+    bodyTable.innerHTML = '';
+
+    for (i = 0; i < ProcessosProibidos.length; i++) {
+      bodyTable.innerHTML += `
+        <tr>
+          <td>${ProcessosProibidos[i].nome}</td>
+          <td><a href="#" onclick="normalizarProcesso('${ProcessosProibidos[i].nome}')" class="btn btn-sm btn-primary btn-normalizar">Normalizar</a></td>
+        </tr>`
     }
   }
 
@@ -302,8 +315,6 @@
       console.log(`#ERRO: ${nomeProcesso}`);
       console.log(`#ERRO: ${fkServidor}`);
     });
-
-
   }
 
   function wordcloud(wcProcessos) {
