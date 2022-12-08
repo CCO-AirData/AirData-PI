@@ -99,11 +99,11 @@ public class AirDataInformacaoDoSistema extends javax.swing.JFrame {
                     if (banco.getConexao()) {
                         JdbcTemplate connection = banco.getConnection();
 
-                        String CPU = String.format("insert into leitura values(1,GETDATE(),%d,(%s),'%s')", respostaCPU, fkCPU, MacAddres);
+                        String CPU = String.format("insert into leitura values(1,DATEADD(HOUR, -3,GETDATE()),%d,(%s),'%s')", respostaCPU, fkCPU, MacAddres);
 
-                        String RAM = String.format("insert into leitura values(2,GETDATE(),%d,(%s),'%s')", memoriaUso, fkRAM, MacAddres);
+                        String RAM = String.format("insert into leitura values(2,DATEADD(HOUR, -3,GETDATE()),%d,(%s),'%s')", memoriaUso, fkRAM, MacAddres);
 
-                        String DISCO = String.format("insert into leitura values(3,GETDATE(),%d,(%s),'%s')", (discoTotal.get(0).getDisponivel() / giga), fkDISCO, MacAddres);
+                        String DISCO = String.format("insert into leitura values(3,DATEADD(HOUR, -3,GETDATE()),%d,(%s),'%s')", (discoTotal.get(0).getDisponivel() / giga), fkDISCO, MacAddres);
 
                         connection.update(CPU);
                         connection.update(RAM);
@@ -115,11 +115,11 @@ public class AirDataInformacaoDoSistema extends javax.swing.JFrame {
                 } else if (sistema.contains("Linux")) {
                     JdbcTemplate connection = banco.getConnection();
 
-                    String CPU = String.format("insert into leitura values(1,GETDATE(),%d,(%s),'%s')", respostaCPU, fkCPU, MacAddres);
+                    String CPU = String.format("insert into leitura values(1,DATEADD(HOUR, -3,GETDATE()),%d,(%s),'%s')", respostaCPU, fkCPU, MacAddres);
 
-                    String RAM = String.format("insert into leitura values(2,GETDATE(),%d,(%s),'%s')", memoriaUso, fkRAM, MacAddres);
+                        String RAM = String.format("insert into leitura values(2,DATEADD(HOUR, -3,GETDATE()),%d,(%s),'%s')", memoriaUso, fkRAM, MacAddres);
 
-                    String DISCO = String.format("insert into leitura values(3,GETDATE(),%d,(%s),'%s')", (discoTotal.get(0).getDisponivel() / giga), fkDISCO, MacAddres);
+                        String DISCO = String.format("insert into leitura values(3,DATEADD(HOUR, -3,GETDATE()),%d,(%s),'%s')", (discoTotal.get(0).getDisponivel() / giga), fkDISCO, MacAddres);
 
                     if (banco.getConexao()) {
                         connection.update(CPU);
