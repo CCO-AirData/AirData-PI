@@ -143,7 +143,10 @@ def executar_{i}(servidor, componente, metrica):
 
     if metrica == 4:
         if platform.system() == 'Linux':
-            leitura = eval(comando)
+            try:
+                leitura = eval(comando)
+            except:
+                continue
         else:
             # USAR OPHM PARA VISUALIZAR SOMENTE CPU
             with PoolManager() as pool:
