@@ -2,6 +2,10 @@
   justify-content: space-between !important;
 }
 
+.menu-navBar a:hover {
+  hover: none !important;
+}
+
 .sidebar {
   height: 100%;
 }
@@ -385,4 +389,23 @@
   justify-content: center;
   width: fit-content;
   height: 33 vh;
+  width: 100%;
 }
+
+#imgGraficoR .loading {
+  width: 20%;
+}
+
+.grafico .graficoR {
+  display: none;
+}
+
+.titulo-download #exa {
+  height: 20%;
+  margin-bottom: -19vh;
+}
+
+.btn-download {
+  border: 0;
+}
+

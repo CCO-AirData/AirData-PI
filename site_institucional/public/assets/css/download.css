@@ -225,17 +225,17 @@ h6 {
   transition: all 0.3s ease-in-out 0s;
 }
 
-.navbar a:hover:before,
-.navbar li:hover>a:before,
-.navbar .active:before {
+.navbar .opt-navbar a:hover:before,
+.navbar .opt-navbar li:hover>a:before,
+.navbar .opt-navbar .active:before {
   visibility: visible;
   width: 100%;
 }
 
-.navbar a:hover,
-.navbar .active,
-.navbar .active:focus,
-.navbar li:hover>a {
+.navbar .opt-navbar a:hover,
+.navbar .opt-navbar .active,
+.navbar .opt-navbar .active:focus,
+.navbar .opt-navbar li:hover>a {
   color: #106eea;
 }
 
