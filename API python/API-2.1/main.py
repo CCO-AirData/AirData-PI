@@ -146,7 +146,7 @@ def executar_{i}(servidor, componente, metrica):
             try:
                 leitura = eval(comando)
             except:
-                continue
+                break
         else:
             # USAR OPHM PARA VISUALIZAR SOMENTE CPU
             with PoolManager() as pool:
