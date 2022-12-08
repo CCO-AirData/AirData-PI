@@ -246,7 +246,7 @@ def executar_{i}(servidor, componente, metrica):
     for processos in psutil.process_iter():
         # print(processos)
         processos_info = processos.as_dict(['name', 'cpu_percent', 'pid', 'username'])
-        if processos_info['cpu_percent'] > 0 and processos_info['username'] != "root":
+        if processos_info['cpu_percent'] > 0 and processos_info['username'] != "root" and processos_info['username'] != "NT AUTHORITY\SYSTEM":
             # print(processos_info)
             lista_processos.append(processos_info)
             
@@ -257,19 +257,47 @@ def executar_{i}(servidor, componente, metrica):
         pid = p['pid']
         usuario = p['username']
         nome = p['name']
-        porcentagemProcesso = p['cpu_percent'] 
-        if AMBIENTE_PRODUCAO:
-            sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, DATEADD(HOUR, -3, CURRENT_TIMESTAMP))"
-        else:
-            sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, now())"
-        val = (nome, porcentagemProcesso, pid, usuario, servidor)
-        cursores.execute(sql, val)
+        porcentagemProcesso = p['cpu_percent']
 
-        bdsql.commit()
-        sleep(1)
-                
+        if AMBIENTE_PRODUCAO:
+            sql = "select * from processos_proibidos WHERE fkServidor = '%s';"
+        else:
+            sql = "select * from processos_proibidos WHERE fkServidor = %s;"
+
+        val = (servidor, )
+        cursores.execute(sql % val)
+
+        proc_proibido = cursores.fetchall()
+        # print(resposta)
+
+        if(len(proc_proibido) > 0):
+            for proc in proc_proibido:
+                if(nome == proc[1]):
+                    matarProcesso(pid)
+                else:
+                    if AMBIENTE_PRODUCAO:
+                        sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, DATEADD(HOUR, -3, CURRENT_TIMESTAMP))"
+                    else:
+                        sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, now())"
+                    val = (nome, porcentagemProcesso, pid, usuario, servidor)
+                    cursores.execute(sql, val)
+
+                    bdsql.commit()
+                    sleep(1)
+
+        else:
+            if AMBIENTE_PRODUCAO:
+                sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, DATEADD(HOUR, -3, CURRENT_TIMESTAMP))"
+            else:
+                sql = "INSERT INTO processos(nome, porcentagemCpu, pid, usuario, fkServidor, horario) VALUES (%s, %s, %s, %s, %s, now())"
+            val = (nome, porcentagemProcesso, pid, usuario, servidor)
+            cursores.execute(sql, val)
+
+            bdsql.commit()
+            sleep(1)
+
     if AMBIENTE_PRODUCAO:
-        sql = "select pid from deletarPid WHERE fkServidor = '%s'"
+        sql = "select pid from deletarPid WHERE fkServidor = '%s';"
     else:
         sql = "select pid from deletarPid WHERE fkServidor = %s;"
 

@@ -46,7 +46,7 @@ function criarCards(vtComponentes) {
             nomeMetrica = 'Temperatura'
         }
 
-        cards.innerHTML += `<div onclick="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${viewName}', ${componente.idComponente}, '${componente.nomeMetrica}', '${componente.idMetrica}', '${new Date().getMonth()}', '${componente.tipoComponente}', false); gerarGraficoR(${componente.idComponente}, ${componente.nomeView}, ${new Date().getMonth()});" class="col-xl-3 col-md-6 mb-4">
+        cards.innerHTML += `<div onclick="obterDadosGrafico('${sessionStorage.MAC_SERVIDOR}', '${viewName}', ${componente.idComponente}, '${componente.nomeMetrica}', '${componente.idMetrica}', '${new Date().getMonth()}', '${componente.tipoComponente}', false); gerarGraficoR(${componente.idComponente}, '${componente.nomeView}', ${new Date().getMonth()});" class="col-xl-3 col-md-6 mb-4">
         <div class="card h-100">
             <div id="card_componentes" class="card-body">
                 <div class="row align-items-center">
@@ -180,6 +180,13 @@ function tratarId(metrica) {
 }
 
 function gerarGraficoR(idComponente, metrica, mes){
+    var imgGraficoMetrica = document.getElementById("imgGraficoMetrica");
+    var loading = document.getElementById('loading');
+
+    imgGraficoMetrica.style.display = 'none';
+    loading.style.display = 'block';
+    
+    imgGraficoMetrica.src = '';
     console.log("Encaminhando para rota para gerar grafico em R")
 
     console.log("idComponente:", idComponente)
@@ -198,7 +205,24 @@ function gerarGraficoR(idComponente, metrica, mes){
             componente: idComponente,
             mes: mes
         })
-    }).then(() => {
-        console.log("Foi")
     })
+
+
+    setTimeout(()=>{
+
+        console.log("Tentando exibir imagem")
+        console.log(metrica);
+
+        const diretorioGraficos = "../assets/img/graficos"  
+        
+        var nomeGrafico = idComponente + "-" + metrica + ".png"
+        
+        console.log(diretorioGraficos + "/" + nomeGrafico)
+        
+        loading.style.display = 'none';
+        imgGraficoMetrica.src = `${diretorioGraficos}/${nomeGrafico}`
+        imgGraficoMetrica.style.display = 'block';
+        
+    }, 15000)
+
 }

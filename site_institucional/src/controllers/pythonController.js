@@ -8,6 +8,9 @@ const exec = require("child_process").exec;
 const pyVersao = 310;
 var pythonPath;
 
+// Diretório armazenando os graficos
+const diretorioGraficos = "/home/ubuntu/AirData-PI/site_institucional/public/assets/img/graficos"
+
 var dict = {
     // "metrica": "cpuPercent",
     // "idServidor": "16:a6:95:10:ef:9f",
@@ -25,29 +28,28 @@ function iniciar(req, res){
     dict["componente"] = req.body.componente;
     dict["mes"] = req.body.mes;
 
-    acharPython();
+    //acharPython();
     setTimeout(()=>{
         ativarPython();
-    }, 1000);
-}
-
-function acharPython(){
-    exec('python -c "import os, sys; print(os.path.dirname(sys.executable))"', function(error, stdout, stderr){
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if (error != null) {
-            console.log('exec error: ' + error);
-        } else {
-            pythonPath = stdout.replace(/(\r\n|\n|\r)/gm,"");
-            separador = definirSeparador(pythonPath);
-            executavel = pythonPath.indexOf("bin") < 0 ? "python.exe" : "python"
-            pythonPath += separador + executavel;
-            console.log("pythonPath:", pythonPath);
-        }
-    });
-
+    },1000)
     
 }
+
+//function acharPython(){
+  //  exec('python3 -c "import os, sys; print(os.path.dirname(sys.executable))"', function(error, stdout, stderr){
+  //      console.log('stdout: ' + stdout);
+   //     console.log('stderr: ' + stderr);
+   //     if (error != null) {
+   //         console.log('exec error: ' + error);
+   //     } else {
+   //         pythonPath = stdout.replace(/(\r\n|\n|\r)/gm,"");
+    //        separador = definirSeparador(pythonPath);
+    //        executavel = pythonPath.indexOf("bin") < 0 ? "python.exe" : "python"
+    //        pythonPath += separador + executavel;
+     //       console.log("pythonPath:", pythonPath);
+     //   }
+//    });   
+//}
 
 // Executando python com parâmetros
 
@@ -55,14 +57,15 @@ function ativarPython(){
 
     console.log("ATIVANDO O PYTHON");
 
-    if(pythonPath.indexOf("bin") < 0) mudarVersaoPython(pyVersao);
+    //if(pythonPath.indexOf("bin") < 0) mudarVersaoPython(pyVersao);
 
     console.log("pythonPath atual:", pythonPath);
 
     setTimeout(()=>{
-        spawn(pythonPath, ["src/python_r/main.py", dict.metrica, dict.componente, dict.idTorre, dict.idServidor, dict.ano, dict.mes]);
+        spawn('python3', ['/home/ubuntu/AirData-PI/site_institucional/src/python_r/main.py', dict.metrica, dict.componente, dict.idTorre, dict.idServidor, dict.ano, dict.mes]);
         apagarImagens();
     }, 1000);
+
 }
 
 function mudarVersaoPython(versao){
@@ -97,8 +100,6 @@ function definirSeparador(pathAtual){
 
 function apagarImagens(){
 
-    const diretorioGraficos = "public/assets/img/graficos"
-
     fs.readdir(diretorioGraficos, function (err, files) {
         if (err) {
             return console.log('Não foi possível escanear o diretório: ' + err);
@@ -117,21 +118,6 @@ function apagarImagens(){
         });
 }
 
-
-function wordcloudProcessos(req,res){
-    var fkServidor = req.body.fkServidorServer
-        processosModel.deletarProcesso(pid).then(function (resposta) {
-            res.json(resposta);
-        }).catch(
-            function (erro) {
-                console.log(erro);
-                console.log("\nHouve um erro ao deletar o processo! Erro: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
-}
-
 module.exports = {
     iniciar,
-    wordcloudProcessos
 }

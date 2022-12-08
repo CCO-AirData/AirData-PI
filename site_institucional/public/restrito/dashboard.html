@@ -62,8 +62,10 @@
                                     <h1 class="h3 mb-0 text-gray-800" id="titulo-macAdress">
                                         Analytics
                                     </h1>
-                                    <input id="btn-gerarRelatorio" class="dropdown-toggle btn btn-primary btn-sm"
-                                        type="button" value="Gerar Relatório" />
+                                    <button id="btn-gerarRelatorio" class="btn-pdf btn btn-primary btn-sm" type="button">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                        Gerar Relatório
+                                    </button>
                                 </div>
                                 <div class="row">
                                     <div class="col-xl-8 col-lg-7">
@@ -110,7 +112,16 @@
                                                     TITULO
                                                 </h6>
                                             </div>
-                                            <div class="grafico"></div>
+                                            <div id="imgGraficoR" class="grafico">
+                                                <img 
+                                                    id="loading"
+                                                    src="" 
+                                                    alt="" 
+                                                    class="loading"
+                                                    onerror="this.error=null; this.src='https://media.tenor.com/whis5JX19ycAAAAC/loading-load.gif'"
+                                                >
+                                                <img id="imgGraficoMetrica" class="graficoR" src="" >
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-5 col-lg-6">
@@ -291,7 +302,7 @@
     function validarUrlAcesso() {
         //verificando se estou logado
         if (sessionStorage.ID_USUARIO == undefined) {
-            window.location.href = `../sing-in.html?urlAfterLogin=dashboard.html&idMaquina=${idMaquina}`;
+            window.location.href = `../sing-in.html?urlAfterLogin=dashboard.html&idMaquina=${idMaquina}&origin=qrCode`;
         }
         //verificando acesso à máquina
         validarAcesso().then((acesso) => {
@@ -302,7 +313,6 @@
         });
         //registrando o acesso por QR Code
         if (urlParams.has("origin") && urlParams.get("origin") == "qrCode") {
-            console.log("vou cadastrar no banco em");
             fetch("/acessoQrCode/cadastrarAcesso", {
                 method: "POST",
                 headers: {

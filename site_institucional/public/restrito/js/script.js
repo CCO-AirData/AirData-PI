@@ -77,6 +77,7 @@ function iniciarSessao(pagina) {
         receberDadosComponentes(macAdress);
     } else if(pagina == 'processos'){
         receberDadosProcessos(sessionStorage.ID_TORRE, 10);
+        receberDadosProcessosProibidos(sessionStorage.MAC_SERVIDOR);
     }
 }
 
@@ -250,6 +251,31 @@ function receberOpcoesFiltros(fkTorre) {
     });
 }
 
+function receberDadosProcessosProibidos(fkServidor){
+    fetch("/processos/receberDadosProcessosProibidos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkServidorServer: fkServidor
+        })
+    }).then(function (resposta) {
+        console.log("resposta: ", resposta);
+        if (resposta.ok) {
+            resposta.json().then(json => {
+                console.log(json)
+
+                listarProcessosProibidos(json)
+            });
+        } else {
+            console.log('ERRO - não foi possível receber os dados dos Processos proibidos')
+        }
+    }).catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+    });
+}
+
 function receberDadosProcessos(fkTorre, limite){
     var fkServidor = sessionStorage.MAC_SERVIDOR;
     fetch("/processos/receberDadosProcessos", {
@@ -290,4 +316,18 @@ const toggleModal = () => {
 
 [openModalButton, closeModalButton, fade].forEach((el) => {
   el.addEventListener("click", () => toggleModal());
+});
+
+const openModalButton2 = document.querySelector("#open-modal2");
+const closeModalButton2 = document.querySelector("#close-modal2");
+const modal2 = document.querySelector("#modal2");
+const fade2 = document.querySelector("#fade2");
+
+const toggleModal2 = () => {
+  modal2.classList.toggle("hide2");
+  fade2.classList.toggle("hide2");
+};
+
+[openModalButton2, closeModalButton2, fade2].forEach((el) => {
+  el.addEventListener("click", () => toggleModal2());
 });

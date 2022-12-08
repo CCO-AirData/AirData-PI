@@ -266,6 +266,8 @@ INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, nomeView, comando, 
 (3, 'DISCO', 'Porcentagem de uso', 'diskPercent', 'psutil.disk_usage("/").percent', '%', FALSE);
 INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, nomeView, comando, unidadeMedida, isTupla) VALUES 
 (4, 'CPU', 'Temperatura', 'cpuTemp', 'psutil.sensors_temperatures()["coretemp"][0][1]', '°C', FALSE);
+INSERT INTO metrica (idMetrica, nomeComponente, nomeMetrica, nomeView, comando, unidadeMedida, isTupla) VALUES 
+(4, 'CPU', 'Rotação da FAN', 'fanView', 'psutil.sensors_fans()', 'RPM', FALSE);
 
 -- dimensional --
 CREATE TABLE dim_componente(

@@ -9,11 +9,23 @@ function listarProcessos(fkTorre, limite, fkServidor) {
         console.log("Executando a instrução SQL: \n" + instrucao);
       
     } else if(process.env.AMBIENTE_PROCESSO == "producao") {
-        var instrucao = `SELECT TOP ${limite} nome, SUM(porcentagemCpu) as 'cpu', pid, usuario FROM [dbo].[processos]
+        var instrucao = `SELECT TOP ${limite} nome, SUM(porcentagemCpu) as 'cpu', MAX(pid) as 'pid', usuario FROM [dbo].[processos]
         WHERE fkServidor = '${fkServidor}'
         AND horario BETWEEN DATEADD(HOUR, -3, DATEADD(SECOND, -3, CURRENT_TIMESTAMP)) AND DATEADD(HOUR, -3, DATEADD(SECOND, 0, CURRENT_TIMESTAMP))
-        GROUP BY nome, pid, usuario
+        GROUP BY nome, usuario
         ORDER BY SUM(porcentagemCpu) DESC;`;
+        console.log("Executando a instrução SQL: \n" + instrucao);    
+    }
+    return database.executar(instrucao);
+}
+
+function listarProcessosProibidos(fkServidor) {
+    if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        var instrucao = `SELECT * FROM processos_proibidos WHERE fkServidor = '${fkServidor}';`;
+        console.log("Executando a instrução SQL: \n" + instrucao);
+      
+    } else if(process.env.AMBIENTE_PROCESSO == "producao") {
+        var instrucao = `SELECT * FROM processos_proibidos WHERE fkServidor = '${fkServidor}';`;
         console.log("Executando a instrução SQL: \n" + instrucao);    
     }
     return database.executar(instrucao);
@@ -25,6 +37,28 @@ function deletarProcesso(pid, fkServidor) {
         console.log("Executando a instrução SQL: \n" + instrucao);
     } else if (process.env.AMBIENTE_PROCESSO == "producao") {
         var instrucao = `INSERT INTO deletarPid(pid, fkServidor) values (${pid}, '${fkServidor}');`
+        console.log("Executando a instrução SQL: \n" + instrucao);
+    }
+    return database.executar(instrucao);
+}
+
+function proibirProcesso(nomeProcesso, fkServidor) {
+    if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        var instrucao = `INSERT INTO processos_proibidos(nome, fkServidor) values ('${nomeProcesso}', '${fkServidor}');`
+        console.log("Executando a instrução SQL: \n" + instrucao);
+    } else if (process.env.AMBIENTE_PROCESSO == "producao") {
+        var instrucao = `INSERT INTO processos_proibidos(nome, fkServidor) values ('${nomeProcesso}', '${fkServidor}');`
+        console.log("Executando a instrução SQL: \n" + instrucao);
+    }
+    return database.executar(instrucao);
+}
+
+function normalizarProcesso(nomeProcesso, fkServidor) {
+    if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        var instrucao = `DELETE FROM processos_proibidos WHERE nome = '${nomeProcesso}' AND fkServidor = '${fkServidor}';`
+        console.log("Executando a instrução SQL: \n" + instrucao);
+    } else if (process.env.AMBIENTE_PROCESSO == "producao") {
+        var instrucao = `DELETE FROM processos_proibidos WHERE nome = '${nomeProcesso}' AND fkServidor = '${fkServidor}';`
         console.log("Executando a instrução SQL: \n" + instrucao);
     }
     return database.executar(instrucao);
@@ -42,6 +76,9 @@ function obterProcessos(horarioInicio, horarioFim, mac) {
 
 module.exports = {
     listarProcessos,
+    listarProcessosProibidos,
     deletarProcesso,
     obterProcessos,
+    proibirProcesso,
+    normalizarProcesso
 };

@@ -126,9 +126,18 @@
             ${exibicaoMaquina}
             <td>${listaMaquinas[i].fkTorre}</td>
             <td>
-              <a href="#" onclick="entrarMonitoramento('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-primary">Monitorar</a>
-              <a href="#" onclick="editarNomeMaquina('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-secondary">Adicionar Apelido</a>
-              <a href="#" onclick="mostrarModalQrCode('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-tertiary">Gerar QR Code</a>
+              <a href="#" onclick="entrarMonitoramento('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-primary">
+                <i class="fa-solid fa-chart-line"></i>
+                Monitorar
+              </a>
+              <a href="#" onclick="editarNomeMaquina('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-secondary">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Adicionar Apelido
+              </a>
+              <a href="#" onclick="mostrarModalQrCode('${listaMaquinas[i].idServidor}')" class="btn btn-sm btn-tertiary">
+                <i class="fa-solid fa-qrcode"></i>
+                Gerar QR Code
+              </a>
             </td>
           </tr>
           `
