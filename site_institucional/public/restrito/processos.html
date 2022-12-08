@@ -155,8 +155,11 @@
   function listarTabelaProcessos(listaProcessos) {
     var bodyTable = document.getElementById('body-table');
     bodyTable.innerHTML = '';
+    var wcVazia = []
 
+    if(listaProcessos.length > 0){
     wordcloud(listaProcessos);
+    }else{wordcloud(wcVazia);}
 
     for (i = 0; i < listaProcessos.length; i++) {
       bodyTable.innerHTML += `
@@ -358,8 +361,6 @@
 
   function wordcloud(wcProcessos) {
 
-    if (wcProcessos.length > 0) {
-
       var data = []
       for (var i = 0; i < wcProcessos.length; i++) {
         data.push({ "x": wcProcessos[i].nome, "value": wcProcessos[i].cpu });
@@ -381,6 +382,5 @@
       wc.innerHTML = '';
       chart.container("wordcloud");
       chart.draw();
-    }
   }
 </script>
