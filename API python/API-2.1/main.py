@@ -189,63 +189,63 @@ def executar_{i}(servidor, componente, metrica):
                 cursores.execute(query, val)
                 bdsql.commit()
             
-    data = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    if metrica == 1:
-        if leitura >= 70.0 and leitura <= 75.0:
-            reportarAlerta(servidor, componente, "o uso de CPU está acima de 70%", data)
-        
-        elif leitura > 75.0 and leitura <= 85.0:
-            reportarAlerta(servidor, componente, "o uso de CPU está acima de 75%", data)
-            
-        elif leitura > 85.0 and leitura <= 95.0:
-            reportarAlerta(servidor, componente, "o uso de CPU está acima de 85%", data)
+        data = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        if metrica == 1:
+            if leitura >= 70.0 and leitura <= 75.0:
+                reportarAlerta(servidor, componente, "o uso de CPU está acima de 70%", data)
 
-        elif leitura > 95.0:
-            reportarAlerta(servidor, componente, "o uso de CPU está acima de 95%", data)        
-            
-    elif metrica == 2:
-        
-        if leitura >= 70.0 and leitura <= 75.0:
-            reportarAlerta(servidor, componente, "o uso de RAM está acima de 70%", data)          
-        
-        elif leitura > 75.0 and leitura <= 85.0:
-            reportarAlerta(servidor, componente, "o uso de RAM está acima de 75%", data)         
-            
-        elif leitura > 85.0 and leitura <= 95.0:
-            reportarAlerta(servidor, componente, "o uso de RAM está acima de 85%", data)        
-            
-        elif leitura > 95.0:
-            reportarAlerta(servidor, componente, "o uso de RAM está acima de 95%", data)    
-            
-    elif metrica == 3:
-        
-        if leitura >= 70.0 and leitura <= 75.0:
-            reportarAlerta(servidor, componente, "o uso de Disco está acima de 70%", data)        
-        
-        elif leitura > 75.0 and leitura <= 85.0:
-            reportarAlerta(servidor, componente, "o uso de Disco está acima de 75%", data)
-            
-        elif leitura > 85.0 and leitura <= 95.0:
-            reportarAlerta(servidor, componente, "o uso de Disco está acima de 85%", data)
-            
-        elif leitura > 95.0:
-            reportarAlerta(servidor, componente, "o uso de Disco está acima de 95%", data)
+            elif leitura > 75.0 and leitura <= 85.0:
+                reportarAlerta(servidor, componente, "o uso de CPU está acima de 75%", data)
 
-    elif metrica == 4:
-        if leitura >= 70.0 and leitura <= 75.0:
-            reportarAlerta(servidor, componente, "a temperatura da CPU está acima de 70°", data)           
-        
-        elif leitura > 75.0 and leitura <= 90.0:
-            reportarAlerta(servidor, componente, "a temperatura da CPU está acima de 75°", data)        
-            
-        elif leitura > 90.0:
-            reportarAlerta(servidor, componente, "a temperatura da CPU está acima de 90°", data)
-    elif metrica == 5:
-        if leitura < 100:
-            reportarAlerta(servidor, componente, "a fan está parada", data)
+            elif leitura > 85.0 and leitura <= 95.0:
+                reportarAlerta(servidor, componente, "o uso de CPU está acima de 85%", data)
 
-        elif leitura < 1400:
-            reportarAlerta(servidor, componente, "a fan está com velocidade abaixo do normal", data)
+            elif leitura > 95.0:
+                reportarAlerta(servidor, componente, "o uso de CPU está acima de 95%", data)        
+
+        elif metrica == 2:
+
+            if leitura >= 70.0 and leitura <= 75.0:
+                reportarAlerta(servidor, componente, "o uso de RAM está acima de 70%", data)          
+
+            elif leitura > 75.0 and leitura <= 85.0:
+                reportarAlerta(servidor, componente, "o uso de RAM está acima de 75%", data)         
+
+            elif leitura > 85.0 and leitura <= 95.0:
+                reportarAlerta(servidor, componente, "o uso de RAM está acima de 85%", data)        
+
+            elif leitura > 95.0:
+                reportarAlerta(servidor, componente, "o uso de RAM está acima de 95%", data)    
+
+        elif metrica == 3:
+
+            if leitura >= 70.0 and leitura <= 75.0:
+                reportarAlerta(servidor, componente, "o uso de Disco está acima de 70%", data)        
+
+            elif leitura > 75.0 and leitura <= 85.0:
+                reportarAlerta(servidor, componente, "o uso de Disco está acima de 75%", data)
+
+            elif leitura > 85.0 and leitura <= 95.0:
+                reportarAlerta(servidor, componente, "o uso de Disco está acima de 85%", data)
+
+            elif leitura > 95.0:
+                reportarAlerta(servidor, componente, "o uso de Disco está acima de 95%", data)
+
+        elif metrica == 4:
+            if leitura >= 70.0 and leitura <= 75.0:
+                reportarAlerta(servidor, componente, "a temperatura da CPU está acima de 70°", data)           
+
+            elif leitura > 75.0 and leitura <= 90.0:
+                reportarAlerta(servidor, componente, "a temperatura da CPU está acima de 75°", data)        
+
+            elif leitura > 90.0:
+                reportarAlerta(servidor, componente, "a temperatura da CPU está acima de 90°", data)
+        elif metrica == 5:
+            if leitura < 100:
+                reportarAlerta(servidor, componente, "a fan está parada", data)
+
+            elif leitura < 1400:
+                reportarAlerta(servidor, componente, "a fan está com velocidade abaixo do normal", data)
     
     lista_processos = []
 
