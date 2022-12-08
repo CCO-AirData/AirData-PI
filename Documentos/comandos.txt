@@ -1,5 +1,5 @@
 npm run dev
 
-sudo docker run -it --rm --mac-address 16:A6:95:10:EF:9F --name container-python python-main
+sudo docker run -it --rm --mac-address 16:a6:95:10:ef:9f --name container-python python-main
 
 sudo docker run -it --rm --mac-address 00:05:16:69:A6:7D --name container-python etl
