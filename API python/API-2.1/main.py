@@ -186,60 +186,60 @@ def executar_{i}(servidor, componente, metrica):
     data = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     if metrica == 1:
         if leitura >= 70.0 and leitura <= 75.0:
-            reportarAlerta(servidor, "o uso de CPU está acima de 70%", data)
+            reportarAlerta(servidor, componente, "o uso de CPU está acima de 70%", data)
         
         elif leitura > 75.0 and leitura <= 85.0:
-            reportarAlerta(servidor, "o uso de CPU está acima de 75%", data)
+            reportarAlerta(servidor, componente, "o uso de CPU está acima de 75%", data)
             
         elif leitura > 85.0 and leitura <= 95.0:
-            reportarAlerta(servidor, "o uso de CPU está acima de 85%", data)
+            reportarAlerta(servidor, componente, "o uso de CPU está acima de 85%", data)
 
         elif leitura > 95.0:
-            reportarAlerta(servidor, "o uso de CPU está acima de 95%", data)        
+            reportarAlerta(servidor, componente, "o uso de CPU está acima de 95%", data)        
             
     elif metrica == 2:
         
         if leitura >= 70.0 and leitura <= 75.0:
-            reportarAlerta(servidor, "o uso de RAM está acima de 70%", data)          
+            reportarAlerta(servidor, componente, "o uso de RAM está acima de 70%", data)          
         
         elif leitura > 75.0 and leitura <= 85.0:
-            reportarAlerta(servidor, "o uso de RAM está acima de 75%", data)         
+            reportarAlerta(servidor, componente, "o uso de RAM está acima de 75%", data)         
             
         elif leitura > 85.0 and leitura <= 95.0:
-            reportarAlerta(servidor, "o uso de RAM está acima de 85%", data)        
+            reportarAlerta(servidor, componente, "o uso de RAM está acima de 85%", data)        
             
         elif leitura > 95.0:
-            reportarAlerta(servidor, "o uso de RAM está acima de 95%", data)    
+            reportarAlerta(servidor, componente, "o uso de RAM está acima de 95%", data)    
             
     elif metrica == 3:
         
         if leitura >= 70.0 and leitura <= 75.0:
-            reportarAlerta(servidor, "o uso de Disco está acima de 70%", data)        
+            reportarAlerta(servidor, componente, "o uso de Disco está acima de 70%", data)        
         
         elif leitura > 75.0 and leitura <= 85.0:
-            reportarAlerta(servidor, "o uso de Disco está acima de 75%", data)
+            reportarAlerta(servidor, componente, "o uso de Disco está acima de 75%", data)
             
         elif leitura > 85.0 and leitura <= 95.0:
-            reportarAlerta(servidor, "o uso de Disco está acima de 85%", data)
+            reportarAlerta(servidor, componente, "o uso de Disco está acima de 85%", data)
             
         elif leitura > 95.0:
-            reportarAlerta(servidor, "o uso de Disco está acima de 95%", data)
+            reportarAlerta(servidor, componente, "o uso de Disco está acima de 95%", data)
 
     elif metrica == 4:
         if leitura >= 70.0 and leitura <= 75.0:
-            reportarAlerta(servidor, "a temperatura da CPU está acima de 70°", data)           
+            reportarAlerta(servidor, componente, "a temperatura da CPU está acima de 70°", data)           
         
         elif leitura > 75.0 and leitura <= 90.0:
-            reportarAlerta(servidor, "a temperatura da CPU está acima de 75°", data)        
+            reportarAlerta(servidor, componente, "a temperatura da CPU está acima de 75°", data)        
             
         elif leitura > 90.0:
-            reportarAlerta(servidor, "a temperatura da CPU está acima de 90°", data)
+            reportarAlerta(servidor, componente, "a temperatura da CPU está acima de 90°", data)
     elif metrica == 5:
         if leitura < 100:
-            reportarAlerta(servidor, "a fan está parada", data)
+            reportarAlerta(servidor, componente, "a fan está parada", data)
 
         elif leitura < 1400:
-            reportarAlerta(servidor, "a fan está com velocidade abaixo do normal", data)
+            reportarAlerta(servidor, componente, "a fan está com velocidade abaixo do normal", data)
     
     lista_processos = []
 
@@ -397,10 +397,10 @@ def matarProcesso(pid):
         os.system('TASKKILL /PID ' + str(pid) + ' /F')
 
 
-def reportarAlerta(mac, mensagem, horario):
+def reportarAlerta(mac, componente, mensagem, horario):
     url = "https://api.pipefy.com/graphql"
 
-    payload = {"query": "mutation {createCard(input: {pipe_id: 302843636,title: \"Problema na maquina\",fields_attributes:[{field_id: \"what_is_your_request\", field_value: \"" + f"A maquina {mac} apresentou um erro de {mensagem} às {horario}" + "\"}]}) {card {title}}}"}
+    payload = {"query": "mutation {createCard(input: {pipe_id: 302843636,title: \"Problema na maquina\",fields_attributes:[{field_id: \"what_is_your_request\", field_value: \"" + f"A maquina {mac} apresentou um erro de {mensagem} no componente {componente} às {horario}" + "\"}]}) {card {title}}}"}
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
