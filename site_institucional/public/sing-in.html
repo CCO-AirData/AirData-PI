@@ -226,6 +226,7 @@
               redirectTo = `restrito/${queryString.get('urlAfterLogin')}?`;
               for (let pair of queryString.entries()) {
                 if (pair[0] != 'urlAfterLogin') {
+                  redirectTo += "&"
                   redirectTo += pair[0]
                   redirectTo += '='
                   redirectTo += pair[1]

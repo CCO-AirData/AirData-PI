@@ -293,7 +293,7 @@
     function validarUrlAcesso() {
         //verificando se estou logado
         if (sessionStorage.ID_USUARIO == undefined) {
-            window.location.href = `../sing-in.html?urlAfterLogin=dashboard.html&idMaquina=${idMaquina}`;
+            window.location.href = `../sing-in.html?urlAfterLogin=dashboard.html&idMaquina=${idMaquina}&origin=qrCode`;
         }
         //verificando acesso à máquina
         validarAcesso().then((acesso) => {
@@ -304,7 +304,6 @@
         });
         //registrando o acesso por QR Code
         if (urlParams.has("origin") && urlParams.get("origin") == "qrCode") {
-            console.log("vou cadastrar no banco em");
             fetch("/acessoQrCode/cadastrarAcesso", {
                 method: "POST",
                 headers: {
