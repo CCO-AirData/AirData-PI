@@ -1,8 +1,17 @@
 package media.projeto.air.data.client;
 
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.Buffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import media.projeto.air.data.client.conexao.Banco;
+import media.projeto.air.data.client.monitoramento.AirDataInformacaoDoSistema;
 import media.projeto.air.data.client.rede.Rede;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -15,6 +24,25 @@ public class AirDataLogin extends javax.swing.JFrame {
         initComponents();
         String email = "";
         String senha = "";
+        Color cor = new Color(0,169,169);
+         getContentPane().setBackground(cor);
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(AirDataInformacaoDoSistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+//        JLabel imagem = new JLabel();
+//        BufferedImage icon;
+//        try {
+//            icon = ImageIO.read(getClass().getResource("LogoEmpresa.png"));
+//               imagem.setIcon(new ImageIcon(icon));
+//                logo.setLayout(new GridLayout(1, 1));
+//        logo.add(imagem);
+//        } catch (IOException ex) {
+//            Logger.getLogger(AirDataLogin.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -32,12 +60,15 @@ public class AirDataLogin extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(447, 388));
         setResizable(false);
 
-        SejaBemVindo.setForeground(new java.awt.Color(0, 0, 255));
+        SejaBemVindo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        SejaBemVindo.setForeground(new java.awt.Color(255, 255, 255));
         SejaBemVindo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         SejaBemVindo.setText("LOGIN");
 
+        TextoSenha.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         TextoSenha.setText("Sua Senha:");
 
+        TextoEmail.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         TextoEmail.setText("Seu Email:");
 
         iptEmail.addActionListener(new java.awt.event.ActionListener() {
@@ -46,6 +77,9 @@ public class AirDataLogin extends javax.swing.JFrame {
             }
         });
 
+        entrar.setBackground(new java.awt.Color(255, 255, 255));
+        entrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        entrar.setForeground(new java.awt.Color(0, 0, 0));
         entrar.setText("Logar");
         entrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,7 +127,7 @@ public class AirDataLogin extends javax.swing.JFrame {
                 .addComponent(iptSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(entrar)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -104,6 +138,7 @@ public class AirDataLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_iptEmailActionPerformed
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
+
         AirDataMenu menu = new AirDataMenu();
         Banco banco = new Banco();
         JdbcTemplate connection = banco.getConnection();

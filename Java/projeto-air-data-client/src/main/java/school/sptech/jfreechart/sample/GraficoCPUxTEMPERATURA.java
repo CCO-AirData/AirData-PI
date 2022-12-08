@@ -57,7 +57,7 @@ public class GraficoCPUxTEMPERATURA extends ApplicationFrame{
     public JFreeChart gerarGrafico(final XYDataset dataset) {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Monitoramento CPU X TEmperatura",
+                "Monitoramento CPU X Temperatura",
                 "",
                 "",
                 dataset,
