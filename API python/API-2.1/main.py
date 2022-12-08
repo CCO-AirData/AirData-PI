@@ -143,9 +143,9 @@ def executar_{i}(servidor, componente, metrica):
 
     if metrica == 4:
         if platform.system() == 'Linux':
-            try:
+            try: 
                 leitura = eval(comando)
-            except:
+            except Exception:
                 break
         else:
             # USAR OPHM PARA VISUALIZAR SOMENTE CPU
