@@ -61,6 +61,9 @@ NetworkInterface networkInterface = NetworkInterface.getByInetAddress(localHost)
       return rede;
 }
    
-  
+    public static void main(String[] args) {
+        Rede rede = new Rede();
+        System.out.println(rede.Mac());
+    }
 
 }

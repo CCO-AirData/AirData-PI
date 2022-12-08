@@ -2,9 +2,15 @@ package media.projeto.air.data.client.monitoramento;
 
 import com.github.britooo.looca.api.core.Looca;
 import com.github.britooo.looca.api.group.processos.Processo;
+import java.awt.Color;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import media.projeto.air.data.client.AirDataMenu;
 
 public class AirDataProcessos extends javax.swing.JFrame {
 
@@ -19,9 +25,9 @@ public class AirDataProcessos extends javax.swing.JFrame {
     String processoCPU = "";
 
     String processoId = "";
-    
+
     String processoMemoria = "";
-    
+
     TimerTask processo;
 
     public AirDataProcessos() {
@@ -29,17 +35,25 @@ public class AirDataProcessos extends javax.swing.JFrame {
         this.processo = new TimerTask() {
             @Override
             public void run() {
-                
+                Color cor = new Color(0, 169, 169);
+                getContentPane().setBackground(cor);
+
+                try {
+                    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(AirDataInformacaoDoSistema.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 List<Processo> processos = looca.getGrupoDeProcessos().getProcessos();
-                
+
                 processoNome = "";
-                
+
                 processoId = "";
                 processoMemoria = "";
-                
+
                 processoCPU = "";
-                
+
                 for (int i = 0; i < 20; i++) {
+
                     processoId = String.format("%d " + "\n", processos.get(i).getPid());
                     processoMemoria = String.format("%.2f" + "\n", processos.get(i).getUsoMemoria());
 
@@ -48,14 +62,14 @@ public class AirDataProcessos extends javax.swing.JFrame {
                     processoCPU = String.format("%.2f" + "\n", processos.get(i).getUsoCpu());
 
                     tabelaProcesso.setValueAt(processoId, i, 0);
-
                     tabelaProcesso.setValueAt(processoNome, i, 1);
-
+                    
                     tabelaProcesso.setValueAt(processoCPU, i, 2);
                     tabelaProcesso.setValueAt(processoMemoria, i, 3);
+                    
                 }
             }
-            
+
         };
         initComponents();
 
@@ -87,17 +101,24 @@ public class AirDataProcessos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Processos");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(13, 10, 550, 21));
 
+        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jButton1.setText("Voltar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 400, 80, 40));
 
+        tabelaProcesso.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tabelaProcesso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -133,50 +154,20 @@ public class AirDataProcessos extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tabelaProcesso.setAlignmentX(0.0F);
+        tabelaProcesso.setAlignmentY(0.0F);
         tabelaProcesso.setSelectionBackground(new java.awt.Color(102, 153, 255));
         jScrollPane2.setViewportView(tabelaProcesso);
-        if (tabelaProcesso.getColumnModel().getColumnCount() > 0) {
-            tabelaProcesso.getColumnModel().getColumn(0).setHeaderValue("PID");
-            tabelaProcesso.getColumnModel().getColumn(1).setHeaderValue("NOME DO PROCESSO");
-            tabelaProcesso.getColumnModel().getColumn(2).setResizable(false);
-            tabelaProcesso.getColumnModel().getColumn(2).setHeaderValue("USO DA CPU");
-            tabelaProcesso.getColumnModel().getColumn(3).setHeaderValue("Uso da Memoria");
-        }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(248, 248, 248))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 580, 350));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        AirDataMenu menu = new AirDataMenu();
+        menu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -211,6 +202,6 @@ public class AirDataProcessos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable tabelaProcesso;
+    public javax.swing.JTable tabelaProcesso;
     // End of variables declaration//GEN-END:variables
 }

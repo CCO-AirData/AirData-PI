@@ -48,6 +48,7 @@ def selecionarServidor(torre):
         query = ('SELECT * FROM servidor WHERE idServidor = %s') 
 
     params = (mac(), )
+    
     mycursor.execute(query, params)
 
     resposta = mycursor.fetchall()
