@@ -140,13 +140,15 @@ def executar_{i}(servidor, componente, metrica):
 
     def conversor(valor):
         return float(valor[0:4].replace(",", '.'))
+        
+    seguir = True
 
     if metrica == 4:
         if platform.system() == 'Linux':
             try: 
                 leitura = eval(comando)
             except Exception:
-                break
+                seguir = False
         else:
             # USAR OPHM PARA VISUALIZAR SOMENTE CPU
             with PoolManager() as pool:
@@ -163,28 +165,29 @@ def executar_{i}(servidor, componente, metrica):
         nome = list(leitura.keys())[0]
         leitura = leitura[nome][0][0]
 
-    if isTupla == 0:
-        if AMBIENTE_PRODUCAO:
-            query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, DATEADD(HOUR, -3, GETDATE()), %s, %s, %s)")
-        else:
-            query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, now(), %s, %s, %s)")
-            
-        val = (metrica, leitura, componente, servidor, )
-            
-        cursores.execute(query, val)
-        bdsql.commit()
-
-    else: 
-        for row in leitura:
+    if seguir: 
+        if isTupla == 0:
             if AMBIENTE_PRODUCAO:
-                query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, DATEADD(HOUR, -3, GETDATE()), %s, %s, %s)")   
+                query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, DATEADD(HOUR, -3, GETDATE()), %s, %s, %s)")
             else:
-                query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, now(), %s, %s, %s)")   
+                query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, now(), %s, %s, %s)")
 
-            val = (metrica, row, componente, servidor, ) 
+            val = (metrica, leitura, componente, servidor, )
 
             cursores.execute(query, val)
             bdsql.commit()
+
+        else: 
+            for row in leitura:
+                if AMBIENTE_PRODUCAO:
+                    query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, DATEADD(HOUR, -3, GETDATE()), %s, %s, %s)")   
+                else:
+                    query = ("INSERT INTO leitura(fkMetrica, horario, valorLido, fkComponente_idComponente, fkComponente_fkServidor) VALUES(%s, now(), %s, %s, %s)")   
+
+                val = (metrica, row, componente, servidor, ) 
+
+                cursores.execute(query, val)
+                bdsql.commit()
             
     data = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     if metrica == 1:
