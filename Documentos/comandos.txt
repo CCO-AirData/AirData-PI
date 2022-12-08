@@ -1,0 +1,5 @@
+npm run dev
+
+sudo docker run -it --rm --mac-address 80:30:49:b9:cd:8d --name container-python python-main
+
+sudo docker run -it --rm --mac-address 00:05:16:69:A6:7D --name container-python etl
