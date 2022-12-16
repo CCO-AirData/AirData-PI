@@ -169,7 +169,7 @@
           <td>${listaProcessos[i].usuario}</td>
           <td>${listaProcessos[i].cpu}</td>
           <td><a href="#" onclick="exibirTelaConfirmacaoProibir('${listaProcessos[i].nome}')" class="btn btn-sm btn-primary btn-proibir">Proibir</a>
-            <a href="#" onclick="exibirTelaConfirmacao(${listaProcessos[i].pid})" class="btn btn-sm btn-primary btn-deletar">Encerrar</a></td>
+            <a href="#" onclick="exibirTelaConfirmacao('${listaProcessos[i].nome}')" class="btn btn-sm btn-primary btn-deletar">Encerrar</a></td>
             </tr>
             `
         
@@ -205,7 +205,7 @@
     location.reload()
   });
 
-  function exibirTelaConfirmacao(pid) {
+  function exibirTelaConfirmacao(nomeProcesso) {
     Swal.fire({
       title: 'Você tem certeza?',
       text: "Essa ação não pode ser revertida!",
@@ -217,12 +217,12 @@
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        deletarProcesso(pid);
+        deletarProcesso(nomeProcesso);
       }
     })
   }
 
-  function deletarProcesso(pid) {
+  function deletarProcesso(nomeProcesso) {
 
     fetch("/processos/deletarProcesso", {
 
@@ -231,7 +231,7 @@
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        pidServer: pid,
+        nomeProcessoServer: nomeProcesso,
         fkServidorServer: fkServidor
       })
     }).then(function (resposta) {
@@ -257,7 +257,7 @@
       }
     }).catch(function (resposta) {
       console.log(`#ERRO: ${resposta}`);
-      console.log(`#ERRO: ${pid}`);
+      console.log(`#ERRO: ${nomeProcesso}`);
       console.log(`#ERRO: ${fkServidor}`);
     });
 

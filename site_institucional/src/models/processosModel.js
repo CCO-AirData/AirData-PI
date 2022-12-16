@@ -31,12 +31,12 @@ function listarProcessosProibidos(fkServidor) {
     return database.executar(instrucao);
 }
 
-function deletarProcesso(pid, fkServidor) {
+function deletarProcesso(nomeProcesso, fkServidor) {
     if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        var instrucao = `INSERT INTO deletarPid(pid, fkServidor) values (${pid}, ${fkServidor});`
+        var instrucao = `INSERT INTO deletar_processo(nome_processo, fkServidor) values ('${nomeProcesso}', '${fkServidor}');`
         console.log("Executando a instrução SQL: \n" + instrucao);
     } else if (process.env.AMBIENTE_PROCESSO == "producao") {
-        var instrucao = `INSERT INTO deletarPid(pid, fkServidor) values (${pid}, '${fkServidor}');`
+        var instrucao = `INSERT INTO deletar_processo(nome_processo, fkServidor) values ('${nomeProcesso}', '${fkServidor}');`
         console.log("Executando a instrução SQL: \n" + instrucao);
     }
     return database.executar(instrucao);

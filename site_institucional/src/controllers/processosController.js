@@ -50,14 +50,14 @@ function receberDadosProcessosProibidos(req, res) {
 }
 
 function deletarProcesso(req, res) {
-    var pid = req.body.pidServer;
+    var nomeProcesso = req.body.nomeProcessoServer;
     var fkServidor = req.body.fkServidorServer;
-    if (pid == undefined) {
-        res.status(400).send("O pid está undefined!");
+    if (nomeProcesso == undefined) {
+        res.status(400).send("O nomeProcesso está undefined!");
     } else if (fkServidor == undefined) {
         res.status(400).send("O fkServidor está undefined!");
     } else {
-        processosModel.deletarProcesso(pid, fkServidor).then(function (resposta) {
+        processosModel.deletarProcesso(nomeProcesso, fkServidor).then(function (resposta) {
             res.json(resposta);
         }).catch(
             function (erro) {
