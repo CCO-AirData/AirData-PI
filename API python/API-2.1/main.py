@@ -248,10 +248,9 @@ def executar_{i}(servidor, componente, metrica):
     lista_processos = []
 
     for processos in psutil.process_iter():
-        # print(processos)
         processos_info = processos.as_dict(['name', 'cpu_percent', 'pid', 'username'])
+        
         if processos_info['cpu_percent'] > 0 and processos_info['username'] != "root" and processos_info['username'] != "NT AUTHORITY\SYSTEM":
-            # print(processos_info)
             lista_processos.append(processos_info)
             
     lista_processos.sort(key=itemgetter('cpu_percent'), reverse=True)
@@ -272,7 +271,6 @@ def executar_{i}(servidor, componente, metrica):
         cursores.execute(sql % val)
 
         proc_proibido = cursores.fetchall()
-        # print(resposta)
 
         if(len(proc_proibido) > 0):
             for proc in proc_proibido:
@@ -309,7 +307,6 @@ def executar_{i}(servidor, componente, metrica):
     cursores.execute(sql % val)
 
     resposta = cursores.fetchall()
-    # print(resposta)
 
     if(len(resposta) > 0):
 
@@ -325,7 +322,6 @@ def executar_{i}(servidor, componente, metrica):
             val = (nomeProcesso, servidor, )
             cursores.execute(sql % val)
             processosDeletados = cursores.fetchall()
-            # print(processosDeletados)
 
         if(len(processosDeletados) > 0):
             for row2 in processosDeletados:
